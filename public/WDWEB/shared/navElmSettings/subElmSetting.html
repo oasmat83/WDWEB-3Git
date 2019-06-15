@@ -1,0 +1,57 @@
+<!-- subElmSetting.html -->
+<div class="sub-elm-setting">
+    <div ng-if="type === 'BM'">
+        <div class="dx-field-value">
+            <div class="title-field-setting">
+                <i class="ms-Icon ms-Icon--SingleBookmark" aria-hidden="true"></i>
+                <div id="ckc-st-bookmaps" dx-check-box="checkBoxSettingNav.bookmarks"></div>
+            </div>
+            <i ng-click="downItemMenu('BM')" class="ms-Icon ms-Icon--SortDown" aria-hidden="true"></i>
+            <i ng-click="upItemMenu('BM')" class="ms-Icon ms-Icon--SortUp" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <div ng-if="type === 'FM'">
+        <div class="dx-field-value">
+            <div class="title-field-setting">
+                <i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i>
+                <div id="ckc-st-favmatters" dx-check-box="checkBoxSettingNav.favmatters"></div>
+            </div>
+            <i ng-click="downItemMenu('FM')" class="ms-Icon ms-Icon--SortDown" aria-hidden="true"></i>
+            <i ng-click="upItemMenu('FM')" class="ms-Icon ms-Icon--SortUp" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <div ng-if="type === 'WS'">
+        <div class="dx-field-value">
+            <div class="title-field-setting">
+                <i class="ms-Icon ms-Icon--FieldNotChanged" aria-hidden="true"></i>
+                <div id="ckc-st-workspaces" dx-check-box="checkBoxSettingNav.workspaces"></div>
+            </div>
+            <i ng-click="downItemMenu('WS')" class="ms-Icon ms-Icon--SortDown" aria-hidden="true"></i>
+            <i ng-click="upItemMenu('WS')" class="ms-Icon ms-Icon--SortUp" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <div ng-if="type === 'PG'">
+        <div class="dx-field-value">
+            <div class="title-field-setting">
+                <i class="ms-Icon ms-Icon--FabricFormLibrary" aria-hidden="true"></i>
+                <div id="ckc-st-cabinets" dx-check-box="checkBoxSettingNav.cabinets"></div>
+            </div>
+            <i ng-click="downItemMenu('PG')" class="ms-Icon ms-Icon--SortDown" aria-hidden="true"></i>
+            <i ng-click="upItemMenu('PG')" class="ms-Icon ms-Icon--SortUp" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <div ng-if="type === 'FF'">
+        <div class="dx-field-value">
+            <div class="title-field-setting">
+                <i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i>
+                <div id="ckc-st-favorites" dx-check-box="checkBoxSettingNav.favorites"></div>
+            </div>
+            <i ng-click="downItemMenu('FF')" class="ms-Icon ms-Icon--SortDown" aria-hidden="true"></i>
+            <i ng-click="upItemMenu('FF')" class="ms-Icon ms-Icon--SortUp" aria-hidden="true"></i>
+        </div>
+    </div>
+</div>

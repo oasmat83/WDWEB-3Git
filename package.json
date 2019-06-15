@@ -1,0 +1,55 @@
+{
+  "name": "wdweb-3git",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oasmat83/WDWEB-3Git.git"
+  },
+  "author": "Oscar Asmat",
+  "license": "ISC",
+"dependencies": {
+    "angular": "^1.6.4",
+    "angular-animate": "^1.6.4",
+    "angular-cookies": "^1.7.8",
+    "angular-css": "^1.0.8",
+    "angular-hotkeys": "^1.7.0",
+    "angular-pageslide-directive": "^2.1.5",
+    "angular-route": "^1.6.4",
+    "angular-sanitize": "^1.6.4",
+    "angular-tooltips": "^1.2.2",
+    "angular-translate": "^2.16.0",
+    "body-parser": "^1.18.2",
+    "browser-sync": "^2.26.3",
+    "connect-modrewrite": "^0.10.1",
+    "devextreme": "^18.1.6",
+    "express": "^4.16.4",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.0",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "jquery": "^3.3.1",
+    "ng-animate": "^0.3.1",
+    "ng-storage": "^0.3.2",
+    "ng-wig": "^3.0.16",
+    "oclazyload": "^1.1.0",
+    "office-ui-fabric": "^2.6.3"
+  },
+  "devDependencies": {
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1",
+    "nodemon": "^1.14.11",
+    "npm-max-dir-index": "^1.0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/oasmat83/WDWEB-3Git/issues"
+  },
+  "homepage": "https://github.com/oasmat83/WDWEB-3Git#readme"
+}

@@ -1,0 +1,29 @@
+<script language="WDWEB">
+var _PageNum;
+var _VU;
+var _DL;
+var _szURL;
+var uPageNum = StrNum(PageNum);
+var uOffset = StrNum(wd_List_Offset) + (uPageNum * 65536);
+
+if (0 == VU)
+{
+	if (1 == DL) {
+		szURL = wd_File_DownloadFile_Value[wd_List_Offset];
+		szURL = unconvert(szURL,&);
+		szURL = escape(szURL);
+		document.write("<a class='media' href=" + szURL + "></a>");
+	}
+}
+else
+{
+	/*document.write(uPageNum + "/" + uOffset);
+	document.write("<div class='Contents'>");
+	document.write(wd_File_Contents_Value[uOffset]);
+	document.write("</div>");	*/
+}
+
+document.write("<div class='Contents'>");
+document.write(wd_File_Contents_Value[uOffset]);
+document.write("</div>");
+</script>

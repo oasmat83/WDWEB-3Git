@@ -1,0 +1,34 @@
+<div class="wd-search">
+  <div class="ms-SearchBox ms-SearchBox--commandBar tooltip" title="Search Worldox!" ng-if="$root.chkRoute !== '/landing'">
+    <form ng-submit="seardWD()">
+        <div class="laContain">
+            <div class="container">
+                <div class="inputContainer">
+                    <div dx-button="contexualMenuBtn" class="laContextual" id="contextSearchBtn"></div>
+                    <div dx-context-menu="contexualMenu" id="navSearchContext" dx-item-alias="item">
+                        <div data-options="dxTemplate:{ name:'contextItem' }">
+                            <div>
+                              <span ng-if="item.setTo == ''"><i class="ms-Icon ms-Icon--CircleRing" aria-hidden="true"></i></span>
+                              <span ng-if="item.setTo == 'Default'"><i class="ms-Icon ms-Icon--Completed" aria-hidden="true"></i></span>
+                              {{item.text}}
+                            </div>
+                        </div>
+                    </div>
+                    <div dx-text-box="searchTxtBox" id="searchTxtInput"></div>
+                    <div dx-button="searchBtn" class="laSearchBtn" id="laNavSearchBtn"></div>
+                </div>
+            </div>
+        </div>
+      <!-- <div>
+        <input class="ms-SearchBox-field wdx-SearchBox" type="text" value="" placeholder="{{ searchPlaceholder }}" ng-model="wdSearch" ng-focus="showDrop = true" ng-keypress="getActive()" />
+        <label class="ms-SearchBox-label">
+          <i class="ms-SearchBox-icon ms-Icon ms-Icon--Search"></i>
+        </label>
+      </div> -->
+    </form>
+  </div>
+
+  <div class="dropdown ms-slideDownIn20" ng-class="{'dropOnFocus': showDrop === true}">
+    <div dx-radio-group="searchGroup" ng-class="{ 'active': isActive === true }"></div>
+  </div>
+</div>

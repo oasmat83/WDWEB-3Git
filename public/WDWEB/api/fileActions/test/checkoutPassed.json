@@ -1,0 +1,7 @@
+{
+	"checkOut": {
+		"checkStatus": "Successful",
+		"session": "^:%wd_SID^",
+		^wd_ErrorStatusJson^
+	}
+}

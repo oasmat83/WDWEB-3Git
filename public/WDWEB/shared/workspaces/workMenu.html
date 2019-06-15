@@ -1,0 +1,33 @@
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content">
+        <div class="itemWorkMenu">
+            <a ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-mousedown="wks.getChild(node, this, wks.thisToggle)">
+                <i class="glyphicon" ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"></i>
+                <!-- <i class="ms-Icon"  ng-class="{ 'ms-Icon--CaretSolidRight': collapsed, 'ms-Icon--CaretSolidDown': !collapsed }" aria-hidden="true"></i> -->
+                <i class="ms-Icon ms-Icon--Work" aria-hidden="true"></i>
+            </a>
+            <span class="cabinetTitle" ng-mousedown="wks.showFiles(node)">{{ node.Text }}</span>
+        </div>
+        <a class="tooltiptext tooltip-right"  ng-mousedown="wks.showFiles(node)">Select</a>
+        <!-- <span ng-mousedown="wks.setSelectMenu(node)" ng-dblclick="wks.showFiles(node)" class="cabinetTitle">{{ node.Text }}</span> -->
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{'hidden': collapsed}" class="nodeChild">
+        <li ng-repeat="node in nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+    </ol>
+</script>
+
+<div class="cabinetHeader">
+    <h1 class="ms-font-xl">Workspace: {{ wks.workSpaceTitle }}</h1>
+    <div class="closeIcon">
+        <a ng-click="wks.closeCabinet()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+    </div>
+</div>
+<div class="cabinetSpinner" ng-hide="wks.spinner"></div>
+<div class="cabinetMessage" ng-show="wks.message != ''">
+    <div class="noData">{{ wks.message }}</div>
+</div>
+<div ui-tree data-nodrop-enabled="true" data-drag-enabled="false" class="treeholder" ng-show="wks.spinner" dx-scroll-view="scrollWk" id="scrollWk">
+    <ol ui-tree-nodes="" ng-model="wks.workSpaces" id="tree-root" ng-class="{'hidden': collapsed}">
+        <li ng-repeat="node in wks.workSpaces" ui-tree-node ng-include="'nodes_renderer.html'" ng-class="{'setSeleted': wks.setFmSelect == node}"></li>
+    </ol>
+</div>

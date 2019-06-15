@@ -1,0 +1,97 @@
+<script language="WDWEB">
+
+var _skip;
+var _take;
+
+var szHeader;
+szHeader= Elem.JSON(szHeader, "List_ID","^wd_List_ID^");
+szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+szHeader= Elem.JSON(szHeader, "wd_Tab", "^wd_LIST_BBID^:^:wd_LIST_TABLABEL^");
+szHeader= Elem.JSON(szHeader, "wd_Desc", "^:wd_List_DESCRIPTION^");
+szHeader= Elem.JSON(szHeader, "wd_Desc_Loc", "^:wd_List_DESCLOCATION^");
+szHeader= Elem.JSON(szHeader, "wd_Raw_Loc", "^:wd_List_RAWLOCATION^");
+szHeader= Elem.JSON(szHeader, "wd_True_Loc", "^:wd_List_TRUELOCATION^");
+szHeader= Elem.JSON(szHeader, "wd_Groupings", 0);
+szHeader= Elem.JSON("","Header",szHeader);
+
+var  szJSON;
+
+szJSON = Elem.JSON(szJSON, "LN", "%L#%");
+szJSON = Elem.JSON(szJSON, "RN", "%R#%");
+szJSON = Elem.JSON(szJSON, "Description", "%Xname%");
+szJSON = Elem.JSON(szJSON, "DocId", "%DOCID%");
+szJSON = Elem.JSON(szJSON, "Comments", "%COMMENTS%");
+szJSON = Elem.JSON(szJSON, "FilePath", "%PATHREAL%");
+szJSON = Elem.JSON(szJSON, "FilePathReal", "%PATHFILEREAL%");
+szJSON = Elem.JSON(szJSON, "Version", "%VERSION%");
+szJSON = Elem.JSON(szJSON, "I", "%wSTATUSID%");
+szJSON = Elem.JSON(szJSON, "LID", "^wd_List_ID^");
+szJSON = Elem.JSON(szJSON, "Name", "%LONGNAME%");
+szJSON = Elem.JSON(szJSON, "Field1", "%FIELD1%");
+szJSON = Elem.JSON(szJSON, "Field1Desc", "%FIELD1DESC%");
+szJSON = Elem.JSON(szJSON, "Field1Name", "%Field1Name%");
+szJSON = Elem.JSON(szJSON, "Field2", "%FIELD2%");
+szJSON = Elem.JSON(szJSON, "Field2Desc", "%FIELD2DESC%");
+szJSON = Elem.JSON(szJSON, "Field2Name", "%Field2Name%");
+szJSON = Elem.JSON(szJSON, "Field3", "%FIELD3%");
+szJSON = Elem.JSON(szJSON, "Field3Desc", "%FIELD3DESC%");
+szJSON = Elem.JSON(szJSON, "Field3Name", "%Field3Name%");
+szJSON = Elem.JSON(szJSON, "Field4", "%FIELD4%");
+szJSON = Elem.JSON(szJSON, "Field4Desc", "%FIELD4DESC%");
+szJSON = Elem.JSON(szJSON, "Field4Name", "%Field4Name%");
+szJSON = Elem.JSON(szJSON, "Field5", "%FIELD5%");
+szJSON = Elem.JSON(szJSON, "Field5Desc", "%FIELD5DESC%");
+szJSON = Elem.JSON(szJSON, "Field5Name", "%Field5Name%");
+szJSON = Elem.JSON(szJSON, "Field6", "%FIELD6%");
+szJSON = Elem.JSON(szJSON, "Field6Desc", "%FIELD6DESC%");
+szJSON = Elem.JSON(szJSON, "Field6Name", "%Field6Name%");
+szJSON = Elem.JSON(szJSON, "Field7", "%FIELD7%");
+szJSON = Elem.JSON(szJSON, "Field7Desc", "%FIELD7DESC%");
+szJSON = Elem.JSON(szJSON, "Field7Name", "%Field7Name%");
+szJSON = Elem.JSON(szJSON, "AccessedDate", "%wACCESSED%");
+szJSON = Elem.JSON(szJSON, "DateCreated", "%wCREATED%");
+szJSON = Elem.JSON(szJSON, "DateUpdated", "%wUPDATED%");
+szJSON = Elem.JSON(szJSON, "Size", "%SIZE%");
+szJSON = Elem.JSON(szJSON, "PathMap", "%PATHMAP%");
+szJSON = Elem.JSON(szJSON, "profileGroupId", "%wGROUP%");
+szJSON = Elem.JSON(szJSON, "Cabinet", "%GROUP%");
+szJSON = Elem.JSON(szJSON, "Location", "%PATH%");
+szJSON = Elem.JSON(szJSON, "Extension", "%EXT%");
+szJSON = Elem.JSON(szJSON, "CAT_ID", "=%CATS_JSON%");
+szJSON = Elem.JSON(szJSON, "OW", "%OWNERINIT%");
+szJSON = Elem.JSON(szJSON, "FF", "%FAVORITE%");
+szJSON = Elem.JSON(szJSON, "GT", "%EXT%");
+szJSON = Elem.JSON(szJSON, "EFR", "%EMAIL_FR%");
+szJSON = Elem.JSON(szJSON, "ETO", "%EMAIL_TO%");
+szJSON = Elem.JSON(szJSON, "ECC", "%EMAIL_CC%");
+szJSON = Elem.JSON(szJSON, "EBC", "%EMAIL_BCC%");
+szJSON = Elem.JSON(szJSON, "ETS", "%EMAIL_tSENT%");
+szJSON = Elem.JSON(szJSON, "ETR", "%EMAIL_tRCVD%");
+szJSON = Elem.JSON(szJSON, "ERF", "%EMAIL_tRFDATE%");
+szJSON = Elem.JSON(szJSON, "ERW", "%EMAIL_RFWHO%");
+szJSON = Elem.JSON(szJSON, "EAD", "%EMAIL_ADDR%");
+
+szJSON = Elem.JSON(szJSON, "COD", "%CHECKOUTDESC%");
+szJSON = Elem.JSON(szJSON, "COT", "%CHECKOUT_tTIME%");
+szJSON = Wrap.JSON(szJSON, "");
+
+
+var dwIndexFr = StrNum(skip);
+var dwLinesMax = StrNum(take);
+var dwLinesOut = StrNum(skip);
+
+
+var szRC = wdapi_GetXML(dwIndexFr,dwLinesMax,dwLinesOut,szJSON,szJSON);
+
+szJSON = Elem.JSON("","items",szJSON);
+szJSON = Elem.JSON("",szHeader, szJSON);
+szJSON = Wrap.JSON("root",szJSON);
+document.write(szJSON);
+
+</script>

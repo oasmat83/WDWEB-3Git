@@ -1,0 +1,57 @@
+{
+"root": {
+<script language="WDWEB">
+
+	var	szCR = UnConvert ("&#13;&#10;", &);
+	var nSortID = wd_File_Sort_key1;
+	var szTabLabel = wd_LIST_TABLABEL;
+	var szTabQuery = wd_FIND_QUERY;
+	var _skip;
+	var _take;
+	
+
+    lpcszFormat = lpcszFormat + "{\"LN\": \"%:L#%\", \"RN\": \"%:R#%\", \"Description\": \"%:XNAME%\", \"Doc ID\": \"%:DOCID%\",";
+
+    lpcszFormat = lpcszFormat + "\"Comments\": \"%:COMMENTS%\", \"File Path\": \"%:PATHFILEREAL%\", \"Owner\": \"%:OWNERINIT%\",";
+
+    lpcszFormat = lpcszFormat + "\"Version\": \"%:VERSION%\", \"Status\": \"%:wSTATUSID%\", \"LID\": \"" + wd_List_ID + "\",";    
+
+    lpcszFormat = lpcszFormat + "\"Name\": \"%:LONGNAME%\", \"Field1\": \"%:FIELD1%\", \"Field1 Desc\": \"%:FIELD1DESC%\",";
+
+    lpcszFormat = lpcszFormat + "\"Field2\": \"%:FIELD2%\", \"Field2 Desc\": \"%:FIELD2DESC%\", \"Field3\": \"%:FIELD3%\", \"Field3 Desc\": \"%:FIELD3DESC%\",";    
+
+    lpcszFormat = lpcszFormat + "\"Field4\": \"%:FIELD4%\", \"Field4 Desc\": \"%:FIELD4DESC%\", \"Field5\": \"%:FIELD5%\", \"Field5 Desc\": \"%:FIELD5DESC%\",";   
+
+    lpcszFormat = lpcszFormat + "\"Field6\": \"%:FIELD6%\", \"Field6 Desc\": \"%:FIELD6DESC%\", \"Field7\": \"%:FIELD7%\", \"Field7\": \"%:FIELD7DESC%\",";
+
+    lpcszFormat = lpcszFormat + "\"Field1 Name\": \"%:Field1Name%\", \"Field2 Name\": \"%:Field2Name%\", \"Field3 Name\": \"%:Field3Name%\",";
+
+    lpcszFormat = lpcszFormat + "\"Field4 Name\": \"%:Field4Name%\", \"Field5 Name\": \"%:Field5Name%\", \"Field6 Name\": \"%:Field6Name%\",";
+
+    lpcszFormat = lpcszFormat + "\"Field7 Name\": \"%:Field7Name%\", \"Updated Date\": \"%:wUPDATED%\", \"Size\": \"%:SIZE%\",";
+
+    lpcszFormat = lpcszFormat + "\"Accessed Date\": \"%:wACCESSED%\", \"Created Date\": \"%:wCREATED%\", \"Map Path\": \"%:PATHMAP%\",";    
+
+    lpcszFormat = lpcszFormat + "\"Profile ID\": \"%:wGROUP%\", \"Cabinet\": \"%:GROUP%\", \"Location\": \"%:PATH%\", \"Extension\": \"%:EXT%\" },";
+	
+	
+	var lpcszPageOut;
+	var dwIndexFr = StrNum(skip);
+	var dwLinesMax = StrNum(take);
+	var dwLinesOut = StrNum(skip);
+	document.write("\"items\":" + szCR);
+	document.write("["+szCR);
+	
+	var	szRC = wdapi_GetXML(dwIndexFR,dwLinesMax,dwLinesOut,lpcszFormat,lpcszPageOut);
+		
+	document.write(lpcszPageOut);
+	dwIndexFR = dwIndexFR + dwLinesOut;
+	
+	document.write("{}]," +szCR);
+	document.write("\"totalCount\": \"" + wd_List_Count + "\", \"desc\": \"" + wd_LIST_DESCRIPTION + "\"");
+	document.write("," +szCR);
+</script>
+"session":"^:%wd_SID^",
+^wd_ErrorStatusJson^
+}
+}

@@ -1,0 +1,130 @@
+<script language="WDWEB">
+
+ListCreate(BOOKMARKS,,29180);
+
+var szJSON;
+
+var nIndexBM = 0;
+
+var szHeader;
+    szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+    szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+    szHeader= Elem.JSON("","Header",szHeader);
+
+while (true)
+{
+    nIndexBM ++;
+    var nFlags = strnum(wd_Bookmark_Flags[nIndexBM]);
+    var dwPGID = wd_Bookmark_ProfileGroup_ID[nIndexBM];
+    var szFlagType;
+
+    if ("" == dwPGID)
+    break;
+
+    var szBME;
+
+    if (4 & nFlags) {
+        szFlagType = "WDAPI_GBL_FLAG_FINDEDIT";
+		
+		szBME = Elem.JSON(szBME,"dwPGID",dwPGID );
+        szBME = Elem.JSON(szBME,"flag","findedit" );
+        szBME = Elem.JSON(szBME,"szPGID",wd_Bookmark_ProfileGroup_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Desc",wd_Bookmark_Description[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Loc",wd_Bookmark_TrueLocation[nIndexBM] );
+
+        szBME = "{" + szBME + "}";
+
+        if (szJSON > "")
+        szJSON += ",";
+
+        szJSON += szBME;
+    }
+    else if (8 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FINDGO";
+		
+		szBME = Elem.JSON(szBME,"dwPGID",dwPGID );
+        szBME = Elem.JSON(szBME,"flag","findgo" );
+        szBME = Elem.JSON(szBME,"szPGID",wd_Bookmark_ProfileGroup_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Desc",wd_Bookmark_Description[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Loc",wd_Bookmark_TrueLocation[nIndexBM] );
+
+        szBME = "{" + szBME + "}";
+
+        if (szJSON > "")
+        szJSON += ",";
+
+        szJSON += szBME;
+    }
+    else if (32 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FAVFILES";
+		
+		szBME = Elem.JSON(szBME,"dwPGID",dwPGID );
+        szBME = Elem.JSON(szBME,"flag","favfiles" );
+        szBME = Elem.JSON(szBME,"szPGID",wd_Bookmark_ProfileGroup_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Desc",wd_Bookmark_Description[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Loc",wd_Bookmark_TrueLocation[nIndexBM] );
+
+        szBME = "{" + szBME + "}";
+
+        if (szJSON > "")
+        szJSON += ",";
+
+        szJSON += szBME;
+    }
+    else if (64 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FAVMATTER";
+    }
+    else if (128 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_WORKSPACE";
+    }
+    else if (256 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_PROJECT";
+		
+		szBME = Elem.JSON(szBME,"dwPGID",dwPGID );
+        szBME = Elem.JSON(szBME,"flag","project" );
+        szBME = Elem.JSON(szBME,"szPGID",wd_Bookmark_ProfileGroup_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Desc",wd_Bookmark_Description[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Loc",wd_Bookmark_TrueLocation[nIndexBM] );
+
+        szBME = "{" + szBME + "}";
+
+        if (szJSON > "")
+        szJSON += ",";
+
+        szJSON += szBME;
+    }
+    else if (16 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FOLDER";
+		
+		szBME = Elem.JSON(szBME,"dwPGID",dwPGID );
+        szBME = Elem.JSON(szBME,"flag","folder" );
+        szBME = Elem.JSON(szBME,"szPGID",wd_Bookmark_ProfileGroup_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Desc",wd_Bookmark_Description[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Loc",wd_Bookmark_TrueLocation[nIndexBM] );
+
+        szBME = "{" + szBME + "}";
+
+        if (szJSON > "")
+        szJSON += ",";
+
+        szJSON += szBME;
+    }
+}
+szJSON = Elem.JSON("","Bookmarks",szJSON);
+szJSON = Elem.JSON("",szHeader, szJSON);
+szJSON = Wrap.JSON("root",szJSON);
+
+document.write(szJSON);
+
+</script>

@@ -1,0 +1,388 @@
+<!-- dataGrid.html -->
+<div id="popup-comlumnChooser">
+    <div class="popup popup-columnChooser" dx-popup="popupColumnChooserOptions" >
+        <div data-options="dxTemplate: { name:'info' }" >
+            <div id="dxlist-clm_cbx" dx-list="listOptions_clm_cbx"></div>
+            <div class="ms-Dialog-actions btn-option-clm-chooser">
+                <div id="btn-apply-chooser" dx-button="buttonOptionsApplyChooser" class="columnChooserBtn"></div>
+                <input id="hdd-selecteditem" type="hidden" value="{{selectedItems.join(', ')}}">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="popup-listViewoptimize">
+    <div class="popup popup-listViewSetting" dx-popup="popupCustomizeOptions">
+        <div data-options="dxTemplate: { name:'info' }">
+            <div class="ctm-popup-line" ng-click="cancelCustomizeListView()">
+                <i class="ms-Icon ms-Icon--RemoveFilter" aria-hidden="true"></i>
+                <span>Cancel</span>
+            </div>
+            <div class="ctm-popup-line btn-save-fvr-view" ng-click="applyCustomerListView()" >
+                <i class="ms-Icon ms-Icon--HeartFill" aria-hidden="true"></i>
+                <span>Make this my favorite view</span>
+            </div>
+            <div class="ctm-popup-line btn-save-fvr-view" ng-click="displayComments()">
+                <i class="ms-Icon ms-Icon--Comment" aria-hidden="true"></i>
+                <span>{{ fontSectionLabel }}</span>
+            </div>
+            <div class="ctm-popup-line btn-save-fvr-view" ng-click="showColumnChooser()" id="btnColumnChooser">
+                <i class="ms-Icon ms-Icon--DoubleColumnEdit" aria-hidden="true"></i>
+                <span>Column Chooser</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div dx-load-panel="loadOpen"></div>
+<div id="gridContainer" dx-data-grid="dataGridOptions" dx-item-alias="file" ng-style="windowHeight">
+
+    <div data-options="dxTemplate:{ name:'queryTitle' }">
+        <div file-title></div>
+        <!-- <div class="dwnSpinner" ng-hide="dwnSpinner"></div> -->
+    </div>
+
+    <div id="descContain" data-options="dxTemplate:{ name:'cellTemplate' }" class="topPadding">
+        <div class="descTemplate">
+            <span ng-if="ttl_dsc!=' '" ng-mouseover="hoverDescription($event)" title="{{ttl_dsc}}" title-direction="top" class="descTitle lineOne" ng-bind-html="setDescNme(file.data)" ng-style="{color: setDescColor(file.data.szRC)}"></span>
+            <span ng-if="ttl_dsc==' '" ng-mouseover="hoverDescription($event)" title="" title-direction="top" class="descTitle lineOne" ng-bind-html="setDescNme(file.data)" ng-style="{color: setDescColor(file.data.szRC)}"></span>
+            <div dx-load-indicator="descLoader" id="{{ setDescLoaderId(file.data) }}"></div>
+        </div>
+
+        <div class="versionDocIDModifiedTemplate propTopPadding" ng-if="(file.data.Version && showVersion) || (file.data.DocId && showDocID) || (file.data.Modified && showModified) || (file.data.Size && showSize) || (file.data.DateCreated && showCreated) || (file.data.AccessedDate && showAccessed) || (file.data.Name && showName)">
+            
+            <span class="propPadding" ng-if="file.data.Version && showVersion && versionlist==false" ng-click="setVersion(file.data);" title="" title-direction="top">
+                <i class="ms-Icon ms-Icon--Boards" aria-hidden="true" ng-if="file.data.Version != ''"></i> 
+                <span class="versionTemplate propValue">Version# {{file.data.Version }}</span>
+                <span class="propValue">&nbsp;</span>
+            </span>
+
+            <span class="propPadding" ng-if="file.data.Version && showVersion && versionlist==true" title="" title-direction="top">
+                <i class="ms-Icon ms-Icon--Boards" aria-hidden="true" ng-if="file.data.Version != ''"></i>
+                <span ng-if="lastVersionFile == file.data.Version" class="propLabel" style="text-decoration:none;">Main Version#:</span>
+                <span ng-if="lastVersionFile == file.data.Version" class="propValue" style="text-decoration:none;">{{file.data.Version }}&nbsp;</span>
+                <span ng-if="lastVersionFile != file.data.Version" class="propLabel" style="text-decoration:none;">Prior Version#:</span>
+                <span ng-if="lastVersionFile != file.data.Version" class="propValue" style="text-decoration:none;">{{file.data.Version }}&nbsp;</span>
+            </span>
+
+            <span ng-if="file.data.DocId && showDocID" class="DocIDTemplate propPadding"> 
+                <span class="propLabel">DocID:</span> 
+                <span class="propValue" ng-bind-html="file.data.DocId"></span>
+            </span>
+            <span ng-if="file.data.Modified && showModified" class="DocIDTemplate propPadding">
+                <span class="propLabel">Modified:</span>
+                <span class="propValue">{{file.data.Modified }}&nbsp;</span>
+            </span>
+            <span ng-if="file.data.Size && showSize" class="DocIDTemplate propPadding">
+                <span class="propLabel">Size:</span>
+                <span class="propValue">{{file.data.Size }}&nbsp;</span>
+            </span>
+            <span ng-if="file.data.DateCreated && showCreated" class="DocIDTemplate propPadding">
+                <span class="propLabel">Created:</span>
+                <span class="propValue">{{file.data.Created }}&nbsp;</span>
+            </span>
+            <span ng-if="file.data.AccessedDate && showAccessed" class="DocIDTemplate propPadding">
+                <span class="propLabel">Accessed:</span>
+                <span class="propValue">{{file.data.Accessed}}&nbsp;</span>
+            </span>
+        </div>
+
+        <div class="checkoutTemplate chkPadding" ng-if='((file.data.CHKOUT_TO_LINE !== "") && showComment)' ng-hide="fontStyle[7]['bVISIBLE'] == 0">
+            <span class="checkout">
+
+                <span ng-if='file.data.stFl == "34" || file.data.stFl == "42" || file.data.stFl == "50" || file.data.stFl == "178"'>
+                    <i class="ms-Icon ms-Icon--PageCheckedOut" aria-hidden="true"></i> 
+                    <span class="chkLabel">{{file.data.CHKOUT_TO_PREF}} </span> 
+                    <span class="chkName">{{file.data.CHKOUT_TO_NAME}}</span> 
+                    <span class="chkLabel">{{file.data.CHKOUT_ON_PREF}}</span> 
+                    <span class="chkName">{{file.data.CHKOUT_ON_DATE}}</span> 
+                    <i class="ms-Icon ms-Icon--PageCheckedin" aria-hidden="true"></i> 
+                    <!-- <span class="chkLink chkInLink" id="{{ checkInId(file.data) }}">Check-In</span> -->
+                    <span ng-click="checkInFrom(file.data)" class="chkLink chkInLink" id="{{ checkInId(file.data) }}">Check-In</span>
+                    <div dx-context-menu="contextMenuTemplate(file.data)"></div>
+                </span>
+                
+                <span ng-if='file.data.stFl == "36" || file.data.stFl == "52" || file.data.stFl == "44"' ng-style="{'font-style':fontStyle[9]['bITALIC'], 'text-decoration':fontStyle[9]['bUNDERLINE'], 'color':fontStyle[9]['crTEXT'], 'padding-left':fontStyle[9]['RC.LEFT']+'px', 'padding-right':fontStyle[9]['RC.RIGHT']+'px', 'padding-top':fontStyle[9]['RC.TOP']+'px', 'padding-bottom':fontStyle[9]['RC.BOTTOM']+'px', 'font-family':fontStyle[9]['szFACENAME']+'', 'font-weight':fontStyle[9]['uWEIGHT'], 'line-height':fontStyle[9]['uHEIGHT']}">
+                    <i ng-if='chkWdFileStatus(file.data.CHKOUT_TO_NAME)' class="ms-Icon ms-Icon--PageCheckedOut" aria-hidden="true"></i> 
+                    <span class="chkLabel"> {{file.data.CHKOUT_TO_PREF}} </span> 
+                    <span class="chkName">{{file.data.CHKOUT_TO_NAME}}</b> 
+                    <span class="chkLabel">{{file.data.CHKOUT_ON_PREF}}</span> 
+                    <span class="chkName">{{file.data.CHKOUT_ON_DATE}}</span>
+                </span>
+
+            </span>
+        </div>
+
+        <div class="commentTemplate commPadding" ng-if="file.data.Comments && showComments">
+            <span class="comments commLine" title="" title-direction="top"><i class='ms-Icon ms-Icon--Comment listComments' aria-hidden='true'></i><span pg-clamp='{{commentLineNumber}}' class='commentTxt' ng-bind-html="file.data.Comments"></span></span>
+        </div>
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field1DescTemplate' }">
+        {{ gridHeader.f1name }} Desc
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field1CodeTemplate' }">
+        {{ gridHeader.f1name }}
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field2DescTemplate' }">
+        {{ gridHeader.f2name }} Desc
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field2CodeTemplate' }">
+        {{ gridHeader.f2name }}
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field3DescTemplate' }">
+        {{ gridHeader.f3name }} Desc
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field3CodeTemplate' }">
+        {{ gridHeader.f3name }}
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field4DescTemplate' }">
+        {{ gridHeader.f4name }} Desc
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field4CodeTemplate' }">
+        {{ gridHeader.f4name }}
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field5DescTemplate' }">
+        {{ gridHeader.f5name }} Desc
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field5CodeTemplate' }">
+        {{ gridHeader.f5name }}
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field6DescTemplate' }">
+        {{ gridHeader.f6name }} Desc
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field6CodeTemplate' }">
+        {{ gridHeader.f6name }}
+    </div>
+    
+    <div data-options="dxTemplate:{ name:'Field9DescTemplate' }">
+        {{ gridHeader.f7name }} Desc
+    </div>
+
+    <div data-options="dxTemplate:{ name:'Field7CodeTemplate' }">
+        {{ gridHeader.f7name }}
+    </div>
+
+    <div data-options="dxTemplate:{ name:'wdGridFilter' }">
+        <div class="gridFilter">
+            <i class="ms-Icon ms-Icon--Filter"></i>
+            <div dx-text-box="wdFilterBox"></div>
+            <div dx-button="wdFilterBtn"></div>
+        </div>
+        
+    </div>
+
+    <div data-options="dxTemplate:{ name:'downLoadFile' }" class="downloadIcon topPadding">
+        <a ng-show="file.data.FF == undefined" ng-click="setFavorite('', 200, 'added', file.data)"><i class="ms-Icon ms-Icon--Heart"></i></a>
+        <a ng-show="file.data.FF == 'BB_HEART'" ng-click="setFavorite('-', 200, '', file.data)"><i class="ms-Icon ms-Icon--HeartFill"></i></a>
+        <a ng-show="file.data.FF == 'IDM_SAVE'" ng-click="setFavorite('-', 200, '', file.data)"><i class="ms-Icon ms-Icon--Save"></i></a>
+        <a ng-show="file.data.FF == 'IDM_OPEN'" ng-click="setFavorite('-', 200, '', file.data)"><i class="ms-Icon ms-Icon--OpenFile"></i></a>
+        <a ng-show="file.data.FF == 'IDM_WORKFLOW'" ng-click="setFavorite('-', 200, '', file.data)"><i class="ms-Icon ms-Icon--Relationship"></i></a>
+        <a ng-show="file.data.FF == 'IDM_MOVE'" ng-click="setFavorite('-', 200, '', file.data)"><i class="ms-Icon ms-Icon--Move"></i></a>
+        <a ng-show="file.data.FF == 'IDM_COPY'" ng-click="setFavorite('-', 200, '', file.data)"><i class="ms-Icon ms-Icon--Copy"></i></a>
+        <a ng-show="file.data.FF == '1'" ng-click="setFavorite('-', 200, '', file.data)"><i class="ms-Icon ms-Icon--Save"></i></a>
+    </div>
+
+    <div data-options="dxTemplate:{ name:'fileSecurityIco' }" class="topPadding">
+        <span ng-bind-html="getTypeLogo(file.data.Extension)" class="fileIcon" style="padding-right: 2px;"></span>
+        <span ng-class="getStatusIcon(file.data.I)" title="{{ getIconTitle(file.data) }}" title-direction="top"></span>
+    </div>
+
+    <div data-options="dxTemplate: { name: 'versionCell' }" class="verIco topPadding">
+        <i class="ms-Icon ms-Icon--Page" aria-hidden="true" ng-if="file.data.Version"></i>
+        <div class="versionContainer" ng-style="{'overflow': 'hidden', 'white-space': 'nowrap', 'text-overflow': 'ellipsis'}">
+            <span href ng-click="setVersion(file.data);" ng-if="!getQuery.verid" class="lineOne">{{ file.data.Version }}</span>
+            <span ng-if="getQuery.verid" class="lineOne">{{ file.data.Version }}</span>
+        </div>
+    </div>
+
+    <div data-options="dxTemplate:{ name:'wdTags' }" class="wdTags topPadding" ng-style="{'overflow': 'hidden', 'white-space': 'nowrap', 'text-overflow': 'ellipsis'}">
+        <div ng-style="{'display': 'contents'}">
+            <div id="{{ setTipID(file.data.LN, true) }}" ng-style="{'display': 'contents'}">
+                <div style="float: left; height: 16px">
+                    <span ng-if="cat.CI !== ''" ng-repeat="cat in file.data.CAT_ID"><img ng-src="{{setCatIco(cat)}}" width="16" height="16"/></span>
+                </div>
+                <div ng-style="{'padding-left':'5px','overflow': 'hidden', 'white-space': 'nowrap', 'text-overflow': 'ellipsis'}" class="lineOne">
+                    <span ng-repeat="cat in file.data.CAT_ID" >{{$first ? ' - ' : '' }}{{ cat.CD }}{{$last ? ' ' : ','}} &nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div dx-load-panel="wdGridLoader"></div>
+
+<div class="popup" dx-popup="popupOptions">
+    <div data-options="dxTemplate: { name:'delete' }">
+        <form ng-submit="deleteData()">
+            <div id="delete-header">
+                <div id="delete-icon">
+                    <i class="ms-Icon ms-Icon--Delete" aria-hidden="true"></i>
+                </div>
+                <div id="delete-title" dx-scroll-view="{ scrollByContent: true, scrollByThumb: true }">
+                    <div id="delete-title-content" ng-repeat="currentDeleteFile in currentDeleteFiles">
+                        <p>
+                            Doc ID:
+                            <span>{{currentDeleteFile.DocId}}</span>
+                        </p>
+                        <p>
+                            Description:
+                            <span> {{currentDeleteFile.Description}}</span>
+                        </p>
+                        <hr ng-if="!$last" />
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div id="delete-body">
+                <div id="delete-body-left">
+                    Select method:
+                </div>
+                <div id="delete-body-right">
+                    <div dx-radio-group="delGroup" dx-validator="validateGroup"></div>
+                </div>
+            </div>
+            <br>
+            <div id="delete-footer">
+                <p>
+                    <span>Note: Salvage Bin allows for undeleting, if necessary, until permanently deleted by Salvage Bin Purge.</span>
+                </p>
+                <br>
+                <div dx-button="applyDeleteButtonOptions"></div>
+                <div dx-button="cancelDeleteButtonOptions"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--popupFileChangedOptions-->
+<div id="popupFileChangedOptions" class="popup changedFilePopup wdMessageDialog" dx-popup="popupFileChangedOptions">
+    <div data-options="dxTemplate: { name:'popupFileChangedTemplate' }">
+        <div class="messageTitle icon">
+            <i class="ms-Icon ms-Icon--{{fileChange.icon}} action-icon" aria-hidden="true"></i>
+            <i class="ms-Icon ms-Icon--Warning status-icon" aria-hidden="true"></i>
+            <!--<i class="ms-Icon ms-Icon&#45;&#45;Info status-icon" aria-hidden="true"></i>-->
+            <!--<i class="ms-Icon ms-Icon&#45;&#45;SurveyQuestions status-icon" aria-hidden="true"></i>-->
+            <!--<i class="ms-Icon ms-Icon&#45;&#45;CircleStop status-icon" aria-hidden="true"></i>-->
+        </div>
+        <div class="messageTitle title" ng-if="!messOnlyTitle">
+            <div class="statusRowContainer">
+                <div class="statusCellContainer label">Doc ID:</div>
+                <div class="statusCellContainer value">&nbsp;&nbsp;{{ fileChange.docid }}</div>
+            </div>
+            <div class="statusRowContainer">
+                <div class="statusCellContainer label">Description:</div>
+                <div class="statusCellContainer value">&nbsp;&nbsp;{{ fileChange.desc }}.</div>
+            </div>
+        </div>
+        <div class="messageTitle title onlyOne" ng-if="messOnlyTitle">
+            <div class="statusCellContainer label">Please confirm your intentions</div>
+        </div>
+        <div class="messageContent">
+            <div class="statusMessage errorMessage">{{ fileChange.wdMsg }}.</div>
+            <!-- <div class="statusMessage resultMessage">You may not {{fileChange.action}} the file at this time.</div> -->
+        </div>
+        <div class="ms-Dialog-actions">
+            <div class="rowBtn">
+                <button id="btnConfirmCheckFile" class="ms-Button ms-Button--primary" ng-click="confirmChangeHash()">
+                    <span class="ms-Button-label">OK</span>
+                </button>
+            </div>
+            <div class="rowBtn">
+                <button id="btnCancelCheckFile"  class="ms-Button ms-Dialog-action" ng-click="cancelCommandChangeFile()">
+                    <span class="ms-Button-label">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--popupFileChangedOptions-->
+
+<!--popup Error-->
+<div id="popupLockError" class="popup wdMessageDialog" dx-popup="popupLockErrorOptions">
+    <div data-options="dxTemplate: { name:'popupLockErrorTemplate' }">
+        <div class="messageTitle icon">
+            <i class="ms-Icon ms-Icon--{{errLock.icon}} action-icon" aria-hidden="true"></i>
+            <i class="ms-Icon ms-Icon--CircleStop status-icon" aria-hidden="true"></i>
+        </div>
+        <div class="messageTitle title">
+            <div class="statusRowContainer">
+                <div class="statusCellContainer label">Doc ID:</div>
+                <div class="statusCellContainer value">&nbsp;&nbsp;{{ errLock.docid }}</div>
+            </div>
+            <div class="statusRowContainer">
+                <div class="statusCellContainer label">Description:</div>
+                <div class="statusCellContainer value">&nbsp;&nbsp;{{ errLock.desc }}.</div>
+            </div>
+        </div>
+        <div class="messageContent">
+            <div ng-repeat="li in errLock.wdMsg" class="statusMessage errorMessage">{{ li }}.</div>
+        </div>
+        <div class="ms-Dialog-actions">
+            <div class="rowBtn">
+                <button ng-click="confirmErrorLockPopup()" id="btnConfirmLockError" class="ms-Button ms-Button--primary">
+                    <span class="ms-Button-label">OK</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--popup Error-->
+
+<!-- <div dx-toast="gridToast"></div> -->
+<canvas id="myCanvas" style="display: none">{{temp_description}}</canvas>
+<canvas id="myCanvas_docid" style="display: none">{{temp_docid}}</canvas>
+<canvas id="myCanvas_version" style="display: none">{{temp_version}}</canvas>
+<canvas id="myCanvas_modified" style="display: none">12/20/2018 2:48 AM</canvas>
+<canvas id="myCanvas_comment" style="display: none">{{temp_comment}}</canvas>
+<canvas id="myCanvas_created" style="display: none">12/20/2018</canvas>
+<canvas id="myCanvas_accessed" style="display: none">12/20/2018</canvas>
+<canvas id="myCanvas_size" style="display: none">{{temp_size}}</canvas>
+<canvas id="myCanvas_cabinet" style="display: none">{{temp_cabinet}}</canvas>
+<canvas id="myCanvas_location" style="display: none">{{temp_location}}</canvas>
+<canvas id="myCanvas_categories" style="display: none">{{temp_categories}}</canvas>
+<canvas id="myCanvas_checkoutLabel" style="display: none"></canvas>
+<canvas id="myCanvas_checkotuValue" style="display: none"></canvas>
+<canvas id="myCanvas_propLabel" style="display: none"></canvas>
+<canvas id="myCanvas_propValue" style="display: none"></canvas>
+<div id="popupVersionIframe" dx-popup="popupVersionIframe" class='wdDialogPopup wdMessageDialog'>
+    <div data-options="dxTemplate: { name:'popupVersionIframe' }">
+        <div class="dialog-header">
+            <div class="dialog-icon">
+                <i class="ms-Icon ms-Icon--Documentation successStatus" aria-hidden="true"></i>
+            </div>
+            <div class="dialog-title successStatus">
+                <div class="statusContainer">
+                    <div class="statusRowContainer">
+                        <div class="statusCellContainer label">Doc ID:</div>
+                        <div class="statusCellContainer value">&nbsp;&nbsp; {{docIdVersionIframe}}</div>
+                    </div>
+                    <div class="statusRowContainer">
+                        <div class="statusCellContainer label">Description:</div>
+                        <div class="statusCellContainer value">&nbsp;&nbsp;{{descriptionVersionIframe}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ms-Dialog-actions" >
+            <div class="rowBtn">
+                <div id="wdVersionIframeNewTab" dx-button="wdVersionIframeNewTab" style="margin: 20px 10px 0"></div>
+                <div id="wdVersionIframeEither" dx-button="wdVersionIframeEither" style="margin: 20px 10px 0"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="left-nav">
+
+  <div class="left-nav-vert" id="wdLeftColumn" ng-init="init()">
+    <div class="imageIndicator leftNavSpinner" dx-load-indicator="{
+      height: 40,
+      width: 40
+  }" ng-if="leftNavColumn"></div>
+    <ul class="nav">
+      <li ng-repeat="order in navOrder">
+        <div wdx-nav-elements type="order"></div>
+      </li>
+    </ul>
+  </div>
+  <div class="logo-bottom">
+    <img ng-click="gohome()" ng-src="./WDWEB/assets/images/logos/{{$root.leftMenuAction?'white-Worldox-logo.png':'white-Worldox-w.png'}}" alt="">
+    <span>{{ $root.date }}</span>
+    <span style="padding-bottom: 4px;">{{ server }}</span>
+  </div>
+
+  <div id="popupNotFoundFilter" dx-popup="popupNotFoundFilter" class='wdDialogPopup wdMessageDialog'>
+
+    <div data-options="dxTemplate: { name:'popupNotFoundFilterTemplate' }">
+      <div class="messageTitle icon">
+        <i class="ms-Icon ms-Icon--Filter action-icon" aria-hidden="true"></i>
+        <i class="ms-Icon status-icon ms-Icon--Warning wdWarningIco" aria-hidden="true"></i>
+      </div>
+      <div class="messageTitle title">
+      </div>
+
+      <div class="messageContent">
+        <div class="statusMessage  wdWarningIco">No items found by your filter.</div>
+      </div>
+      <div class="ms-Dialog-actions" >
+        <div class="rowBtn">
+          <div dx-button="wdCancelBtnFilter" style="margin: 20px 10px 0"></div>
+        </div>
+      </div>
+    </div>
+  </div>

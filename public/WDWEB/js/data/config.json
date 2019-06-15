@@ -1,0 +1,12 @@
+{
+"settings": {
+    "userLayouts":true,
+    "userThemes":true,
+    "layout":"dashboard",
+    "defaultTheme":"blue",
+    "path": "../../css/",
+    "fabricCss": "fabric.css",
+    "componentCss": "fabric.components.css",
+    "appCss": "app.css"
+    }
+}

@@ -1,0 +1,80 @@
+body #phxLogin .dx-texteditor {
+  border-radius: 1px; }
+
+body #phxLogin .isLogin {
+  width: 412px;
+  padding: 24px; }
+  body #phxLogin .isLogin .ms-Spinner {
+    position: absolute;
+    left: 49%;
+    top: 80%;
+    transform: translate(-80%, -49%); }
+  body #phxLogin .isLogin .phx-login-form {
+    border: 1px solid #ddd;
+    box-shadow: 6px 6px 15px #ddd;
+    margin: 10px; }
+    body #phxLogin .isLogin .phx-login-form .slider {
+      margin: 15px; }
+      body #phxLogin .isLogin .phx-login-form .slider .ms-Spinner {
+        left: 45%;
+        top: 45%;
+        transform: translate(-45%, -45%); }
+      body #phxLogin .isLogin .phx-login-form .slider h1 {
+        font-weight: normal;
+        padding: 0 0 15px;
+        font-size: 16px; }
+
+body #phxLogin .animate-switch-container {
+  position: relative;
+  overflow: hidden; }
+  body #phxLogin .animate-switch-container .animate-switch.ng-animate {
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    position: absolute; }
+  body #phxLogin .animate-switch-container .animate-switch.ng-leave {
+    left: 0; }
+  body #phxLogin .animate-switch-container .animate-switch.ng-enter.ng-enter-active {
+    left: 0; }
+  body #phxLogin .animate-switch-container .loginErr {
+    padding: 10px 0;
+    font-size: 12px;
+    display: inline-block;
+    width: 49%;
+    color: #a80000; }
+  body #phxLogin .animate-switch-container .msPassword {
+    text-align: right;
+    padding: 10px 0;
+    display: inline-block;
+    width: 49%; }
+    body #phxLogin .animate-switch-container .msPassword a {
+      font-size: 12px; }
+
+body #phxLogin .animate-switch-container.forward.longStage {
+  transition: all 0.5s;
+  min-height: 150px; }
+
+body #phxLogin .animate-switch-container.backward.longStage {
+  min-height: 150px; }
+
+body #phxLogin .forward .animate-switch.ng-leave.ng-leave-active {
+  left: -100%; }
+
+body #phxLogin .forward .animate-switch.ng-enter {
+  left: 100%; }
+
+body #phxLogin .backward .animate-switch.ng-leave.ng-leave-active {
+  left: 100%; }
+
+body #phxLogin .backward .animate-switch.ng-enter {
+  left: -100%; }
+
+body #phxLogin .dx-button {
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  -ms-border-radius: 1px;
+  -o-border-radius: 1px;
+  border-radius: 1px; }
+
+body #phxLogin .errorMessage {
+  line-height: 40px;
+  color: #ea4444; }

@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html id="app" class="phx-app">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <base href="/" />
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="assets/images/wd-ico/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/wd-ico/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/wd-ico/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/wd-ico/apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="60x60" href="assets/images/wd-ico/apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="assets/images/wd-ico/apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="assets/images/wd-ico/apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="assets/images/wd-ico/apple-touch-icon-152x152.png" />
+        <link rel="icon" type="image/png" href="assets/images/wd-ico/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="assets/images/wd-ico/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="assets/images/wd-ico/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="assets/images/wd-ico/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="assets/images/wd-ico/favicon-128.png" sizes="128x128" />
+        <meta name="application-name" content="&nbsp;"/>
+        <meta name="msapplication-TileColor" content="#FFFFFF" />
+        <meta name="msapplication-TileImage" content="assets/images/wd-ico/mstile-144x144.png" />
+        <meta name="msapplication-square70x70logo" content="assets/images/wd-ico/mstile-70x70.png" />
+        <meta name="msapplication-square150x150logo" content="assets/images/wd-ico/mstile-150x150.png" />
+        <meta name="msapplication-wide310x150logo" content="assets/images/wd-ico/mstile-310x150.png" />
+        <meta name="msapplication-square310x310logo" content="assets/images/wd-ico/mstile-310x310.png" />
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/theme-blue/fabric.components.css" media="all" />
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/theme-blue/fabric.css" media="all"/>
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/theme-blue/app.css" media="all" /> 
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/dx.spa.css" media="all" /> 
+        <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.common.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.light.css" />
+        <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css">
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/angular-tooltips.min.css" media="all" />
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/angular-ui-tree.min.css" media="all" />
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/app.css?ver={{$root.revVersion}}" media="all" />
+        <link rel="stylesheet" data-ng-href="./WDWEB/shared/email/email.css" media="all" />
+        <link rel="stylesheet" data-ng-href="./WDWEB/css/flag-icon.min.css" media="all" />
+        <!-- <link href="//cdn.rawgit.com/stevermeister/ngWig/master/dist/css/ng-wig.css" rel="stylesheet"> -->
+
+        <style id="leftNavOpenAdjectStyling">
+            .left-nav-vert .subMenu-wrap.is-open {
+                
+            }
+        </style>
+
+        <style>
+            #overlay {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0; 
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ffffff;
+                z-index: 10000
+            }
+
+            .preloader {
+                position:relative;
+            }
+            .spinContainer {
+                position:absolute;
+                top: calc(50vh - (/* height */115px / 2));
+                left: calc(50vw - (/* width */115px / 2));
+            }
+            .wdLogospinner {
+                animation: spinner .7s infinite linear;
+                border: 3px solid rgba(34,78,110, 1.0);	
+                border-radius: 50%;
+                border-top-color: rgba(34,78,110, 0.4);
+                height: 6em;
+                position: fixed;	
+                width: 6em;
+                z-index: 1000;
+                font-size: 16px!important;
+                box-sizing: content-box
+                /* box-sizing: initial!important; */
+            }
+            .wdIconLogo {
+                position: absolute;
+                background-image: url("./wdweb/assets/images/logos/w_logo_100x100.png");
+                height: 115px;
+                width: 115px;
+                top: calc(50vh - (/* height */115px / 2));
+                left: calc(50vw - (/* width */115px / 2));
+            }
+            #overlay.loaded {
+                opacity: 0;
+                transition: 1.3s ease;
+                display: none;
+            }
+            body.overflow{
+                overflow: hidden;
+            }
+            @keyframes spinner {
+                to {
+                    transform: rotateZ(360deg);
+                }
+            }
+        </style>
+        <title ng-bind="$root.pageTitle"></title>
+    </head>
+    <body class="wd-app ui-modern dx-viewport overflow" id="wdApp">
+        <div id="overlay">
+            <div class="preloader">
+                <div class="spinContainer">
+                    <div class="wdLogospinner"></div>
+                </div>
+                <div class="wdIconLogo"></div>
+            </div>
+        </div>
+        <div id="wdxApp" class="wdx-app" >
+            <header id="wdxCanvasHeader" role="banner" class="wdx-Canvas-header" ng-controller="topNavCtrl" ng-show="$root.showElements">
+                <div top-menu></div>
+            </header>
+            <div class="header-fixed-placeholder"></div>
+
+            <div id="wdxCanvasBody" class="wdx-Canvas-body" ng-class="{ 'is-open': $root.leftMenuAction }">
+                <div id="leftNav" style="display: none" ng-style="{display: loaded ? 'block':'none'}"  class="wdx-Body-nav" ng-controller="leftNavCtrl" ng-show="$root.showElements" ng-class="{'openLogo': $root.leftMenuAction, 'closedLogo': !$root.leftMenuAction}" dx-resizable="setResizable" wdx-left-menu></div>
+                <div class="wdx-Body-cabinet" style="display: none" ng-style="{display: loaded ? 'block':'none'}"  ng-controller="cabinetCtrl as cab" ng-show="cab.showCabPanel" cab-menu id="wdCabinetPanel"></div>
+                <div class="wdx-Body-favmatter" style="display: none" ng-style="{display: loaded ? 'block':'none'}"  ng-controller="favmatterCtrl as fmc" ng-show="fmc.showFavMattersPanel" favmatter-menu id="wdFavMatterPanel"></div>
+                <div class="wdx-Body-cabinet" style="display: none" ng-style="{display: loaded ? 'block':'none'}"  ng-controller="workSpaceCtrl as wks" ng-show="wks.showWksPanel" work-menu id="wdWorkspacePanel"></div>
+                <!--Side Menus-->
+                <div ng-cloak data-ng-view id="appBody" class="wdx-Body-col" ng-class="{ 'navOpen': $root.leftMenuAction, 'navClose': !$root.leftMenuAction, 'navWidth': $root.leftMenuAction == 3 }" ng-style="{'width': appWidth, 'max-width': appMax}"></div>
+            </div>
+
+        </div>
+        <wd-hotkey></wd-hotkey>
+    </body>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script type="text/javascript" src="./WDWEB/scripts/dist/jquery.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x2js/1.2.0/xml2json.min.js"></script>
+    <script src="./WDWEB/js/vendor/lodash.js"></script>
+    <script src="./WDWEB/scripts/dist/angular.min.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-route.min.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-sanitize.min.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-animate.min.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-css.min.js"></script>
+    <script src="./WDWEB/scripts/dist/ngStorage.min.js"></script>
+    <script src="./WDWEB/scripts/dist/ocLazyLoad.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/18.2.4/js/dx.all.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-panels.min.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-tooltips.min.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-ui-tree.min.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-cookies.min.js"></script>
+    <script src="//cdn.rawgit.com/stevermeister/ngWig/master/dist/ng-wig.js"></script>
+    <script src="./WDWEB/scripts/dist/angular-table-resize.min.js"></script>
+    <script src="./WDWEB/scripts/dist/pdfobject.min.js"></script>
+    <script src="./WDWEB/js/fabric.min.js"></script>
+    <script src="./WDWEB/js/app.js"></script>
+    <script src="./WDWEB/js/clamp.min.js"></script>
+
+    <script src="./WDWEB/scripts/loader.js"></script>
+    <script src="./WDWEB/app.init.js?ver=2.2"></script>
+    <script src="./WDWEB/app.route.js?ver=2.2"></script>
+    <!-- <script src="./workers/wdxWorkers.js?ver=2.2"></script> -->
+    <script src="./WDWEB/components/landing/landingCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/dataGrid/dataGrid.controller.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/custom/customCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/components/home/home.factory.js?ver=2.2"></script>
+    <script src="./WDWEB/components/login/login.service.js?ver=2.2"></script>
+    <script src="./WDWEB/components/upload/uploadCtrler.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/cabinet/cabinetCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/favmatter/favmatterCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/category/categoryCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/workspaces/workSpaceCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/delete/delete.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/delete/delete.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/directAccess/directAccessCtrl.js?ver=2.2"></script>
+    <!-- <script src="./WDWEB/shared/email/email.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/email/email.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/email/email.controller.js?ver=2.2"></script> -->
+    <script src="./WDWEB/shared/fileMenu/fileMenu.controller.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/filterList/filterList.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/leftNav/leftNav.controller.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/leftNav/leftNav.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/leftNav/leftNav.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/logout/logout.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/logout/logout.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/navElements/navElements.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/navElmSettings/navElmSetting.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/panelTitle/panelTitle.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/panelTitle/panelTitle.controller.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/panelTitle/panelTitle.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/profile/profile.controller.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/profile/profile.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/profile/profile.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/preview/preview.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/preview/preview.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/provider/provider.service.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/versions/version.controller.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/versions/version.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/project/projectCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/search/search.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/template/templateCtrl.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/topNav/topNav.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/topNav/topNav.controller.js?ver=2.2"></script>
+    <script src="./WDWEB/scripts/directives/phx-app.js?ver=2.2"></script>
+    <script src="./WDWEB/scripts/directives/angular-pageslide-directive.min.js?ver=2.2"></script>
+    <script src="./WDWEB/scripts/services/homeService.js?ver=2.2"></script>
+    <script src="./WDWEB/scripts/services/wdServices.js?ver=2.2"></script>
+    <script src="./WDWEB/scripts/services/expressService.js?ver=2.2"></script>
+    <script src="./WDWEB/components/home/home.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/fileTitle/title.directive.js?ver=2.2"></script>
+    <script src="./WDWEB/shared/clamp/clamp.directive.js?ver=2.2"></script>
+    <script>
+        window.addEventListener("resize", function () {
+            $('#leftNavOpenAdjectStyling').html('.left-nav-vert .subMenu-wrap.is-open { ' +
+                'max-height:' + ($('#leftNav').height() - (205 + $('.logo-bottom').height()) ).toString() + 'px !important; ' +
+                'height: ' + ($('#leftNav').height() - (205 + $('.logo-bottom').height())).toString() + 'px !important; }');
+        });
+    </script>
+</html>

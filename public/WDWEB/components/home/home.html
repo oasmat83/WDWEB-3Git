@@ -1,0 +1,212 @@
+<!-- home.html -->
+<section class="home" >
+  <div ng-init="init()"></div>
+
+  <div id="homedataGrid"
+       ng-controller="dataGridController"
+       dx-resizable="setHomeResizable"
+       class="pull-left" ng-style="{'width': $root.gridWidth, 'max-width': $root.gridMax}">
+    <!-- <div class="actionContainer"> -->
+      <!-- <div dx-toolbar="fileActionToolbar" class="actionBtn"></div> -->
+    <!-- </div> -->
+    <div dx-file-uploader="checkin" id="checkin"></div>
+    <ng-include src="'./WDWEB/shared/dataGrid/dataGrid.html'" ></ng-include>
+  </div>
+
+  
+  <div id="homeFileMenu" ng-show="wdView" class="pull-right" style="min-width: 300px;">
+    <div>
+      <div ng-include="'./WDWEB/shared/fileMenu/viewMenu.html'"></div>
+    </div>
+  </div>
+
+  <!-- <div pageslide ps-open="checked" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':checked}" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{ panelWidth }}">
+      <div ng-include="'./WDWEB/shared/fileMenu/fileMenu.html'"></div>
+  </div> -->
+
+  <div ng-show="checked" pageslide ps-open="checked" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':checked, 'slideShadow': checked}" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{setPanelWidth()}}">
+    <div>
+      <div ng-include="'./WDWEB/shared/fileMenu/fileMenu.html'"></div>
+    </div>
+  </div>
+
+  <div ng-show="uploadToggle" pageslide ps-open="uploadToggle" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':uploadToggle, 'slideShadow': uploadToggle}" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{setPanelWidth()}}">
+    <div>
+      <div class="closeIcon">
+        <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+        <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+      </div>
+      <div ng-include="'./WDWEB/components/upload/uploadCtrler.html'" ng-controller="uploadCtrler as upload"></div>
+    </div>
+  </div>
+
+  <div ng-show="directAccess" pageslide ps-open="directAccess" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':directAccess, 'slideShadow': directAccess}" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{setPanelWidth()}}">
+    <div>
+      <div class="closeIcon">
+        <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+        <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+      </div>
+      <div ng-include="'./WDWEB/shared/directAccess/directAccess.html'" ng-controller="directAccessCtrl as direct"></div>
+    </div>
+  </div>
+
+  <div ng-show="templates" pageslide ps-open="templates" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':templates, 'slideShadow': templates}" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{setPanelWidth()}}">
+    <div>
+      <div class="closeIcon">
+        <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+        <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+      </div>
+      <div ng-include="'./WDWEB/shared/template/templates.html'" ng-controller="templateCtrl as temp"></div>
+    </div>
+  </div>
+
+  <div ng-show="openCats" pageslide ps-open="openCats" ps-click-outside="false"  class="slidePanel" ps-zindex="10000" ng-class="{'slideShadow': openCats, 'fullscreen':expandPanel,'panelActive':openCats}" ng-style="parentPanel ? {} : {'display': 'none'}">
+      <div>
+        <div class="closeIcon">
+          <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+          <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+        </div>
+        <div ng-include="'./WDWEB/shared/category/category.html'" ng-controller="categoryCtrl as cat"></div>
+      </div>
+  </div>
+
+</section>
+
+<div class="popup" dx-popup="attachPopup">
+  <div data-options="dxTemplate: { name:'attached' }" class="wdSelectedList">
+    <div id="attachedData" dx-scroll-view="attachedList">
+      <div id="attached-title-content" ng-repeat="att in attachedFiles">
+          <p><b>DOC ID:</b> <span>{{att.DocId}}</span> </p>
+          <p><b>DESC:</b> <span>{{att.Description}}</span></p>
+          <hr noshade ng-if="!$last"/>
+      </div>
+    </div>
+    <div>
+      <div class="dx-field selectLabel">
+        <div class="dx-field-value" ng-if="attachLength == undefined"> {{ attachLength }} file(s) selected</div>
+      </div>
+    </div>
+    <div class="dx-fieldset">
+      <div class="dx-field">
+          <div class="dx-field-label">Attach to email:</div>
+          <div class="dx-field-value">
+            <div dx-radio-group="attachType"></div>
+          </div>
+      </div>
+    </div>
+    <div class="dx-fieldset">
+      <div class="dx-field">
+        <div>
+          <div dx-check-box="attachSetName"></div>
+        </div>
+      </div>
+    </div>
+    <div class="dx-fieldset">
+      <div class="dx-field">
+        <div class="dx-field-label">
+          <div dx-button="sendAttach"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup statusPopup" dx-popup="fileErrorControl">
+  <div data-options="dxTemplate: { name:'fileError' }" class="wdErrorControl">
+      <div class="dialog-header" ng-if="fileErrorMessage.length > 0 && errorTypeDialog == 'action'" ng-class="{ setBorder: fileSuccessMessage.length > 0 }">
+          <div class="dialog-icon">
+              <i class="ms-Icon ms-Icon--ErrorBadge errorStatus" aria-hidden="true"></i>
+          </div>
+
+          <div id="errorView" class="dialog-title errorStatus" dx-scroll-view="{
+            scrollByContent: true,
+            scrollByThumb: true }">
+              <div ng-repeat="error in fileErrorMessage">
+                <div class="statusContainer">
+                  <div ng-if="!genericError" class="statusRowContainer">
+                    <div class="statusCellContainer label">Doc ID:</div>
+                    <div class="statusCellContainer value">&nbsp;&nbsp;{{ error.title }}</div>
+                  </div>
+                  <div ng-if="!genericError" class="statusRowContainer">
+                    <div class="statusCellContainer label">Description:</div>
+                    <div class="statusCellContainer value">&nbsp;&nbsp;{{ error.desc }}</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="statusMessage errorMessage">{{ error.wdMsg }}</div>
+                </div>
+                <hr ng-if="!$last"/>
+              </div>
+          </div>
+      </div>
+      <div class="dialog-header" ng-if="fileSuccessMessage.length > 0 && errorTypeDialog == 'action'">
+          <div class="dialog-icon">
+              <i class="ms-Icon ms-Icon--Completed successStatus" aria-hidden="true"></i>
+          </div>
+          <div class="dialog-title successStatus" dx-scroll-view="{
+            scrollByContent: true,
+            scrollByThumb: true }">
+              <div ng-repeat="success in fileSuccessMessage">
+                <div class="statusContainer">
+                  <div class="statusRowContainer">
+                    <div class="statusCellContainer label">Doc ID:</div>
+                    <div class="statusCellContainer value">&nbsp;&nbsp;{{ success.title }}</div>
+                  </div>
+                  <div class="statusRowContainer">
+                    <div class="statusCellContainer label">Description:</div>
+                    <div class="statusCellContainer value">&nbsp;&nbsp;{{ success.desc }}</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="statusMessage successMessage">{{ success.wdMsg }}</div>
+                </div>
+                <hr ng-if="!$last"/>
+              </div>
+              
+          </div>
+      </div>
+      <div class="dialog-header" ng-if="errorTypeDialog == 'user'">
+
+            <div class="dialog-icon">
+                <i class="ms-Icon ms-Icon--OpenFile successStatus" aria-hidden="true"></i>
+            </div>
+            <div class="dialog-title successStatus" dx-scroll-view="{
+              scrollByContent: true,
+              scrollByThumb: true }">
+                <div>
+                  <div class="statusContainer">
+                    <div class="statusRowContainer">
+                      <div class="statusCellContainer label">Doc ID:</div>
+                      <div class="statusCellContainer value">&nbsp;&nbsp;{{ wdDocId }}</div>
+                    </div>
+                    <div class="statusRowContainer">
+                      <div class="statusCellContainer label">Description:</div>
+                      <div class="statusCellContainer value">&nbsp;&nbsp;{{ wdDesc }}</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+      </div>
+      <div class="dialog-header dialog-header-question" ng-if="errorTypeDialog == 'user'">
+          <div class="messageData">
+            <div class="statusMessage errorMessage">{{ wdErr }}</div>
+            <div class="statusMessage">{{ wdQuestion }}</div>
+          </div>
+          
+          <div ng-if="userType == 'version'" style="text-align: center">
+            <div dx-button="openTypeSelected" style="margin-bottom: 5px"  ng-if="changeDialogOption"></div>
+            <div dx-button="openTypeVerList" style="margin-bottom: 5px"  ng-if="changeDialogOption"></div>
+            <div dx-radio-group="wdAttachType" ng-if="!changeDialogOption"></div>
+            <div dx-button="wdAttachSend" style="margin: 5px 0"  ng-if="!changeDialogOption"></div>
+          </div>
+          
+          <div ng-if="userType == 'readOnly'">
+            <div dx-button="errorBtn"></div>
+          </div>
+
+      </div>
+      
+  </div>
+</div>
+
+<wd-dialog visible="errorDailog" rctx="wdErrorRctx" host='WDXHOST' data='wdFileData'></wd-dialog>

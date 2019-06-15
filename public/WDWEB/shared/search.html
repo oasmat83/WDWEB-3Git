@@ -1,0 +1,11 @@
+<div class="ms-SearchBox ms-SearchBox--commandBar tooltip" title="Search Worldox!">  
+    <div>
+        <input class="ms-SearchBox-field wdx-SearchBox" type="text" value="" placeholder="{{ searchPlaceholder }}" ng-model="$parent.wdSearch" ng-focus="showDrop = true" ng-keypress="getActive()" />
+        <label class="ms-SearchBox-label" ng-click="$parent.seardWD()">
+            <i class="ms-SearchBox-icon ms-Icon ms-Icon--Search"></i>
+        </label>
+    </div>
+</div>
+<div class="dropdown ms-slideDownIn20" ng-class="{'dropOnFocus': showDrop == true}">
+    <div dx-radio-group="$parent.searchGroup" ng-class="{ 'active': isActive == true }"></div>
+</div>

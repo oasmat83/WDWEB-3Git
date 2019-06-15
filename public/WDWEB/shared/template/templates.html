@@ -1,0 +1,362 @@
+
+<div ng-init="temp.init()" class="save-tabs">
+    <div dx-toolbar="{ dataSource: temp.uploadToolBar, menuItemTemplate: 'menuItem' }"></div>
+    <div class="icontabs global">
+
+        <div class="ms-CommandButton ms-CommandButton--actionButton ms-CommandButton--noLabel">
+            <button id="allTab" class="ms-CommandButton-button tablinks" title="All Templates" ng-click="temp.wdButtons('all', 'All Templates', 0, 'FindTemplatesTree')" ng-class="{ active: temp.prefillData == 'all' }" title-tempion="right">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--SearchAndApps"></i></span>
+            </button>
+            <div dx-context-menu="temp.contextTabTemplate('allTab', 0, 'all', 'FindTemplatesTree')"></div>
+        </div>
+
+        <div class="ms-CommandButton ms-CommandButton--actionButton ms-CommandButton--noLabel">
+            <button id="userTab" class="ms-CommandButton-button tablinks" title="User Templates"  ng-click="temp.wdButtons('ut', 'User Templates', 2, 'FindTemplatesTreeOnlyMe')" ng-class="{ active: temp.prefillData == 'ut' }" title-tempion="right">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--People"></i></span>
+            </button>
+            <div dx-context-menu="temp.contextTabTemplate('userTab', 2, 'ut', 'FindTemplatesTreeOnlyMe')"></div>
+        </div>
+
+        <div class="ms-CommandButton ms-CommandButton--actionButton ms-CommandButton--noLabel">
+            <button id="globalTab" class="ms-CommandButton-button tablinks" title="Global Templates"  ng-click="temp.wdButtons('st', 'Global Templates', 3, 'FindTemplatesTreePublic')" ng-class="{ active: temp.prefillData == 'st' }" title-tempion="right">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Globe"></i></span>
+            </button>
+            <div dx-context-menu="temp.contextTabTemplate('globalTab', 3, 'st', 'FindTemplatesTreePublic')"></div>
+        </div>
+
+    </div>
+    
+    <div id="phxUpload" style="padding: 20px;" class="tabcontent">
+    <!-- <div id="phxUpload" style="padding: 20px; position: relative;" class="tabcontent"> -->
+        <div class="imageIndicator" dx-load-indicator="{
+            height:40, weight: 40
+        }" ng-if="temp.showTempleLoader"></div>
+        <div class="form" id="phxTemplate"  ng-if="!temp.showTempleLoader">
+            <div class="nav-save">
+                <h1 class="ms-font-xl">{{ temp.templateType }}</h1> <span class="ms-font-m count" ng-if="temp.prefillData == 'ft'">{{ temp.ftCount }}</span>
+                <ul class="nav">
+                    <li>
+                        <div id="contactsList" class="subMenu-wrap is-open">
+                            <div class="ms-SearchBox ms-SearchBox--commandBar is-animated">
+                                    <ng-include src="'./WDWEB/shared/textbox/textbox.html'"></ng-include>
+                                <!-- <input class="ms-SearchBox-field search" type="text" ng-model="temp.autoSearch" ng-change="temp.searchFt()" ng-if="temp.checkFt">
+                                <input id="filterAddSear" class="ms-SearchBox-field search" placeholder="Filter" type="text" name="qContactsNav" ng-change="temp.filterLabelTable()" ng-model="temp.autoFilter">
+                                <label class="ms-SearchBox-label">
+                                    <i class="ms-SearchBox-icon ms-Icon ms-Icon--Filter"></i>
+                                    <span class="ms-SearchBox-text"></span>
+                                </label>
+                                <div class="ms-CommandButton ms-SearchBox-filter ms-CommandButton--noLabel">
+                                    <button class="ms-CommandButton-button reIndex">
+                                        <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Filter"></i></span>
+                                        <span class="ms-CommandButton-label"></span>
+                                    </button>
+                                </div> -->
+                            </div>
+                            <div class="leftOpenPanelLoader" ng-hide="temp.fieldTableSpin">
+                                <div class="menuPreLoader">
+                                    <div dx-load-indicator="{
+                                        height: 40,
+                                        width: 40
+                                    }"></div>
+                                </div>
+                            </div>
+                            <div ng-if="temp.prefillData == 'bl'"> <br/><span>{{ temp.defaultMessage }}</span></div>
+                            <div dx-scroll-view="temp.tempMenu" style="height: calc(100vh - 225px);">
+                                <ul class="subMenu list" ng-if="temp.prefillData == 'all'">
+                                    <li class="subMenuItem tempLink" ng-repeat="data in temp.templates | filter:{name: textValue}" ng-click="temp.getTemplateData(data, true, false)" ng-class="{ activeRow: temp.isActive(data) }">
+                                        <a href="#" id="{{ data.Index }}"><i class="ms-Icon ms-Icon--HeartFill" aria-hidden="true" ng-show="data.default"></i><i class="ms-Icon" ng-class="data.bGO == 0 ? 'ms-Icon--Edit' : 'ms-Icon--DocumentSearch'" aria-hidden="true" ng-show="!data.default || data.default == ''"></i> <span class="displayName">{{ data.name }}</span></a>
+                                        <div dx-context-menu="temp.contextMenuTemplate(data)"></div>
+                                    </li>
+                                </ul>
+                                <ul class="subMenu list" ng-if="temp.prefillData == 'st'">
+                                    <li class="subMenuItem tempLink" ng-repeat="data in temp.templates | filter:{name: textValue}" ng-click="temp.getTemplateData(data, true, false)" ng-class="{ activeRow: temp.isActive(data) }">
+                                        <a href="#" id="{{ data.Index }}"><i class="ms-Icon ms-Icon--HeartFill" aria-hidden="true" ng-show="data.default"></i><i class="ms-Icon" ng-class="data.bGO == 0 ? 'ms-Icon--Edit' : 'ms-Icon--DocumentSearch'" aria-hidden="true" ng-show="!data.default || data.default == ''"></i> <span class="displayName">{{ data.name }}</span></a>
+                                        <div dx-context-menu="temp.contextMenuTemplate(data)"></div>
+                                    </li>
+                                </ul>
+                                <ul class="subMenu list" ng-if="temp.prefillData == 'ut'">
+                                    <li class="subMenuItem tempLink" ng-repeat="data in temp.templates | filter:{name: textValue}" ng-click="temp.getTemplateData(data, true, false)" ng-class="{ activeRow: temp.isActive(data) }">
+                                        <a href="#" id="{{ data.Index }}"><i class="ms-Icon ms-Icon--HeartFill" aria-hidden="true" ng-show="data.default"></i><i class="ms-Icon" ng-class="data.bGO == 0 ? 'ms-Icon--Edit' : 'ms-Icon--DocumentSearch'" aria-hidden="true" ng-show="!data.default || data.default == ''"></i> <span class="displayName">{{ data.name }}</span> </a>
+                                        <div dx-context-menu="temp.contextMenuTemplate(data)"></div>
+                                    </li>
+                                </ul>
+
+                                <ul class="subMenu list" ng-hide="!temp.fieldTableSpin">
+                                    <li>{{temp.noResults}}</li>
+                                    <li class="subMenuItem tempLink" ng-repeat="data in temp.fieldListData | filter:temp.autoFilter" ng-if="temp.prefillData == 'ft'" ng-click="temp.setSelected(data)" ng-dblclick="temp.setField(data)" title-direction="right" title='{{ temp.setFieldTableOrder(data) }}' ng-class="{ activeRow: temp.isActive(data) }">
+                                        <a href="#"><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='temp.setFieldTableOrder(data)'> </span></a>
+                                    </li>
+                                    <li ng-show="temp.fieldListData.length < temp.total && temp.prefillData == 'ft'" class="loadBtn"><div dx-button="temp.loadMore"></div></li>
+                                    <!-- <li ng-hide="temp.fieldTableSpin" class="spin"><div class="fieldSpinner" ></div></li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="saveForm">
+                <h1 class="ms-font-xl">{{ temp.formTitle }}</h1>
+                <form class="advance-search-form" ng-submit="onFormSubmit($event)"  dx-validation-group>
+
+                    <div dx-scroll-view="temp.tempForm" style="height: calc(90vh - 200px);">
+
+                        <div id="summary" dx-validation-summary="{ }"></div>
+
+                        <div class="ms-Spinner fieldSpinner" ng-hide="temp.fieldSpin"></div>
+
+
+                        <div class="dx-field" ng-if="temp.showFields.field2">
+                            <div class="dx-field-label">Description</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field1'}, placeholder: fieldData.name.placeholder}"></div>
+                                <!--<div dx-text-area="{bindingOptions:{value: 'field.field1'}, placeholder: fieldData.name.placeholder}"></div>-->
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+                        <div class="dx-field" ng-if="temp.showFields.field1">
+                            <div class="dx-field-label">Doc ID</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field2'}, placeholder: fieldData.docId.placeholder, width: 150}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+                        <div class="dx-field" ng-if="temp.showFields.field9">
+
+                            <div class="dx-field-label">Created (from)</div>
+                            <div class="dx-field-value showDate">
+                                <div id="9-start" dx-select-box="{bindingOptions:{value: 'field.field9.start', dataSource: 'temp.startDate'}, valueExpr: 'value', displayExpr: 'Title', onValueChanged: temp.changeDate, width: 150}"></div>
+                                
+                            </div>              
+                            <div class="lbl-option-detail" id ="created-from"></div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field9">
+
+                            <div class="dx-field-label">Created (to)</div>
+                            <div  class="dx-field-value showDate">
+                                <div id="9-end" dx-select-box="{bindingOptions:{value: 'field.field9.end', dataSource: 'temp.endDate'}, valueExpr: 'value', displayExpr: 'Title', onValueChanged: temp.changeDate, width: 150}"></div>
+                            </div>
+                            <div class="lbl-option-detail" id ="created-to"></div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field4">
+
+                            <div class="dx-field-label">Modified (from)</div>
+                            <div  class="dx-field-value showDate">
+                                <div id="4-start"
+                                     dx-validator="modifiedFromValidationRules"
+                                     dx-select-box="{bindingOptions:{value: 'field.field4.start', dataSource: 'temp.startDate'}, valueExpr: 'value', displayExpr: 'Title', onValueChanged: temp.changeDate, width: 150}"></div>
+                            </div>
+                            <div  class="lbl-option-detail" id ="modified-from"></div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field4">
+
+                            <div class="dx-field-label">Modified (to)</div>
+                            <div  class="dx-field-value showDate">
+                                <div id="4-end"
+
+                                     dx-validator="modifiedToValidationRules"
+                                     dx-select-box="{bindingOptions:{value: 'field.field4.end', dataSource: 'temp.endDate'}, valueExpr: 'value', displayExpr: 'Title', onValueChanged: temp.changeDate, width: 150}"></div>
+                            </div>
+                            <div class="lbl-option-detail" id ="modified-to"></div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field23">
+
+                            <div class="dx-field-label">Accessed (from)</div>
+                            <div  class="dx-field-value showDate">
+                                <div id="23-start" dx-select-box="{bindingOptions:{value: 'field.field23.start', dataSource: 'temp.startDate'}, valueExpr: 'value', displayExpr: 'Title',  onValueChanged: temp.changeDate, width: 150}"></div>
+                            </div>
+                            <div class="lbl-option-detail" id ="accessed-from"></div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field23">
+
+                            <div class="dx-field-label">Accessed (to)</div>
+                            <div  class="dx-field-value showDate">
+                                <div id="23-end" dx-select-box="{bindingOptions:{value: 'field.field23.end', dataSource: 'temp.endDate'}, valueExpr: 'value', displayExpr: 'Title', onValueChanged: temp.changeDate, width: 150}"></div>
+                            </div>
+                            <div class="lbl-option-detail" id ="accessed-to"></div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field17">
+                            <div class="dx-field-label">Text in File</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field17'}, placeholder: fieldData.text.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+                        <div class="dx-field" ng-if="temp.showFields.field19">
+                            <div class="dx-field-label">Cabinets</div>
+                            <div class="dx-field-value">
+                                <div dx-drop-down-box="temp.getMultiCabinet" id="wdMultiCabinet">
+                                    <div data-options="dxTemplate: { name: 'content' }">
+                                        <div dx-data-grid="temp.getMultiCabinet.multiList"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp; <i ng-if="temp.getQaCabinets != ''" class="ms-Icon ms-Icon--Unknown" aria-hidden="true" title="{{ temp.getCabinetName() }}" title-direction="top"></i></div>
+                        </div>
+
+                        <div class="dx-field" data-options="dxTemplate: { name: 'Field1' }" ng-if="temp.showPgFields.field1 != ''">
+
+                            <div ng-if="temp.typePgFields.field1 == 0" class="dx-field-label" id="wdLabel1"><a href ng-click="temp.getTables(1, fieldData.field1.placeholder)" ng-class="{'selected': temp.selectedField == 1}">{{ fieldData.field1.placeholder }}</a></div>
+                            <div ng-if="temp.typePgFields.field1 == 0" dx-context-menu="temp.selectCabinet(1)" id="wdMenu1"></div>
+                            <div ng-if="temp.typePgFields.field1 == 1" class="dx-field-label" id="wdLabel1">{{ fieldData.field1.placeholder }}</div>
+                            <div class="dx-field-value">
+                                <div ng-if="temp.typePgFields.field1 == 0" id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'field.field10', placeholder: 'fieldData.field1.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field1 == 1" id="fieldDesc1" dx-date-box="temp.dateBoxUl1"></div>
+                            </div>
+                            <div ng-if="temp.typePgFields.field1 == 0" class="wdFieldDesc">&nbsp;</div>
+
+                        </div>
+
+                        <div class="dx-field" data-options="dxTemplate: { name: 'Field2' }" ng-if="temp.showPgFields.field2 != ''">
+                            <div ng-if="temp.typePgFields.field2 == 0" class="dx-field-label"><a href ng-click="temp.getTables(2, fieldData.field2.placeholder)" ng-class="{'selected': temp.selectedField == 2}">{{ fieldData.field2.placeholder }}</a></div>
+                            <div ng-if="temp.typePgFields.field2 == 0" dx-context-menu="temp.selectCabinet(2)" id="wdMenu2"></div>
+                            <div ng-if="temp.typePgFields.field2 == 1" class="dx-field-label" id="wdLabel2">{{ fieldData.field2.placeholder }}</div>
+                            <div class="dx-field-value">
+                                <div ng-if="temp.typePgFields.field2 == 0" id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'field.field11', placeholder: 'fieldData.field2.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field2 == 1" id="fieldDesc2" dx-date-box="temp.dateBoxUl2"></div>
+                            </div>
+                            <div ng-if="temp.typePgFields.field2 == 0" class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" data-options="dxTemplate: { name: 'Field3' }" ng-if="temp.showPgFields.field3 != ''">
+                            <div ng-if="temp.typePgFields.field3 == 0" class="dx-field-label"><a href ng-click="temp.getTables(3, fieldData.field3.placeholder)" ng-class="{'selected': temp.selectedField == 3}">{{ fieldData.field3.placeholder }}</a></div>
+                            <div ng-if="temp.typePgFields.field3 == 0" dx-context-menu="temp.selectCabinet(3)" id="wdMenu3"></div>
+                            <div ng-if="temp.typePgFields.field3 == 1" class="dx-field-label" id="wdLabel3">{{ fieldData.field3.placeholder }}</div>
+                            <div class="dx-field-value">
+                                <div ng-if="temp.typePgFields.field3 == 0" id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'field.field12', placeholder: 'fieldData.field3.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field3 == 1" id="fieldDesc3" dx-date-box="temp.dateBoxUl3"></div>
+                            </div>
+                            <div ng-if="temp.typePgFields.field3 == 0" class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" data-options="dxTemplate: { name: 'Field4' }" ng-if="temp.showPgFields.field4 != ''">
+                            <div ng-if="temp.typePgFields.field4 == 0" class="dx-field-label"><a href ng-click="temp.getTables(4, fieldData.field4.placeholder)" ng-class="{'selected': temp.selectedField == 4}">{{ fieldData.field4.placeholder }}</a></div>
+                            <div ng-if="temp.typePgFields.field4 == 0" dx-context-menu="temp.selectCabinet(4)" id="wdMenu4"></div>
+                            <div ng-if="temp.typePgFields.field4 == 1" class="dx-field-label" id="wdLabel4">{{ fieldData.field4.placeholder }}</div>
+                            <div class="dx-field-value">
+                                <div ng-if="temp.typePgFields.field4 == 0" id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'field.field13', placeholder: 'fieldData.field4.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field4 == 1" id="fieldDesc4" dx-date-box="temp.dateBoxUl4"></div>
+                            </div>
+                            <div ng-if="temp.typePgFields.field4 == 0" class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" data-options="dxTemplate: { name: 'Field5' }" ng-if="temp.showPgFields.field5 != ''">
+                            <div ng-if="temp.typePgFields.field5 == 0" class="dx-field-label"><a href ng-click="temp.getTables(5, fieldData.field5.placeholder)" ng-class="{'selected': temp.selectedField == 5}">{{ fieldData.field5.placeholder }}</a></div>
+                            <div ng-if="temp.typePgFields.field5 == 0" dx-context-menu="temp.selectCabinet(5)" id="wdMenu5"></div>
+                            <div ng-if="temp.typePgFields.field5 == 1" class="dx-field-label" id="wdLabel5">{{ fieldData.field5.placeholder }}</div>
+                            <div class="dx-field-value">
+                                <div ng-if="temp.typePgFields.field5 == 0" id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'field.field14', placeholder: 'fieldData.field5.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field5 == 1" id="fieldDesc5" dx-date-box="temp.dateBoxUl5"></div>
+                            </div>
+                            <div ng-if="temp.typePgFields.field5 == 0" class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" data-options="dxTemplate: { name: 'Field6' }" ng-if="temp.showPgFields.field6 != ''">
+                            <div ng-if="temp.typePgFields.field6 == 0" class="dx-field-label"><a href ng-click="temp.getTables(6, fieldData.field6.placeholder)" ng-class="{'selected': temp.selectedField == 6}">{{ fieldData.field6.placeholder }}</a></div>
+                            <div ng-if="temp.typePgFields.field6 == 0" dx-context-menu="temp.selectCabinet(6)" id="wdMenu6"></div>
+                            <div ng-if="temp.typePgFields.field6 == 1" class="dx-field-label" id="wdLabel6">{{ fieldData.field6.placeholder }}</div>
+                            <div class="dx-field-value">
+                                <div ng-if="temp.typePgFields.field6 == 0" id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'field.field15', placeholder: 'fieldData.field6.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field6 == 1" id="fieldDesc6" dx-date-box="temp.dateBoxUl6"></div>
+                            </div>
+                            <div ng-if="temp.typePgFields.field6 == 0" class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" data-options="dxTemplate: { name: 'Field7' }" ng-if="temp.showPgFields.field7 != ''">
+                            <div ng-if="temp.typePgFields.field7 == 0" class="dx-field-label"><a href ng-click="temp.getTables(7, fieldData.field7.placeholder)" ng-class="{'selected': temp.selectedField == 7}">{{ fieldData.field7.placeholder }}</a></div>
+                            <div ng-if="temp.typePgFields.field7 == 0" dx-context-menu="temp.selectCabinet(7)" id="wdMenu7"></div>
+                            <div ng-if="temp.typePgFields.field7 == 1" class="dx-field-label" id="wdLabel7">{{ fieldData.field7.placeholder }}</div>
+                            <div class="dx-field-value">
+                                <div ng-if="temp.typePgFields.field7 == 0" id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'field.field16', placeholder: 'fieldData.field7.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field7 == 1" id="fieldDesc7" dx-date-box="temp.dateBoxUl7"></div>
+                            </div>
+                            <div ng-if="temp.typePgFields.field7 == 0" class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field8">
+                            <div class="dx-field-label">Tags</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field8'}, placeholder: fieldData.tags.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field">
+                            <div class="dx-field-label">Search What</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.searchWhat'}, placeholder: fieldData.searchWhat.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field37">
+                            <div class="dx-field-label">Email From</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field37'}, placeholder: fieldData.from.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field38">
+                            <div class="dx-field-label">Email To</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field38'}, placeholder: fieldData.to.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field39">
+                            <div class="dx-field-label">Email CC</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field39'}, placeholder: fieldData.cc.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field40">
+                            <div class="dx-field-label">Email BCC</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field40'}, placeholder: fieldData.bcc.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+                        <div class="dx-field" ng-if="temp.showFields.field41">
+                            <div class="dx-field-label">Email Sent (from)</div>
+                            <div class="dx-field-value">
+                                <div id="41-start" dx-select-box="{bindingOptions:{value: 'field.field41.start', dataSource: 'temp.startDate'}, valueExpr: 'value', displayExpr: 'Title', onValueChanged: temp.changeDate, width: 150}"></div>
+                            </div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field41">
+                            <div class="dx-field-label">Email Sent (to)</div>
+                            <div class="dx-field-value">
+                                <div id="41-end" dx-select-box="{bindingOptions:{value: 'field.field41.end', dataSource: 'temp.endDate'}, valueExpr: 'value', displayExpr: 'Title', onValueChanged: temp.changeDate, width: 150}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="temp.showFields.field46">
+                            <div class="dx-field-label">Email Addr</div>
+                            <div class="dx-field-value">
+                                <div dx-text-box="{bindingOptions:{value: 'field.field46'}, placeholder: fieldData.addr.placeholder}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                    </div>
+
+                    <div class="dx-fieldset" style="margin-left: 0">
+                        <button id="button" dx-button="submitButtonOptions"></button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>

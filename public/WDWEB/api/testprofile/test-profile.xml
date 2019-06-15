@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<script language="WDWEB">
+ var szPathReal = escape(wd_File_Path_Value);
+ var szUpload = "";
+</script>
+
+<profile>
+    <session>^&%wd_SID^</session>
+    ^wd_ErrorStatusXML^
+    <wd_File_ProfileGroup_Value>^&wd_File_ProfileGroup_Value^</wd_File_ProfileGroup_Value>
+    <wdPath>^&szPathReal^</wdPath>
+    <fields>
+        <field1>
+            <wd_File_Field_Value>^&wd_File_Field1_Value^</wd_File_Field_Value>
+            <wd_File_Field_Desc>^&wd_FILE_FIELD1DESC_VALUE^</wd_File_Field_Desc>
+            <wd_File_Field_Error>^&wd_FILE_FIELD1_ERROR^</wd_File_Field_Error>
+            <wdField>1</wdField>
+        </field1>
+        <field2>
+            <wd_File_Field_Value>^&wd_File_Field2_Value^</wd_File_Field_Value>
+            <wd_File_Field_Desc>^&wd_FILE_FIELD2DESC_VALUE^</wd_File_Field_Desc>
+            <wd_File_Field_Error>^&wd_FILE_FIELD2_ERROR^</wd_File_Field_Error>
+            <wdField>2</wdField>
+        </field2>
+        <field3>
+            <wd_File_Field_Value>^&wd_File_Field3_Value^</wd_File_Field_Value>
+            <wd_File_Field_Desc>^&wd_FILE_FIELD3DESC_VALUE^</wd_File_Field_Desc>
+            <wd_File_Field_Error>^&wd_FILE_FIELD3_ERROR^</wd_File_Field_Error>
+            <wdField>3</wdField>
+        </field3>
+        <field4>
+            <wd_File_Field_Value>^&wd_File_Field4_Value^</wd_File_Field_Value>
+            <wd_File_Field_Desc>^&wd_FILE_FIELD4DESC_VALUE^</wd_File_Field_Desc>
+            <wd_File_Field_Error>^&wd_FILE_FIELD4_ERROR^</wd_File_Field_Error>
+            <wdField>4</wdField>
+        </field4>
+        <field5>
+            <wd_File_Field_Value>^&wd_File_Field5_Value^</wd_File_Field_Value>
+            <wd_File_Field_Desc>^&wd_FILE_FIELD5DESC_VALUE^</wd_File_Field_Desc>
+            <wd_File_Field_Error>^&wd_FILE_FIELD5_ERROR^</wd_File_Field_Error>
+            <wdField>5</wdField>
+        </field5>
+        <field6>
+            <wd_File_Field_Value>^&wd_File_Field6_Value^</wd_File_Field_Value>
+            <wd_File_Field_Desc>^&wd_FILE_FIELD6DESC_VALUE^</wd_File_Field_Desc>
+            <wd_File_Field_Error>^&wd_FILE_FIELD6_ERROR^</wd_File_Field_Error>
+            <wdField>6</wdField>
+        </field6>
+        <field7>
+            <wd_File_Field_Value>^&wd_File_Field7_Value^</wd_File_Field_Value>
+            <wd_File_Field_Desc>^&wd_FILE_FIELD7DESC_VALUE^</wd_File_Field_Desc>
+            <wd_File_Field_Error>^&wd_FILE_FIELD7_ERROR^</wd_File_Field_Error>
+            <wdField>7</wdField>
+        </field7>
+    </fields>
+</profile>
+	

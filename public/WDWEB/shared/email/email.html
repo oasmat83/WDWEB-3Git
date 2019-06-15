@@ -1,0 +1,69 @@
+<!-- 
+<div>
+    <div dx-toolbar="{ dataSource: emailTitle }" class="emailTitle"></div>
+    <div class="emailTemplate">
+        <form ng-submit="sendToUser()" dx-validation-group>
+            <div file-title-data owner='listOptions[0].OW' status='listOptions[0].I' name='listOptions[0].Description' doc='listOptions[0].DocId' list='listOptions[0].LID' rec='listOptions[0].RN' ln='listOptions[0].LN' field1='listOptions[0].Field1' field2='listOptions[0].Field2' field3='listOptions[0].Field3' field4='listOptions[0].Field4' field5='listOptions[0].Field5' field6='listOptions[0].Field6' field7='listOptions[0].Field7' pop='softPop' pgId='listOptions[0].profileGroupId' comment='listOptions[0].Comments' desc='listOptions[0].Description' selectlist='selectedFiles' class='titleDesc'>
+            </div>
+            <div class="emailContainer" id="emailContainer" dx-scroll-view="scrollEmail" id="emailContainer">
+                <div class="dx-field">
+                    <div class="dx-field-label">To:</div>
+                    <div class="dx-field-value">
+                        <div id="emailTo" dx-tag-box="{bindingOptions:{value: 'emailData.To', items: 'editableEmails'}, placeholder: 'To', acceptCustomValue: true, onCustomItemCreating: onCustomItemCreating, onValueChanged: onValueChanged, onFocusOut: onCustomFocusOut}" dx-validator="checkTo"></div>
+                    </div>
+                </div>
+
+                <div class="dx-field">
+                    <div class="dx-field-label">CC:</div>
+                    <div class="dx-field-value">
+                        <div id="emailCC" dx-tag-box="{bindingOptions:{value: 'emailData.CC', items: 'editableEmails'}, placeholder: 'CC', acceptCustomValue: true, onCustomItemCreating: onCustomItemCreating, onValueChanged: onValueChanged, onFocusOut: onCustomFocusOut}"></div>
+                    </div>
+                </div>
+
+                <div class="dx-field">
+                    <div class="dx-field-label">BCC:</div>
+                    <div class="dx-field-value">
+                        <div id="emailBCC" dx-tag-box="{bindingOptions:{value: 'emailData.bc', items: 'editableEmails'}, placeholder: 'BCC', acceptCustomValue: true, onCustomItemCreating: onCustomItemCreating, onValueChanged: onValueChanged, onFocusOut: onCustomFocusOut }"></div>
+                    </div>
+                </div>
+
+                <div class="dx-field">
+                    <div class="dx-field-label">Subject:</div>
+                    <div class="dx-field-value">
+                        <div dx-text-box="{bindingOptions:{value: 'emailData.Subject'}, placeholder: 'Subject', onKeyDown: keyDownSubj}"></div>
+                    </div>
+                </div>
+
+                <div class="dx-field">
+                    <div class="dx-field-label">Attach:</div>
+                    <div class="dx-field-value">
+                        <div dx-select-box="{bindingOptions:{value: 'emailData.Attach', dataSource: 'attachOption'}, valueExpr: 'value', displayExpr: 'display', onValueChanged: wdGetAttach, width: 150}"></div>
+                    </div>
+                </div>
+
+                <div class="dx-field" ng-if="wdlName">
+                    <div class="dx-field-label">WDL Name:</div>
+                    <div class="dx-field-value">
+                        <div dx-text-box="{bindingOptions:{value: 'emailData.wdlName'}, placeholder: 'WDL Name'}"></div>
+                    </div>
+                </div>
+
+                <div class="dx-field" ng-init="text=Body">
+                    <div class="dx-field-label">Body:</div>
+                    <div class="dx-field-value">
+                        <ng-wig ng-model="text"></ng-wig>
+                    </div>
+                </div>
+
+                
+            </div>
+            <div class="dx-field-value">
+                <div ng-hide="loadPreview" dx-load-indicator="{
+                    height: 20,
+                    width: 20
+                }" style="float:right"></div>
+                <div dx-button="{{emailBtn}}" ng-hide="!loadPreview"></div>
+            </div>
+        </form>
+    </div>
+</div> -->

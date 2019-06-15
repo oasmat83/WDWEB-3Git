@@ -1,0 +1,34 @@
+<div ng-controller="versionCtrl as ver" class="preview-module fileList" style="padding: 10px 10px;">
+    <div file-title-data owner='listOptions[0].OW' status='listOptions[0].I' name='listOptions[0].Description' doc='listOptions[0].DocId' list='listOptions[0].LID' rec='listOptions[0].RN' ln='listOptions[0].LN' field1='listOptions[0].Field1' field2='listOptions[0].Field2' field3='listOptions[0].Field3' field4='listOptions[0].Field4' field5='listOptions[0].Field5' field6='listOptions[0].Field6' field7='listOptions[0].Field7' pop='softPop' pgId='listOptions[0].profileGroupId' comment='listOptions[0].Comments' desc='listOptions[0].Description' selectlist='selectedFiles' class='titleDesc'></div>
+    <div class="wd-panel item-details" ng-init="ver.init()">
+        <div id="fileVersions" class="modernList vers">
+            <div class="overlay" ng-if="!ver.showVersion">
+                <div class="spinContainer">
+                    <div id="medium-indicator" dx-load-indicator="{
+                        height: 40,
+                        width: 40
+                    }"></div>
+                </div>
+            </div>
+            <div dx-list="ver.setVersionList" id="dxVerList" dx-item-alias="version">
+                <div data-options="dxTemplate: {name: 'vers'}">
+                    <div class='verList'>
+                        <div class="verTitle"><b>v{{ version.Version }}</b> | {{ version.Description }}</div> 
+                        <div class="verPreIcon"><i class="ms-Icon ms-Icon--Preview hoverDwn" aria-hidden="true" title="Preview" title-direction="top" ng-click="ver.getPreview(version)"></i></div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="modernFileList modernFileList--files phx-List versionList">
+                <div class="wdItemRow clearfix" ng-repeat="v in ver.versionList">
+                    <div class="itemTitle clearfix">   
+                        <span class="ms-ListItem-primaryText"><a href="#">v<span>{{ v.Version }}</span></a> | 
+                        <span ng-bind-html="ver.getTypeLogo(v.Extension)" class="fileIcon"></span>      
+                        {{ v.Description }}</span>
+                        <i class="ms-Icon ms-Icon--Preview hoverDwn" aria-hidden="true" title="Preview" title-direction="top" ng-click="ver.getPreview(v)"></i>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!-- <div class="loadpanel" dx-load-panel="ver.verLoader"></div> -->
+</div>

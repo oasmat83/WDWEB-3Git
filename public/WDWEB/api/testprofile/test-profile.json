@@ -1,0 +1,88 @@
+<script language="WDWEB">
+
+var szJSON;
+var	szPathReal = escape(wd_File_Path_Value);
+
+var szKeyDataHeader;
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "List_ID","^wd_List_ID^");
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "List_Count","^wd_List_Count^");
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "ErrorCount", "^:wd_Error_Count^");
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+szKeyDataHeader= Elem.JSON(szKeyDataHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+szKeyDataHeader= Elem.JSON("","Header",szKeyDataHeader);
+
+
+var szKeyData1;
+szKeyData1 = Elem.JSON ( szKeyData1, "wd_File_Field_Value", "^wd_File_Field1_Value^" );
+szKeyData1 = Elem.JSON ( szKeyData1, "wd_File_Field_Desc", "^wd_FILE_FIELD1DESC_VALUE^" );
+szKeyData1 = Elem.JSON ( szKeyData1, "wd_File_Field_Error", "^wd_FILE_FIELD1_ERROR^" );
+szKeyData1 = Elem.JSON ( szKeyData1, "wdField", "1" );
+szKeyData1 = Elem.JSON ( "", "Field1", szKeyData1 );
+
+var szKeyData2;
+szKeyData2 = Elem.JSON ( szKeyData2, "wd_File_Field_Value", "^wd_File_Field2_Value^" );
+szKeyData2 = Elem.JSON ( szKeyData2, "wd_File_Field_Desc", "^wd_FILE_FIELD2DESC_VALUE^" );
+szKeyData2 = Elem.JSON ( szKeyData2, "wd_File_Field_Error", "^wd_FILE_FIELD2_ERROR^" );
+szKeyData2 = Elem.JSON ( szKeyData2, "wdField", "2" );
+szKeyData2 = Elem.JSON ( "", "Field2", szKeyData2 );
+
+var szKeyData3;
+
+szKeyData3 = Elem.JSON ( szKeyData3, "wd_File_Field_Value", "^wd_File_Field3_Value^" );
+szKeyData3 = Elem.JSON ( szKeyData3, "wd_File_Field_Desc", "^wd_FILE_FIELD3DESC_VALUE^" );
+szKeyData3 = Elem.JSON ( szKeyData3, "wd_File_Field_Error", "^wd_FILE_FIELD3_ERROR^" );
+szKeyData3 = Elem.JSON ( szKeyData3, "wdField", "3" );
+szKeyData3 = Elem.JSON ( "", "Field3", szKeyData3 );
+
+var szKeyData4;
+szKeyData4 = Elem.JSON ( szKeyData4, "wd_File_Field_Value", "^wd_File_Field4_Value^" );
+szKeyData4 = Elem.JSON ( szKeyData4, "wd_File_Field_Desc", "^wd_FILE_FIELD4DESC_VALUE^" );
+szKeyData4 = Elem.JSON ( szKeyData4, "wd_File_Field_Error", "^wd_FILE_FIELD4_ERROR^" );
+szKeyData4 = Elem.JSON ( szKeyData4, "wdField", "4" );
+szKeyData4 = Elem.JSON ( "", "Field4", szKeyData4 );
+
+var szKeyData5;
+
+szKeyData5 = Elem.JSON ( szKeyData5, "wd_File_Field_Value", "^wd_File_Field5_Value^" );
+szKeyData5 = Elem.JSON ( szKeyData5, "wd_File_Field_Desc", "^wd_FILE_FIELD5DESC_VALUE^" );
+szKeyData5 = Elem.JSON ( szKeyData5, "wd_File_Field_Error", "^wd_FILE_FIELD5_ERROR^" );
+szKeyData5 = Elem.JSON ( szKeyData5, "wdField", "5" );
+szKeyData5 = Elem.JSON ( "", "Field5", szKeyData5 );
+
+var szKeyData6;
+
+szKeyData6 = Elem.JSON ( szKeyData6, "wd_File_Field_Value", "^wd_File_Field6_Value^" );
+szKeyData6 = Elem.JSON ( szKeyData6, "wd_File_Field_Desc", "^wd_FILE_FIELD6DESC_VALUE^" );
+szKeyData6 = Elem.JSON ( szKeyData6, "wd_File_Field_Error", "^wd_FILE_FIELD6_ERROR^" );
+szKeyData6 = Elem.JSON ( szKeyData6, "wdField", "6" );
+szKeyData6 = Elem.JSON ( "", "Field6", szKeyData6 );
+
+var szKeyData7;
+
+szKeyData7 = Elem.JSON ( szKeyData7, "wd_File_Field_Value", "^wd_File_Field7_Value^" );
+szKeyData7 = Elem.JSON ( szKeyData7, "wd_File_Field_Desc", "^wd_FILE_FIELD7DESC_VALUE^" );
+szKeyData7 = Elem.JSON ( szKeyData7, "wd_File_Field_Error", "^wd_FILE_FIELD7_ERROR^" );
+szKeyData7 = Elem.JSON ( szKeyData7, "wdField", "7" );
+szKeyData7 = Elem.JSON ( "", "Field7", szKeyData7 );
+
+var mergeData =  szKeyData1 + "," + szKeyData2 + "," + szKeyData3  + "," + szKeyData4 + "," + szKeyData5 + "," + szKeyData6 + "," + szKeyData7;
+szKeyData1 = Elem.JSON ( "", "Fields", mergeData);
+
+
+var szKeyDataProfile;
+szKeyDataProfile= Elem.JSON ( szKeyData1, "session", "^wd_SID^" );
+szKeyDataProfile= Elem.JSON ( szKeyDataProfile, "wdPath", "^szPathReal^" );
+szKeyDataProfile= Elem.JSON ( szKeyDataProfile, "wd_File_ProfileGroup_Value", "^wd_File_ProfileGroup_Value^" );
+szKeyDataProfile= Elem.JSON ( "", "Profile", szKeyDataProfile);
+szKeyDataProfile= Elem.JSON ("", szKeyDataHeader,szKeyDataProfile);
+szKeyDataProfile= "{" + szKeyDataProfile+"}";
+
+szJSON = szKeyDataProfile;
+
+Write.Text ( szJSON );
+
+
+</script>

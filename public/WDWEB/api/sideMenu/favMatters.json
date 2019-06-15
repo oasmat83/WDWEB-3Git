@@ -1,0 +1,139 @@
+<script language="WDWEB">
+
+ListCreate(BOOKMARKS,,29180);
+
+var szJSON;
+var fdesc = "";
+
+var nIndexBM = 0;
+
+ var szHeader;
+    szHeader= Elem.JSON(szHeader, "List_ID","^wd_List_ID^");
+    szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+    szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+    szHeader= Elem.JSON("","Header",szHeader);
+
+while (true)
+{
+    nIndexBM ++;
+    var _nFlags = strnum(wd_Bookmark_Flags[nIndexBM]);
+    var dwPGID = wd_Bookmark_ProfileGroup_ID[nIndexBM];
+    var _szFlagType;
+
+    if ("" == dwPGID)
+    break;
+
+    var szBME;
+
+    if (4 & nFlags) {
+        szFlagType = "WDAPI_GBL_FLAG_FINDEDIT";
+    }
+    else if (8 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FINDGO";
+    }
+    else if (32 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FAVFILES";
+    }
+    else if (64 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FAVMATTER";
+    }
+    else if (128 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_WORKSPACE";
+    }
+    else if (256 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_PROJECT";
+    }
+    else if (16 & nFlags)
+    {
+        szFlagType = "WDAPI_GBL_FLAG_FOLDER";
+    }
+
+    if (szFlagType == "WDAPI_GBL_FLAG_FAVMATTER") {
+        szBME = Elem.JSON(szBME,"dwPGID",dwPGID );
+        szBME = Elem.JSON(szBME,"flag","favmatter" );
+        szBME = Elem.JSON(szBME,"szPGID",wd_Bookmark_ProfileGroup_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Desc",wd_Bookmark_Description[nIndexBM] );
+        szBME = Elem.JSON(szBME,"Loc",wd_Bookmark_TrueLocation[nIndexBM] );
+
+        szBME = Elem.JSON(szBME,"f1n",wd_Bookmark_Field1_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f1c",wd_Bookmark_Field1_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f1d",wd_Bookmark_Field1Desc_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f2n",wd_Bookmark_Field2_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f2c",wd_Bookmark_Field2_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f2d",wd_Bookmark_Field2Desc_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f3n",wd_Bookmark_Field3_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f3c",wd_Bookmark_Field3_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f3d",wd_Bookmark_Field3Desc_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f4n",wd_Bookmark_Field4_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f4c",wd_Bookmark_Field4_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f4d",wd_Bookmark_Field4Desc_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f5n",wd_Bookmark_Field5_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f5c",wd_Bookmark_Field5_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f5d",wd_Bookmark_Field5Desc_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f6n",wd_Bookmark_Field6_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f6c",wd_Bookmark_Field6_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f6d",wd_Bookmark_Field6Desc_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f7n",wd_Bookmark_Field7_Name[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f7c",wd_Bookmark_Field7_Value[nIndexBM] );
+        szBME = Elem.JSON(szBME,"f7d",wd_Bookmark_Field7Desc_Value[nIndexBM] );
+
+        if (wd_Bookmark_Field1_Value[nIndexBM] != "") {
+            fdesc += + " " + wd_Bookmark_Field1_Value[nIndexBM] + " " + wd_Bookmark_Field1Desc_Value[nIndexBM];
+        };
+
+        if (wd_Bookmark_Field2_Value[nIndexBM] != "") {
+            fdesc += + " " + wd_Bookmark_Field2_Value[nIndexBM] + " " + wd_Bookmark_Field2Desc_Value[nIndexBM];
+        };
+
+        if (wd_Bookmark_Field3_Value[nIndexBM] != "") {
+            fdesc += + " " + wd_Bookmark_Field3_Value[nIndexBM] + " " + wd_Bookmark_Field3Desc_Value[nIndexBM];
+        };
+
+        if (wd_Bookmark_Field4_Value[nIndexBM] != "") {
+            fdesc += + " " + wd_Bookmark_Field4_Value[nIndexBM] + " " + wd_Bookmark_Field4Desc_Value[nIndexBM];
+        };
+
+        if (wd_Bookmark_Field5_Value[nIndexBM] != "") {
+            fdesc += + " " + wd_Bookmark_Field5_Value[nIndexBM] + " " + wd_Bookmark_Field5Desc_Value[nIndexBM];
+        };
+
+        if (wd_Bookmark_Field6_Value[nIndexBM] != "") {
+            fdesc += + " " + wd_Bookmark_Field6_Value[nIndexBM] + " " + wd_Bookmark_Field6Desc_Value[nIndexBM];
+        };
+
+        if (wd_Bookmark_Field7_Value[nIndexBM] != "") {
+            fdesc += + " " + wd_Bookmark_Field7_Value[nIndexBM] + " " + wd_Bookmark_Field7Desc_Value[nIndexBM];
+        };
+
+        szBME = Elem.JSON(szBME,"fdesc", fdesc);
+
+        fdesc = "";
+        
+
+        szBME = "{" + szBME + "}";
+
+        if (szJSON > "")
+        szJSON += ",";
+
+        szJSON += szBME;
+    }
+
+
+}
+szJSON = Elem.JSON("","FavMatters",szJSON);
+szJSON = Elem.JSON("",szHeader, szJSON);
+szJSON = Wrap.JSON("root",szJSON);
+
+document.write(szJSON);
+
+</script>

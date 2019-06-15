@@ -1,0 +1,79 @@
+<!-- fileMenu.html -->
+<div class="" ng-controller="fileMenuCtrl" ng-init="initMenu()">
+    <!-- <div class="closeIcon"> -->
+        <!-- Vihang [20181221]: START => Code to convert file menu panel from sliding panel to resizable panel 
+         <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a> 
+        Vihang [20181221]: END => Code to convert file menu panel from sliding panel to resizable panel -->
+        <!-- <a ng-click="toggle(null, false)"><i class="ms-Icon ms-Icon--Cancel"></i></a> -->
+    <!-- </div> -->
+    
+    <!-- <div dx-tab-panel="tabPanelItems" id="tabPanelItems" ng-controller="panelTitleController"
+         ng-init="initPanelTitle()">
+        <div data-options="dxTemplate : { name: 'file' } "> -->
+
+            <!--onclick delete button on right sidebar -->
+            <!-- <div class="popup"  dx-popup="popupOptionsRightSidebar">
+                <div data-options="dxTemplate: { name:'deleteRightSidebar' }">
+                    <div id="delete-header">
+                        <div id="delete-icon">
+                            <i class="ms-Icon ms-Icon--Delete" aria-hidden="true"></i>
+                        </div>
+                        <div id="delete-title" dx-scroll-view="{
+                scrollByContent: true,
+                scrollByThumb: true            }">
+
+                            <div id="delete-title-content">
+                                <p>
+                                    Doc ID:
+                                    <span>{{currentDeleteFilesRightSidebar.DocId}}</span>
+                                </p>
+                                <p>
+                                    Description:
+                                    <span> {{currentDeleteFilesRightSidebar.Description}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="delete-body">
+                        <div id="delete-body-left">
+                            Select method:
+
+                        </div>
+                        <div id="delete-body-right">
+                            <div class="radio">
+                                <label><i class="ms-Icon ms-Icon--RecycleBin" aria-hidden="true"></i>
+                                    <input type="radio" name="optradio" checked>Move to Salvage Bin</label>
+                            </div>
+                            <div class="radio">
+                                <label><i class="ms-Icon ms-Icon--LogRemove" aria-hidden="true"></i>
+                                    <input type="radio" name="optradio">Delete</label>
+                            </div>
+                            <div class="radio disabled">
+                                <label><i class="ms-Icon ms-Icon--Clear" aria-hidden="true"></i>
+                                    <input type="radio" name="optradio" >Shred (unrecoverable)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="delete-footer">
+                        <p>
+                            <span>Note: Salvage Bin allows for undeleting, if necessary, until permanently deleted by Salvage Bin Purge.</span>
+                        </p>
+                        <br>
+                        <div dx-button="applyDeleteButtonOptions"></div>
+                        <div dx-button="cancelDeleteButtonOptions"></div>
+                    </div>
+
+                </div>
+            </div> -->
+
+            <div>
+                <wdx-preview></wdx-preview>
+            </div>
+
+        <!-- </div>
+    </div> -->
+</div>
+
+

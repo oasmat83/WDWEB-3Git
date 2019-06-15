@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<checkOut>
+    <checkStatus>Successful</checkStatus>
+    <session>^&%wd_SID^</session>
+    ^wd_ErrorStatusXML^
+</checkOut>

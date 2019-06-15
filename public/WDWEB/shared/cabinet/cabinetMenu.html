@@ -1,0 +1,37 @@
+<script type="text/ng-template" id="nodes_renderer2.html">
+    <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'setSeleted': cab.setFmSelect == node}">
+        <div class="itemCabinet">
+            <a ng-if="node.nodes && node.nodes.length > 0" ng-hide=" vm.hideDownIcon " data-nodrag  ng-click="cab.getChild(node, this)" id="{{ cab.setNodeId(node) }}">
+                <!-- <i class="glyphicon" ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }" ></i> -->
+                <i class="ms-Icon"  ng-class="{ 'ms-Icon--CaretSolidRight': collapsed, 'ms-Icon--CaretSolidDown': !collapsed }" aria-hidden="true" id="{{cab.setIcoId(node)}}"></i>
+            </a>
+            <span class="cabinetTitle" ng-mousedown="cab.showFiles(node, collapsed, this)">{{node.sfn}} <span ng-if="node.name !== undefined">({{ node.name }})</span></span>
+        </div>
+        <!-- <a ng-if="node.sublength" class="tooltiptext tooltip-right" ng-mousedown="cab.showFiles(node, collapsed, this)">Select</a>
+        <a ng-if="!node.sublength" class="tooltiptext tooltip-right" ng-mousedown="cab.showFilesNew(node, collapsed, this)">Select</a> -->
+        <a class="tooltiptext tooltip-right" ng-mousedown="cab.showFiles(node, collapsed, this)">{{ btnText }}</a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{'hidden': collapsed}" class="nodeChild">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer2.html'" ng-if="!node.dummy"></li>
+    </ol>
+</script>
+<div class="cabinetHeader">
+    <h1 class="ms-font-xl">Cabinet: {{ cab.cabinetTitle }}</h1>
+    <div class="closeIcon">
+        <a ng-click="cab.closeCabinet()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+    </div>
+</div>
+<div class="cabinetSpinner" ng-hide="cab.spinner"></div>
+<div class="filterContainer" ng-show="cab.spinner">
+    <ng-include src="'./WDWEB/shared/textbox/textbox.html'"></ng-include>
+</div>
+<!-- <div class="filterContainer" ng-show="cab.spinner"><input type="text" ng-model="cab.filterCab.$" placeholder="Filter"/></div> -->
+<div class="cabinetMessage" ng-show="cab.message != ''">
+    <div class="noData">{{ cab.message }}</div>
+</div>
+<div ui-tree data-nodrop-enabled="true" data-drag-enabled="false" class="treeholder" ng-show="cab.spinner" dx-scroll-view="scrollCab" id="scrollCab">
+    <ol ui-tree-nodes="" ng-model="cab.cabinet" id="tree-root" ng-class="{'hidden': collapsed}">
+            <li ng-repeat="node in cab.cabinet | filter: textValue" ui-tree-node ng-include="'nodes_renderer2.html'"></li>
+        <!-- <li ng-repeat="node in cab.cabinet | filter: cab.filterCab" ui-tree-node ng-include="'nodes_renderer2.html'"></li> -->
+    </ol>
+</div>

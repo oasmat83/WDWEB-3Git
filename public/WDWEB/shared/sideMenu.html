@@ -1,0 +1,161 @@
+<div class="ctrls-block ctrl-nav-left">
+    <div class="btn-Nav-open ms-CommandButton" ng-click="menuOpen()">
+        <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--GlobalNavButton"></i></span>
+            <span class="ms-CommandButton-label"></span>
+        </button>
+    </div>
+
+</div>
+
+<div class="left-nav-vert">
+    <ul class="nav">
+
+        <li>
+            <div class="navBtn getSubMenu tooltip" data-tooltipster='{"side":"right"}' ng-click="toggleMenu('cabinet')" ng-class="{ 'is-open': phxCabinet == true }" title="Cabinets">
+                <a href="#"><i class="ms-Icon ms-Icon--Package" aria-hidden="true"></i><span class="nav-item-title">Cabinets</span></a>
+            </div>
+    
+            <div class="subMenu-wrap" ng-class="{ 'is-open': phxCabinet == true }">
+                <ul class="subMenu">
+
+                    <li class="subMenuItem">
+
+                        <div class="ms-SearchBox ms-SearchBox--commandBar">
+                        <input class="ms-SearchBox-field" type="text" value="" ng-model="filterCabinets">
+                        <label class="ms-SearchBox-label">
+                            <i class="ms-SearchBox-icon ms-Icon ms-Icon--Filter"></i>
+                            <span class="ms-SearchBox-text">Filter</span>
+                        </label>
+                        <div class="ms-CommandButton ms-SearchBox-clear ms-CommandButton--noLabel reIndex">
+                            <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Clear"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                            </button>
+                        </div>
+                        <div class="ms-CommandButton ms-SearchBox-exit ms-CommandButton--noLabel reIndex">
+                            <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--ChromeBack"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                            </button>
+                        </div>
+                        <div class="ms-CommandButton ms-SearchBox-filter ms-CommandButton--noLabel reIndex">
+                            <button class="ms-CommandButton-button reIndex">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Filter"></i></span>
+                                <span class="ms-CommandButton-label"></span>
+                            </button>
+                        </div>
+                        </div>
+
+                    </li>
+
+                    <li class="subMenuItem" ng-repeat="cabinet in cabinets | filter:{ Desc: ((filterCabinets === null)?undefined: filterCabinets) }"><a href="#"><i class='ms-Icon ms-Icon--Package' aria-hidden='true'></i> {{ cabinet.Desc }}</a></li>
+                    
+                </ul>
+            </div>
+        </li>
+        
+        <li>
+            <div class="navBtn getSubMenu tooltip" data-tooltipster='{"side":"right"}' ng-click="toggleMenu('contacts')" ng-class="{ 'is-open': phxContact == true }" title="{{ contacts.menuTitle }}">
+                <a href="{{ contacts.link }}"><i class="ms-Icon ms-Icon--{{ contacts.icon }}" aria-hidden="true"></i><span class="nav-item-title">{{ contacts.menuTitle }}</span></a>
+            </div>
+
+            <div id="contacts" class="subMenu-wrap" ng-class="{ 'is-open': phxContact == true }">
+                <div class="ms-SearchBox ms-SearchBox--commandBar">
+                    <input class="ms-SearchBox-field search" type="text" name="q" id="q" value="" ng-model="filterContacts">
+                    <label class="ms-SearchBox-label">
+                        <i class="ms-SearchBox-icon ms-Icon ms-Icon--Filter"></i>
+                        <span class="ms-SearchBox-text">...</span>
+                    </label>
+                    <div class="ms-CommandButton ms-SearchBox-clear ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Clear"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                    <div class="ms-CommandButton ms-SearchBox-exit ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--ChromeBack"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                    <div class="ms-CommandButton ms-SearchBox-filter ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Filter"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <ul class="subMenu list">
+
+                    <li class="subMenuItem" ng-repeat="contact in contacts.value | filter:{ displayName: filterContacts }"><a href="{{ contact.link }}"><i class='ms-Icon ms-Icon--{{ contact.icon }}' aria-hidden='true'></i> <span class="displayName">{{ contact.displayName }}</span></a></li>
+
+                </ul> 
+            </div>
+        </li>
+
+        <li>
+            <div class="navBtn getSubMenu tooltip" data-tooltipster='{"side":"right"}' ng-click="toggleMenu('clients')" ng-class="{ 'is-open': phxClients == true }" title="{{ clients.menuTitle }}">
+                <a href="{{ clients.link }}"><i class="ms-Icon ms-Icon--{{ clients.icon }}" aria-hidden="true"></i><span class="nav-item-title">{{ clients.menuTitle }}</span></a>
+            </div>
+
+            <div id="clients" class="subMenu-wrap" ng-class="{ 'is-open': phxClients == true }">
+                <div class="ms-SearchBox ms-SearchBox--commandBar">
+                    <input class="ms-SearchBox-field search" type="text" name="q" id="q" value="" ng-model="filterClients">
+                    <label class="ms-SearchBox-label">
+                        <i class="ms-SearchBox-icon ms-Icon ms-Icon--Filter"></i>
+                        <span class="ms-SearchBox-text">Filter</span>
+                    </label>
+                    <div class="ms-CommandButton ms-SearchBox-clear ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Clear"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                    <div class="ms-CommandButton ms-SearchBox-exit ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--ChromeBack"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                    <div class="ms-CommandButton ms-SearchBox-filter ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Filter"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <ul class="subMenu list">
+
+                    <li class="subMenuItem" ng-repeat="client in clients.value | filter:{ clientDesc: filterClients }"><a><i class='ms-Icon ms-Icon--{{ client.icon }}' aria-hidden='true'></i> <span class="displayName">{{ client.clientNum }} - {{ client.clientDesc }}</span></a></li>
+
+                </ul>
+            </div>
+        </li>
+
+        <li>
+            <div class="navBtn getSubMenu tooltip" data-tooltipster='{"side":"right"}' data-content="{{ myData.sync.menuTitle }}" title="{{ myData.sync.menuTitle }}" ng-click="toggleMenu('sync')" ng-class="{ 'is-open': phxSync == true }">
+                <a href="#"><i class="ms-Icon ms-Icon--{{ myData.sync.icon }}" aria-hidden="true"></i><span class="nav-item-title">{{ myData.sync.menuTitle }}</span></a>
+            </div>
+                
+            <div id="sync" class="subMenu-wrap" ng-class="{ 'is-open': phxSync == true }"> 
+                <ul class="subMenu list">
+                    <li ng-repeat="sync in myData.sync.value" class="subMenuItem"><a><i class='ms-Icon ms-Icon--{{ sync.icon }}' aria-hidden='true'></i> <span class="displayName">{{ sync.displayName }}</span></a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li>
+            <div id="dockHandle" class="navBtn getSubMenu tooltip" data-tooltipster='{"side":"right"}' data-content="Dock" title="Dock" ng-click="toggleMenu('dock')" ng-class="{ 'is-open': phxDock == true }">
+                <a href="#"><i class="ms-Icon ms-Icon--Subscribe" aria-hidden="true"></i><span class="nav-item-title">Dock</span></a>
+            </div>
+                
+            <div id="dock" class="subMenu-wrap docker" ng-class="{ 'is-open': phxDock == true }"> 
+                <ul class="subMenu list list-group">
+                    <li ng-repeat="dock in dockList" class="subMenuItem list-group-item"><a href="#"><i class='ms-Icon ms-Icon--{{ dock.icon }}' aria-hidden='true'></i> <span class="displayName">{{ dock.desc }}</span></a></li>
+                </ul>
+            </div>
+        </li>
+
+    </ul>
+</div>

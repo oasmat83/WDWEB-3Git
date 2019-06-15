@@ -1,0 +1,8 @@
+{
+ <script language="WDWEB">
+document.write("\"session\": \"^:%wd_SID^\",");
+document.write("\"ErrorCount\": \"^:wd_Error_Count^\",");
+document.write("\"wd_Error_MSG\": \"^:wd_Error_MSG^\" ");
+</script>
+
+}

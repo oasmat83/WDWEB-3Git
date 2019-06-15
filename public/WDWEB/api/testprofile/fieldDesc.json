@@ -1,0 +1,50 @@
+<script language="WDWEB">
+
+	var	dwRecNum = 0;
+	var	szFieldOut1 = "";
+	var	szFieldOut2 = "";
+	var	szFieldOut3 = "";
+	var	szFieldOut4 = "";
+	var	szFieldOut5 = "";
+	var	szFieldOut6 = "";
+	var	szFieldOut7 = "";
+	dwRecNum = WDAPI_GetTableField ( dwPGID, 1, dwParentRecNum, szFieldCode1, 22, szFieldOut1 );
+	dwRecNum = WDAPI_GetTableField ( dwPGID, 2, dwRecNum, szFieldCode2, 22, szFieldOut2 );
+	if (dwRecNum == 0) {
+		dwRecNum = WDAPI_GetTableField ( dwPGID, 2, 0, szFieldCode2, 22, szFieldOut2 );
+	}
+	dwRecNum = WDAPI_GetTableField ( dwPGID, 3, dwRecNum, szFieldCode3, 22, szFieldOut3 );
+	if (dwRecNum == 0) {
+		dwRecNum = WDAPI_GetTableField ( dwPGID, 3, 0, szFieldCode3, 22, szFieldOut3 );
+	}
+	dwRecNum = WDAPI_GetTableField ( dwPGID, 4, dwRecNum, szFieldCode4, 22, szFieldOut4 );
+	if (dwRecNum == 0) {
+		dwRecNum = WDAPI_GetTableField ( dwPGID, 4, 0, szFieldCode4, 22, szFieldOut4 );
+	}
+	dwRecNum = WDAPI_GetTableField ( dwPGID, 5, dwRecNum, szFieldCode5, 22, szFieldOut5 );
+	if (dwRecNum == 0) {
+		dwRecNum = WDAPI_GetTableField ( dwPGID, 5, 0, szFieldCode5, 22, szFieldOut5 );
+	}
+	dwRecNum = WDAPI_GetTableField ( dwPGID, 6, dwRecNum, szFieldCode6, 22, szFieldOut6 );
+	if (dwRecNum == 0) {
+		dwRecNum = WDAPI_GetTableField ( dwPGID, 6, 0, szFieldCode6, 22, szFieldOut6 );
+	}
+	dwRecNum = WDAPI_GetTableField ( dwPGID, 7, dwRecNum, szFieldCode7, 22, szFieldOut7 );
+	if (dwRecNum == 0) {
+		dwRecNum = WDAPI_GetTableField ( dwPGID, 7, 0, szFieldCode7, 22, szFieldOut7 );
+	}
+
+</script>
+
+
+{
+    "Desc": {
+        "Field1": "^szFieldOut1^",
+        "Field2": "^szFieldOut2^",
+        "Field3": "^szFieldOut3^",
+        "Field4": "^szFieldOut4^",
+        "Field5": "^szFieldOut5^",
+        "Field6": "^szFieldOut6^",
+        "Field7": "^szFieldOut7^"
+    }
+}

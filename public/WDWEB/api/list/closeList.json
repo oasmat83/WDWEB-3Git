@@ -1,0 +1,15 @@
+<script language="WDWEB">
+
+    var szHeader;
+    var szJSON;
+    szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+
+    szJSON = Wrap.JSON("root",szHeader);
+    document.write(szJSON);
+
+</script>

@@ -1,0 +1,50 @@
+^wd_Inc_Script_CR^
+
+{
+	"category": {
+        "session": "^:%wd_SID^",
+        <script language="WDWEB">
+            var _Offset;
+            var nIdx = Offset;
+            document.write("\"LN\": \"" + wd_FILE_LIBRARY_NAME[nIdx] + "\"," +szCR);
+            document.write("\"XN\": \"" + wd_File_Xname_Value[nIdx] + "\"," +szCR);
+            document.write("\"FN\": \"" + wd_File_Filename_Value[nIdx] + "\"," +szCR);
+            document.write("\"CO\": \"" + wd_File_Comments_Value[nIdx] + "\"," +szCR);
+            document.write("\"Ver\": \"" + wd_File_Version_Value[nIdx] + "\"," +szCR);
+            document.write("\"OW\": \"" + wd_File_Ownership_Value[nIdx] + "\"," +szCR);
+            document.write("\"F1\": \"" + wd_File_Field1_Value[nIdx] + "\"," +szCR);
+            document.write("\"F1D\": \"" + wd_File_Field1Desc_Value[nIdx] + "\"," +szCR);
+            document.write("\"F2\": \"" + wd_File_Field2_Value[nIdx] + "\"," +szCR);
+            document.write("\"F2D\": \"" + wd_File_Field2Desc_Value[nIdx] + "\"," +szCR);
+            document.write("\"F3\": \"" + wd_File_Field3_Value[nIdx] + "\"," +szCR);
+            document.write("\"F3D\": \"" + wd_File_Field3Desc_Value[nIdx] + "\"," +szCR);
+            document.write("\"F4\": \"" + wd_File_Field4_Value[nIdx] + "\"," +szCR);
+            document.write("\"F4D\": \"" + wd_File_Field4Desc_Value[nIdx] + "\"," +szCR);
+            document.write("\"F5\": \"" + wd_File_Field5_Value[nIdx] + "\"," +szCR);
+            document.write("\"F5D\": \"" + wd_File_Field5Desc_Value[nIdx] + "\"," +szCR);
+            document.write("\"F6\": \"" + wd_File_Field6_Value[nIdx] + "\"," +szCR);
+            document.write("\"F6D\": \"" + wd_File_Field6Desc_Value[nIdx] + "\"," +szCR);
+            document.write("\"F7\": \"" + wd_File_Field7_Value[nIdx] + "\"," +szCR);
+            document.write("\"F7D\": \"" + wd_File_Field7Desc_Value[nIdx] + "\"," +szCR);
+            document.write("\"PG\": \"" + wd_File_ProfileGroup_ID[nIdx] + "\"," +szCR);
+            document.write("\"SZ\": \"" + wd_File_Size_Value[nIdx] + "\"," +szCR);
+            document.write("\"ST\": \"" + wd_File_StatusIconID_Value[nIdx] + "\"," +szCR);
+            document.write("\"AD\": \"" + wd_FILE_ACCESSDATE_TTIME[nIdx] + "\"," +szCR);
+            document.write("\"CD\": \"" + wd_FILE_CREATED_TTIME[nIdx] + "\"," +szCR);
+            document.write("\"UD\": \"" + wd_FILE_UPDATED_TTIME[nIdx] + "\"," +szCR);
+            document.write("\"PM\": \"" + wd_FILE_PathMap_Value[nIdx] + "\"," +szCR);
+            document.write("\"DN\": \"" + wd_FILE_DownloadName_Value[nIdx] + "\"," +szCR);
+        </script>
+
+		
+"errorStatus": {
+    "ErrorCount": "^:wd_Error_Count^",
+    "wd_Error_RCID": "^:wd_Error_RCID^",
+    "wd_Error_RCTX": "^:wd_Error_RCTX^",
+    "wd_Error_MSG": "^:wd_Error_MSG^",
+    "wd_Error_VAR": "^:wd_Error_VAR^",
+    "wd_Error_VAL": "^:wd_Error_VAL^"
+}
+
+	}
+}

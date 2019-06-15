@@ -1,0 +1,36 @@
+<script language="WDWEB">
+var          szCR = UnConvert ("&#13;&#10;", &);
+
+var szHeader;
+szHeader= Elem.JSON(szHeader, "List_ID","^wd_List_ID^");
+szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+szHeader= Elem.JSON("","Header",szHeader);
+
+var  szJSON;
+szJSON = Elem.JSON(szJSON, "Line#", "%L#%");
+szJSON = Elem.JSON(szJSON, "Rec#", "%R#%");
+szJSON = Elem.JSON(szJSON, "Level", "%Level%");
+szJSON = Elem.JSON(szJSON, "Flags", "%Flags%");
+szJSON = Elem.JSON(szJSON, "Text", "%TEXT%");
+szJSON = Elem.JSON(szJSON, "Draw", "%DRAW%");
+szJSON = Elem.JSON(szJSON, "LID", wd_List_ID);
+szJSON = Wrap.JSON(szJSON, "");
+
+var lpcszPageOut;
+var dwIndexFr = 0;
+var dwLinesMax = 1000;
+var dwLinesOut = 1;
+
+var szRC = wdapi_GetXML(dwIndexFr,dwLinesMax,dwLinesOut,szJSON,szJSON);
+
+szJSON = Elem.JSON("","items",szJSON);
+szJSON = Elem.JSON("",szHeader, szJSON);
+szJSON = Wrap.JSON("root",szJSON);
+document.write(szJSON);
+</script>

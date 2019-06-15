@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<script language="WDWEB">
+    var szUpload_ASP = CreatePage ( "upload-file.asp", "upload-file.asp" );
+	var	wd_User_Email_Addr = WDAPI_GetUserInfo ( wd_User_Code_Value, "EMAILADDR" );
+	var	uAddrs = Split(wd_User_Email_Addr,";",aszAddrs);
+	var userEmail = aszAddrs[0];
+    document.write("<root>");
+    document.write("<session> ^&%wd_SID^ </session> <servername>" +  wd_Server_Name_Value + "</servername>");
+    document.write("<email>" + userEmail + "</email> <user>" + wd_User_Name_Value + "</user> <ErrorCount> ^&wd_Error_Count^ </ErrorCount>");
+    document.write("</root>")
+</script>

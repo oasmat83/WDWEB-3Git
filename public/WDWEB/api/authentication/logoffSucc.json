@@ -1,0 +1,7 @@
+{
+	"loggedOff": "successfully",
+	<script language="WDWEB">
+		document.write("\"session\": \"^:%wd_SID^\",");
+		document.write("\"ErrorCount\": \"^:wd_Error_Count^\" ");
+	</script>
+}

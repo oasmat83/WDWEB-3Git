@@ -1,0 +1,56 @@
+<script language="WDWEB">
+
+    var	szCR = UnConvert ("&#13;&#10;", &);
+    var	nNowPGID = ProfileGroup (0, NEXT);
+    var	szFields = "";
+    var	szPG = "";
+    var szBME;
+    var szJSON;
+    var szPGLst;
+    var counter=0;
+    var szBasePath;
+    
+    var szHeader;
+    szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+    szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+    szHeader= Elem.JSON("","Header",szHeader);
+
+    while (nNowPGID > 0) {
+	counter += 1;
+        szPG = ProfileGroup (nNowPGID, NAME);
+        szFields = ProfileGroup (nNowPGID, FINDFIELDS, |);
+		
+		szBasePath = ProfileGroup (nNowPGID, BASEPATH);
+		
+        if ("" != szFields) {
+            szBME = Elem.JSON("","Desc",szPG );
+            szBME = Elem.JSON(szBME,"Loc",nNowPGID);
+			szBME = Elem.JSON(szBME,"basepath",szBasePath);
+            szBME = Elem.JSON(szBME,"flag","search");
+            szBME = Elem.JSON(szBME,"parentId",0);
+            szBME = Elem.JSON(szBME,"id", counter);
+            szBME = "{" + szBME + "}";
+        
+        if (szJSON > "")
+            szJSON += ",";
+            szJSON += szBME;
+        }
+
+        if(StrComp(szPGLst,szPG,0)) {
+            break;
+        } else {
+            szPGLst = szPG;
+        }
+        nNowPGID = ProfileGroup (nNowPGID, NEXT);
+
+    }
+    szJSON = Elem.JSON("","Cabinets",szJSON);
+    szJSON = Elem.JSON("",szHeader, szJSON);
+    szJSON = Wrap.JSON("root",szJSON);
+    document.write(szJSON);
+</script>

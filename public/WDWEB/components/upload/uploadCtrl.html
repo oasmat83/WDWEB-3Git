@@ -1,0 +1,374 @@
+<div ng-init="init()" class="save-tabs" id="saveTabFrowser">
+    <div class="icontabs">
+
+        <div ng-show="saveType == '2'" class="ms-CommandButton ms-CommandButton--actionButton ms-CommandButton--noLabel">
+            <button class="ms-CommandButton-button tablinks" id="defaultOpen" title="QuickProfiles" ng-click="prefillData='qp'; uploadTitle = 'QuickProfile'; selectedField = 0; setAnchor('qp');" ng-class="{ active: prefillData == 'qp' }" title-direction="right">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--ContactCard"></i></span>
+            </button>
+        </div>
+        <div ng-show="saveType == '2'" class="ms-CommandButton ms-CommandButton--actionButton ms-CommandButton--noLabel">
+            <button class="ms-CommandButton-button tablinks" title="Favorite Matters"  ng-click="prefillData='fm'; uploadTitle = 'Favorite Matters'; selectedField = 0; setAnchor('fm')" ng-class="{ active: prefillData == 'fm' }" title-direction="right">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Heart"></i></span>
+            </button>
+        </div>
+
+    </div>
+    <div id="phxUpload" style="padding: 20px;" ng-if="saveType  == '2'" class="tabcontent">
+        <div class="imageIndicator" dx-load-indicator="{
+            height:40, weight: 40
+        }" ng-if="showUploadLoader"></div>
+        <div class="form">
+            <div class="nav-save" id="naveSaveUpload" style="width: 500px">
+                <h1 class="ms-font-xl">{{ uploadTitle }}</h1> <span class="ms-font-m count" ng-if="prefillData == 'ft'">{{ ftCount }}</span>
+                <ul class="nav">
+                    <li>
+                        <div id="contactsList" class="subMenu-wrap is-open softPopup">
+                            <div class="ms-SearchBox ms-SearchBox--commandBar is-animated">
+                                <ng-include src="'./WDWEB/shared/textbox/textbox.html'"></ng-include>
+                            </div>
+                            <div class="leftOpenPanelLoader" ng-hide="fieldTableSpin">
+                                <div class="menuPreLoader">
+                                    <div dx-load-indicator="{
+                                        height: 40,
+                                        width: 40
+                                    }"></div>
+                                </div>
+                            </div>
+                            <div class="dataList" dx-scroll-view="scrollLeftNav" id="leftSaveAs">
+                                <ul class="subMenu list" ng-if="prefillData == 'qp'">
+                                    <li class="subMenuItem" ng-repeat="data in quickProfile | filter:{Desc: textValue}" ng-click="setSelected(data)" ng-dblclick="getUploadData(data, true)" ng-class="{ activeRow: isActive(data) }" style="height: auto">
+                                        <a href=""><i class="ms-Icon ms-Icon--ContactCard" aria-hidden="true"></i> <span class="displayName" ng-bind-html="setFavMatter(data, false)"></span></a>
+                                    </li>
+                                </ul>
+                                <ul class="subMenu list" ng-if="prefillData == 'fm'">
+                                    <li class="subMenuItem" ng-repeat="data in favMatters | filter: textValue" ng-click="setSelected(data)" ng-dblclick="getUploadData(data, false)" ng-class="{ activeRow: isActive(data) }" style="height: auto">
+                                        <a href=""><i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i> <span class="displayName" ng-bind-html="setFavMatter(data, true)"></span></a>
+                                    </li>
+                                </ul>
+                                <ul class="subMenu list">
+                                    <li>{{noResults}}</li>
+                                    <li class="subMenuItem" ng-repeat="data in fieldListData | filter:autoFilter" ng-if="prefillData == 'ft'" ng-click="setSelected(data)" ng-dblclick="setField(data)" ng-class="{ activeRow: isActive(data) }">
+                                        <a href=""><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='data["f" + fieldNum + "n"] + " - " + data["f" + fieldNum + "d"]'> </span></a>
+                                    </li>
+                                    <li ng-show="fieldListData.length < listCount && prefillData == 'ft'" class="loadBtn"><div dx-button="loadMore"></div></li>
+                                    <li ng-hide="fieldTableSpin" class="spin"><div class="fieldSpinner" ></div></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="saveForm" style="overflow: hidden;"id="saveFormUpload">
+                <div style="position: relative">
+                    <h1 class="ms-font-xl">Save</h1>
+                    <div dx-button="saveOutside"></div>
+                </div>
+                <form ng-submit="sendTo()">
+                    <div dx-scroll-view="saveContainer" id="saveContainer" style="height: calc(80vh - 90px); width: 100%">
+                        
+                        <table class="wdSaveFields">
+                            <tr>
+                                <td>Desc/Comments</td>
+                                <td colspan="2"><div dx-text-area="{bindingOptions:{value: 'uploadData.Description'}, placeholder: 'Description', height: 90, width: '100%'}"  dx-validator="checkDesc"></div></td>
+                            </tr>
+                            <tr>
+                                <td>Cabinets</td>
+                                <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'uploadData.Cabinets', dataSource: 'cabinetList'}, displayExpr: 'Name', onValueChanged: selectedCabinet}"></div></td>
+                                <!-- <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'uploadData.Cabinets', dataSource: 'cabinetList'}, valueExpr: 'pgFields', displayExpr: 'pgName', onValueChanged: selectedCabinet}"></div></td> -->
+                            </tr>
+                            <tr ng-if="showPgFields.field1 != ''">
+                                <td ng-if="typePgFields.field1 == 0"><a href ng-click="getTables(1, showPgFields.field1)" ng-class="{'selected': selectedField == 1}">{{ showPgFields.field1 }}</a></td>
+                                <td ng-if="typePgFields.field1 == 1">{{ showPgFields.field1 }}</td>
+                                <td ng-if="typePgFields.field1 == 0" style="width: 120px;"><div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'fields.field1.value', placeholder: 'showPgFields.field1'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field1 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor1}">{{ fieldDesc.field1 }} &nbsp;</div></td>
+                                <td colspan="2" ng-if="typePgFields.field1 == 1"> <div id="fieldDesc1" dx-date-box="dateBoxUl1" ></div></td>
+                            </tr>
+                            <tr ng-if="showPgFields.field2 != ''">
+                                <td ng-if="typePgFields.field2 == 0"><a href ng-click="getTables(2, showPgFields.field2)" ng-class="{'selected': selectedField == 2}">{{ showPgFields.field2 }}</a></td>
+                                <td ng-if="typePgFields.field2 == 1">{{ showPgFields.field2 }}</td>
+                                <td ng-if="typePgFields.field2 == 0" style="width: 120px;"><div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'fields.field2.value', placeholder: 'showPgFields.field2'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field2 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor2}">{{ fieldDesc.field2 }} &nbsp;</div></td>
+                                <td colspan="2" ng-if="typePgFields.field2 == 1"> <div id="fieldDesc2" dx-date-box="dateBoxUl2" ></div></td>
+                            </tr>
+                            <tr ng-if="showPgFields.field3 != ''">
+                                <td ng-if="typePgFields.field3 == 0"><a href ng-click="getTables(3, showPgFields.field3)" ng-class="{'selected': selectedField == 3}">{{ showPgFields.field3 }}</a></td>
+                                <td ng-if="typePgFields.field3 == 1">{{ showPgFields.field3 }}</td>
+                                <td ng-if="typePgFields.field3 == 0" style="width: 120px;"><div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'fields.field3.value', placeholder: 'showPgFields.field3'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field3 == 0"><div  class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor3}">{{ fieldDesc.field3 }} &nbsp;</div></td>
+                                <td colspan="2" ng-if="typePgFields.field3 == 1"> <div id="fieldDesc3" dx-date-box="dateBoxUl3" ></div></td>
+                            </tr>
+                            <tr ng-if="showPgFields.field4 != ''">
+                                <td ng-if="typePgFields.field4 == 0"><a href ng-click="getTables(4, showPgFields.field4)" ng-class="{'selected': selectedField == 4}">{{ showPgFields.field4 }}</a></td>
+                                <td ng-if="typePgFields.field4 == 1">{{ showPgFields.field4 }}</td>
+                                <td ng-if="typePgFields.field4 == 0" style="width: 120px;"><div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'fields.field4.value', placeholder: 'showPgFields.field4'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field4 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor4}">{{ fieldDesc.field4 }} &nbsp;</div></td>
+                                <td colspan="2" ng-if="typePgFields.field4 == 1"> <div id="fieldDesc4" dx-date-box="dateBoxUl4" ></div></td>
+                            </tr>
+                            <tr ng-if="showPgFields.field5 != ''">
+                                <td ng-if="typePgFields.field5 == 0"><a href ng-click="getTables(5, showPgFields.field5)" ng-class="{'selected': selectedField == 5}">{{ showPgFields.field5 }}</a></td>
+                                <td ng-if="typePgFields.field5 == 1">{{ showPgFields.field5 }}</td>
+                                <td ng-if="typePgFields.field5 == 0" style="width: 120px;"><div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'fields.field5.value', placeholder: 'showPgFields.field5'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field5 == 0"><div  class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor5}">{{ fieldDesc.field5 }} &nbsp;</div></td>
+                                <td colspan="2" ng-if="typePgFields.field5 == 1"> <div id="fieldDesc5" dx-date-box="dateBoxUl5" ></div></td>
+                            </tr>
+                            <tr ng-if="showPgFields.field6 != ''">
+                                <td ng-if="typePgFields.field6 == 0"><a href ng-click="getTables(6, showPgFields.field6)" ng-class="{'selected': selectedField == 6}">{{ showPgFields.field6 }}</a></td>
+                                <td ng-if="typePgFields.field6 == 1">{{ showPgFields.field6 }}</td>
+                                <td ng-if="typePgFields.field6 == 0" style="width: 120px;"><div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'fields.field6.value', placeholder: 'showPgFields.field6'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field6 == 0"><div  class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor6}">{{ fieldDesc.field6 }} &nbsp;</div></td>
+                                <td colspan="2" ng-if="typePgFields.field6 == 1"> <div id="fieldDesc6" dx-date-box="dateBoxUl6" ></div></td>
+                            </tr>
+                            <tr ng-if="showPgFields.field7 != ''">
+                                <td ng-if="typePgFields.field7 == 0"><a href ng-click="getTables(7, showPgFields.field7)" ng-class="{'selected': selectedField == 7}">{{ showPgFields.field7 }}</a></td>
+                                <td ng-if="typePgFields.field7 == 1">{{ showPgFields.field7 }}</td>
+                                <td ng-if="typePgFields.field7 == 0" style="width: 120px;"><div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'fields.field7.value', placeholder: 'showPgFields.field7'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field7 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor7}">{{ fieldDesc.field7 }} &nbsp;</div></td>
+                                <td colspan="2" ng-if="typePgFields.field7 == 1"> <div id="fieldDesc7" dx-date-box="dateBoxUl7" ></div></td>
+                            </tr>
+                            <tr>
+                                <td>Security</td>
+                                <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'uploadData.Security', dataSource: 'securityList'}, valueExpr: 'value', displayExpr: 'name', width: '200', onValueChanged: changeSecurity }"></div></td>
+                            </tr>
+                            <tr>
+                                <td>Save As</td>
+                                <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'uploadData.SaveAs', dataSource: 'saveAsDrop'}, valueExpr: getSaveValue, displayExpr: 'K' }" id="wdSaveAsDialog"></div></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <div dx-button="contexualMenuBtnCat" id="categoryMenuBtn" class="wdTagBtn"></div>
+                                <div dx-context-menu="categoryContextualMenu" id="wdCatMenu"></div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="dx-field-value profileContainer">
+                                        <div dx-tag-box="tags" dx-item-alias="tag" id="wdTagsList">
+                                            <div data-options="dxTemplate: { name: 'customTagItem' }">
+                                                <div class="customTagItem">
+                                                    <img ng-src="{{host}}{{tag.CI}}" width="16" height="16" />
+                                                    <div class="tagName">
+                                                        {{tag.CD}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+
+                        </table>
+                        
+                        <!-- <div class="dx-field" ng-show="showHideDesc">
+                            <div class="dx-field-label" >Desc/Comments</div>
+                            <div class="dx-field-value">
+                                <div dx-text-area="{bindingOptions:{value: 'uploadData.Description'}, placeholder: 'Description', height: 90}"  dx-validator="checkDesc"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field">
+                            <div class="dx-field-label">Cabinets</div>
+                            <div class="dx-field-value">
+                                <div dx-select-box="{bindingOptions:{value: 'uploadData.Cabinets', dataSource: 'cabinetList'}, valueExpr: 'pgFields', displayExpr: 'pgName', onValueChanged: selectedCabinet}"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-show="!showHideDesc">
+                            <div class="dx-field-label">Comments</div>
+                            <div class="dx-field-value">
+                                <div dx-text-area="{bindingOptions:{value: 'uploadData.Comments'}, placeholder: 'Comments', height: 90 }"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="showPgFields.field1 != ''">
+                            <div class="dx-field-label"><a href ng-click="getTables(1, showPgFields.field1)" ng-class="{'selected': selectedField == 1}">{{ showPgFields.field1 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'fields.field1.value', placeholder: 'showPgFields.field1', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile }"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor1}">{{ fieldDesc.field1 }} &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="showPgFields.field2 != ''">
+                            <div class="dx-field-label"><a href ng-click="getTables(2, showPgFields.field2)" ng-class="{'selected': selectedField == 2}">{{ showPgFields.field2 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'fields.field2.value', placeholder: 'showPgFields.field2', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor2}">{{ fieldDesc.field2 }} &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="showPgFields.field3 != ''">
+                            <div class="dx-field-label"><a href ng-click="getTables(3, showPgFields.field3)" ng-class="{'selected': selectedField == 3}">{{ showPgFields.field3 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'fields.field3.value', placeholder: 'showPgFields.field3', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor3}">{{ fieldDesc.field3 }} &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="showPgFields.field4 != ''">
+                            <div class="dx-field-label"><a href ng-click="getTables(4, showPgFields.field4)" ng-class="{'selected': selectedField == 4}">{{ showPgFields.field4 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'fields.field4.value', placeholder: 'showPgFields.field4', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor4}">{{ fieldDesc.field4 }} &nbsp;</div>
+                        </div>
+                        
+                        <div class="dx-field" ng-if="showPgFields.field5 != ''">
+                            <div class="dx-field-label"><a href ng-click="getTables(5, showPgFields.field5)" ng-class="{'selected': selectedField == 5}">{{ showPgFields.field5 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'fields.field5.value', placeholder: 'showPgFields.field5', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor5}">{{ fieldDesc.field5 }} &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="showPgFields.field6 != ''">
+                            <div class="dx-field-label"><a href ng-click="getTables(6, showPgFields.field6)" ng-class="{'selected': selectedField == 6}">{{ showPgFields.field6 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'fields.field6.value', placeholder: 'showPgFields.field6', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor6}">{{ fieldDesc.field6 }} &nbsp;</div>
+                        </div>
+                        
+                        <div class="dx-field" ng-if="showPgFields.field7 != ''">
+                            <div class="dx-field-label"><a href ng-click="getTables(7, showPgFields.field7)" ng-class="{'selected': selectedField == 7}">{{ showPgFields.field7 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'fields.field7.value', placeholder: 'showPgFields.field7', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor7}">{{ fieldDesc.field7 }} &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field">
+                            <div class="dx-field-label">Security</div>
+                            <div class="dx-field-value">
+                                <div dx-select-box="{bindingOptions:{value: 'uploadData.Security', dataSource: 'securityList'}, valueExpr: 'value', displayExpr: 'name', width: '200', onValueChanged: changeSecurity }"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div> -->
+
+                        <!-- <div class="dx-field">
+                            <div class="dx-field-label" style="padding-top: 0">
+                                <div dx-button="contexualMenuBtnCat" id="categoryMenuBtn" class="wdTagBtn"></div>
+                                <div dx-context-menu="categoryContextualMenu" id="wdCatMenu"></div>
+                            </div>
+                            <div class="dx-field-value profileContainer">
+                                <div dx-tag-box="tags" dx-item-alias="tag" id="wdTagsList">
+                                    <div data-options="dxTemplate: { name: 'customTagItem' }">
+                                        <div class="customTagItem">
+                                            <img ng-src="{{host}}{{tag.CI}}" width="16" height="16" />
+                                            <div class="tagName">
+                                                {{tag.CD}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- <div class="dx-field" ng-show="showHideDesc">
+                            <div class="dx-field-label">Save As</div>
+                            <div class="dx-field-value">
+                                <div dx-select-box="{bindingOptions:{value: 'uploadData.SaveAs', dataSource: 'saveAsDrop'}, valueExpr: getSaveValue, displayExpr: 'K' }"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div> -->
+
+                        <div id="large-indicator" dx-load-indicator="{ height: 60, width: 60 }" ng-hide="uploadInc"></div>
+                        {{ errMessage }}
+                    
+                    </div>
+                    <div dx-button="sendBtn" style="margin: 20px 0"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="saveType =='1'" style="padding: 10px 20px 20px;" id="phxSelectOpt" class="tabcontent">
+        <form ng-submit="saveAs()">
+            <div style="position: relative">
+                <h1>{{ fileMeta.Description | uppercase }} - Doc ID: <span class="saveValue">{{ fileMeta.DocId | uppercase }}</span> <span ng-if="fileMeta.Version">Version#: <span class="saveValue">{{ fileMeta.Version }}</span></span></h1>
+                <div dx-button="saveOutside"></div>
+            </div>
+            <div dx-scroll-view="formContainer">
+                <div class="metaData">
+                    <span>Desc/Comment:</span>
+                    <div dx-text-area="editDescComment"></div>
+                </div>
+                <div style="line-height: 10px">&nbsp;</div>
+                <table>
+                    <tr>
+                        <td class="metaData">Cabinet:</td> <td class="metaData" colspan="2">{{ fileMeta.Cabinet }}</td>
+                    </tr>
+                    <tr ng-if="fileMeta.Field1Name">
+                        <td class="metaData">{{ fileMeta.Field1Name }}:</td> <td class="metaData metaCode">{{ fileMeta.Field1 }}</td> <td class="metaData metaDesc" ng-style="{'color': wdFieldColor1}">{{ fileMeta.Field1Desc }}</td>
+                    </tr>
+                    <tr ng-if="fileMeta.Field2Name">
+                        <td class="metaData">{{ fileMeta.Field2Name }}:</td> <td class="metaData metaCode">{{ fileMeta.Field2 }}</td> <td class="metaData metaDesc" ng-style="{'color': wdFieldColor2}">{{ fileMeta.Field2Desc }}</td>
+                    </tr>
+                    <tr ng-if="fileMeta.Field3Name">
+                        <td class="metaData">{{ fileMeta.Field3Name }}:</td> <td class="metaData metaCode">{{ fileMeta.Field3 }}</td> <td class="metaData metaDesc" ng-style="{'color': wdFieldColor3}">{{ fileMeta.Field3Desc }}</td>
+                    </tr>
+                    <tr ng-if="fileMeta.Field4Name">
+                        <td class="metaData">{{ fileMeta.Field4Name }}:</td> <td class="metaData metaCode">{{ fileMeta.Field4 }}</td> <td class="metaData metaDesc" ng-style="{'color': wdFieldColor4}">{{ fileMeta.Field4Desc }}</td>
+                    </tr>
+                    <tr ng-if="fileMeta.Field5Name">
+                        <td class="metaData">{{ fileMeta.Field5Name }}:</td> <td class="metaData metaCode">{{ fileMeta.Field5 }}</td> <td class="metaData metaDesc" ng-style="{'color': wdFieldColor5}">{{ fileMeta.Field5Desc }}</td>
+                    </tr>
+                    <tr ng-if="fileMeta.Field6Name">
+                        <td class="metaData">{{ fileMeta.Field6Name }}:</td> <td class="metaData metaCode">{{ fileMeta.Field6 }}</td> <td class="metaData metaDesc" ng-style="{'color': wdFieldColor6}">{{ fileMeta.Field6Desc }}</td>
+                    </tr>
+                    <tr ng-if="fileMeta.Field7Name">
+                        <td class="metaData">{{ fileMeta.Field7Name }}:</td> <td class="metaData metaCode">{{ fileMeta.Field7 }}</td> <td class="metaData metaDesc" ng-style="{'color': wdFieldColor7}">{{ fileMeta.Field7Desc }}</td>
+                    </tr>
+                </table>
+                <div style="line-height: 10px">&nbsp;</div>
+                <!-- <div class="metaData"> {{ fileMeta.Cabinet }}</div>
+                <div class="metaData" ng-if="fileMeta.Field1Name"><span>{{ fileMeta.Field1Name }}:</span> {{ fileMeta.Field1 }} - {{ fileMeta.Field1Desc }}</div>
+                <div class="metaData" ng-if="fileMeta.Field2Name"><span>{{ fileMeta.Field2Name }}:</span> {{ fileMeta.Field2 }} - {{ fileMeta.Field2Desc }}</div>
+                <div class="metaData" ng-if="fileMeta.Field3Name"><span>{{ fileMeta.Field3Name }}:</span> {{ fileMeta.Field3 }} - {{ fileMeta.Field3Desc }}</div>
+                <div class="metaData" ng-if="fileMeta.Field4Name"><span>{{ fileMeta.Field4Name }}:</span> {{ fileMeta.Field4 }} - {{ fileMeta.Field4Desc }}</div>
+                <div class="metaData" ng-if="fileMeta.Field5Name"><span>{{ fileMeta.Field5Name }}:</span> {{ fileMeta.Field5 }} - {{ fileMeta.Field5Desc }}</div>
+                <div class="metaData" ng-if="fileMeta.Field6Name"><span>{{ fileMeta.Field6Name }}:</span> {{ fileMeta.Field6 }} - {{ fileMeta.Field6Desc }}</div>
+                <div class="metaData" ng-if="fileMeta.Field7Name"><span>{{ fileMeta.Field7Name }}:</span> {{ fileMeta.Field7 }} - {{ fileMeta.Field7Desc }}</div> -->
+                <!-- <div><h2>Select an Option:</h2></div>
+                <div class="dx-field">
+                    <div class="dx-field-value">
+                        <div dx-radio-group="selectSave"></div>
+                    </div>
+                </div> -->
+                <!-- <div dx-form="securityOpt" id="securityOpt"></div><br /> -->
+                <!-- <div style="line-height: 10px">&nbsp;</div> -->
+                <!-- <div dx-button="sendData"></div> -->
+                
+            </div>
+            <div class="wdSaveBtn">
+                <ul>
+                    <li><div dx-button="wdReplace"></div></li>
+                    <li><div dx-button="wdVersion"></div></li>
+                    <li><div dx-button="wdNewFile"></div></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div ng-show="addFormUpload" pageslide ps-open="openCustom" ps-click-outside="false" class="customPanel">
+    <div>
+        <div class="closeIcon">
+            <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+        </div>
+        <div ng-include="'./WDWEB/shared/custom/customDialog.html'" ng-controller="customCtrl as custom"></div>
+    </div>
+</div>
+
+<!-- <div pageslide ps-open="openCats" ng-class="{'fullscreen':expandPanel,'panelActive':openCats}" ps-click-outside="false" class="slidePanel" ng-style="parentPanel ? {} : {'display': 'none'}"> -->
+<div ng-show="addFormUpload" pageslide ps-open="openCats" ps-click-outside="false" class="slidePanel">
+    <div>
+        <div class="closeIcon">
+            <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+        </div>
+        <div ng-include="'./WDWEB/shared/category/category.html'" ng-controller="categoryCtrl as cat"></div>
+    </div>
+</div>
+
+<wd-dialog visible="errorDailog" rctx="wdErrorRctx" host='WDXHOST' data='wdFileData'></wd-dialog>

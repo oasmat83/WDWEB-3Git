@@ -1,0 +1,275 @@
+<!-- profile.html -->
+<div class='save-tabs' dx-list="{
+  bindingOptions: {
+    dataSource: {
+      dataPath: 'listOptions',
+      deep: false
+    },
+    scrollByContent: true,
+    scrollingEnabled: true,
+    hoverStateEnabled: false,
+    showNavButtons: true
+  },
+  itemTemplate: 'view'
+}" dx-item-alias="list" ng-controller="profileCtrl" >
+<div data-options="dxTemplate: { name: 'view' } ">
+        <div dx-toolbar="metaTitle">
+            <div data-options="dxTemplate: {name: 'title'}">{{ editTitle }}</div>
+        </div>
+    <div class="icontabs global">
+        <div class="ms-CommandButton ms-CommandButton--actionButton ms-CommandButton--noLabel">
+            <button class="ms-CommandButton-button tablinks" title="Favorite Matters"  ng-click="wdButtons('fm', 'Favorite Matters')" ng-class="{ active: prefillData == 'fm' }" title-direction="right">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Heart"></i></span>
+            </button>
+        </div>
+    </div>
+    <div id="phxUpload" style="padding: 20px;" class="tabcontent">
+      <!-- <div file-title-data owner='list.OW' status='list.I' name='list.Description' doc='list.DocId' list='list.LID' rec='list.RN' ln='list.LN' pgid='list.profileGroupId' field1='list.Field1' field2='list.Field2' field3='list.Field3' field4='list.Field4' field5='list.Field5' field6='list.Field6' field7='list.Field7' name1='list.Field1Name' name2='list.Field2Name' name3='list.Field3Name' name4='list.Field4Name' name5='list.Field5Name' name6='list.Field6Name' name7='list.Field7Name' pop='softPop' comment='list.Comments' desc='list.Description' selectlist='selectedFiles' class="titleDesc"></div> -->
+      <div>
+        <div class="imageIndicator" dx-load-indicator="{
+            height:40, weight: 40
+        }" ng-if="showUploadLoader"></div>
+        <div class="form" ng-if="!showUploadLoader">
+            <div class="nav-save panelDisplay">
+                <h1 class="ms-font-xl">{{ uploadTitle }} </h1> <span class="ms-font-m count" ng-if="prefillData == 'ft'">{{ ftCount }}</span>
+                <ul class="nav">
+                    <li>
+                        <div id="contactsList" class="subMenu-wrap is-open">
+                            <div class="ms-SearchBox ms-SearchBox--commandBar is-animated">
+                                <ng-include src="'./WDWEB/shared/textbox/textbox.html'"></ng-include>
+
+                            </div>
+                            <div class="leftOpenPanelLoader" ng-hide="fieldTableSpin">
+                                <div class="menuPreLoader">
+                                    <div dx-load-indicator="{
+                                        height: 40,
+                                        width: 40
+                                    }"></div>
+                                </div>
+                            </div>
+                            <div class="dataList" dx-scroll-view="scrollLeftNav" id="leftProfile">
+                                
+                                <ul class="subMenu list" ng-if="prefillData == 'fm'">
+                                    <li class="subMenuItem" ng-repeat="data in favMatters | filter: textValue" ng-click="setSelected(data)" ng-dblclick="getUploadData(data, false)" ng-class="{ activeRow: isActive(data) }" style="height: auto">
+                                        <a href=""><i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i> <span class="displayName" ng-bind-html="setFavMatter(data)"></span></a>
+                                    </li>
+                                </ul>
+                                <ul class="subMenu list" ng-if="prefillData == 'ft'">
+                                    <li>{{noResults}}</li>
+                                    <li class="subMenuItem" ng-repeat="data in fieldListData" ng-click="setSelected(data)" ng-dblclick="setField(data)" ng-class="{ activeRow: isActive(data) }" >
+                                        <a href=""><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='setFieldTableOrder(data)'></span></a>
+                                    </li>
+                                    <li ng-show="fieldListData.length < total && prefillData == 'ft'" class="loadBtn"><div dx-button="loadMore"></div></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="saveForm">
+                    <div file-title-data owner='list.OW' status='list.I' name='list.Description' doc='list.DocId' list='list.LID' rec='list.RN' ln='list.LN' pgid='list.profileGroupId' field1='list.Field1' field2='list.Field2' field3='list.Field3' field4='list.Field4' field5='list.Field5' field6='list.Field6' field7='list.Field7' name1='list.Field1Name' name2='list.Field2Name' name3='list.Field3Name' name4='list.Field4Name' name5='list.Field5Name' name6='list.Field6Name' name7='list.Field7Name' pop='softPop' comment='list.Comments' desc='list.Description' selectlist='selectedFiles' class="titleDesc"></div>
+                    <form ng-submit="updateProfileList(true)" >
+                            <div class="formContainer" id="editForm" dx-scroll-view="scrollProfile">
+                                
+                                
+                                <div style="height: 10px;">&nbsp;</div>
+
+                                <table class="wdSaveFields">
+                                    <tr>
+                                        <td>Desc/Comments</td>
+                                        <td colspan="2"><div dx-text-area="editProfile.descComm"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cabinets</td>
+                                        <td colspan="2"><div dx-select-box="editProfile.Cabinets" id="editCabinet"></div></td>
+                                    </tr>
+                                    <tr ng-if="fieldContainer.Field1">
+                                        <td ng-if="typePgFields.field1 == 0"><a ng-click="getFieldTables(1, editFields.placeholder1, false)" ng-class="{'selected': selectedField == 1}">{{ editFields.placeholder1 }}</a></td>
+                                        <td ng-if="typePgFields.field1 == 1">{{ editFields.placeholder1 }}</td>
+                                        <td ng-if="typePgFields.field1 == 0"><div dx-text-box="editProfile.field1" class="wdFields" id="field1"></div></td>
+                                        <td ng-if="typePgFields.field1 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor1}" ng-bind-html="descField.desc1">&nbsp;</div></td>
+                                        <td ng-if="typePgFields.field1 == 1" colspan="2"> <div id="field1" dx-date-box="dateBoxUl1"></div></td>
+                                    </tr>
+                                    <tr ng-if="fieldContainer.Field2">
+                                        <td ng-if="typePgFields.field2 == 0"><a ng-click="getFieldTables(2, editFields.placeholder2, false)" ng-class="{'selected': selectedField == 2}">{{ editFields.placeholder2 }}</a></td>
+                                        <td ng-if="typePgFields.field2 == 1">{{ editFields.placeholder2 }}</td>
+                                        <td ng-if="typePgFields.field2 == 0"><div dx-text-box="editProfile.field2" class="wdFields" id="field2"></div></td>
+                                        <td ng-if="typePgFields.field2 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor2}" ng-bind-html="descField.desc2">&nbsp;</div></td>
+                                        <td ng-if="typePgFields.field2 == 1" colspan="2"> <div id="field2" dx-date-box="dateBoxUl2"></div></td>
+                                    </tr>
+                                    <tr ng-if="fieldContainer.Field3">
+                                        <td ng-if="typePgFields.field3 == 0"><a ng-click="getFieldTables(3, editFields.placeholder3, false)" ng-class="{'selected': selectedField == 3}">{{ editFields.placeholder3 }}</a></td>
+                                        <td ng-if="typePgFields.field3 == 1">{{ editFields.placeholder3 }}</td>
+                                        <td ng-if="typePgFields.field3 == 0"><div dx-text-box="editProfile.field3" class="wdFields" id="field3"></div></td>
+                                        <td ng-if="typePgFields.field3 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor3}" ng-bind-html="descField.desc3">&nbsp;</div></td>
+                                        <td ng-if="typePgFields.field3 == 1" colspan="2"> <div id="field3" dx-date-box="dateBoxUl3"></div></td>
+                                    </tr>
+                                    <tr ng-if="fieldContainer.Field4">
+                                        <td ng-if="typePgFields.field4 == 0"><a ng-click="getFieldTables(4, editFields.placeholder4, false)" ng-class="{'selected': selectedField == 4}">{{ editFields.placeholder4 }}</a></td>
+                                        <td ng-if="typePgFields.field4 == 1">{{ editFields.placeholder4 }}</td>
+                                        <td ng-if="typePgFields.field4 == 0"><div dx-text-box="editProfile.field4" class="wdFields" id="field4"></div></td>
+                                        <td ng-if="typePgFields.field4 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor4}" ng-bind-html="descField.desc4">&nbsp;</div></td>
+                                        <td ng-if="typePgFields.field4 == 1" colspan="2"> <div id="field4" dx-date-box="dateBoxUl4"></div></td>
+                                    </tr>
+                                    <tr ng-if="fieldContainer.Field5">
+                                        <td ng-if="typePgFields.field5 == 0"><a ng-click="getFieldTables(5, editFields.placeholder5, false)" ng-class="{'selected': selectedField == 5}">{{ editFields.placeholder5 }}</a></td>
+                                        <td ng-if="typePgFields.field5 == 1">{{ editFields.placeholder5 }}</td>
+                                        <td ng-if="typePgFields.field5 == 0"><div dx-text-box="editProfile.field5" class="wdFields" id="field5"></div></td>
+                                        <td ng-if="typePgFields.field5 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor5}" ng-bind-html="descField.desc5">&nbsp;</div></td>
+                                        <td ng-if="typePgFields.field5 == 1" colspan="2"> <div id="field5" dx-date-box="dateBoxUl5"></div></td>
+                                    </tr>
+                                    <tr ng-if="fieldContainer.Field6">
+                                        <td ng-if="typePgFields.field6 == 0"><a ng-click="getFieldTables(6, editFields.placeholder6, false)" ng-class="{'selected': selectedField == 6}">{{ editFields.placeholder6 }}</a></td>
+                                        <td ng-if="typePgFields.field6 == 1">{{ editFields.placeholder6 }}</td>
+                                        <td ng-if="typePgFields.field6 == 0"><div dx-text-box="editProfile.field6" class="wdFields" id="field6"></div></td>
+                                        <td ng-if="typePgFields.field6 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor6}" ng-bind-html="descField.desc6">&nbsp;</div></td>
+                                        <td ng-if="typePgFields.field6 == 1" colspan="2"> <div id="field6" dx-date-box="dateBoxUl6"></div></td>
+                                    </tr>
+                                    <tr ng-if="fieldContainer.Field7">
+                                        <td ng-if="typePgFields.field7 == 0"><a ng-click="getFieldTables(7, editFields.placeholder7, false)" ng-class="{'selected': selectedField == 7}">{{ editFields.placeholder7 }}</a></td>
+                                        <td ng-if="typePgFields.field7 == 1">{{ editFields.placeholder7 }}</td>
+                                        <td ng-if="typePgFields.field7 == 0"><div dx-text-box="editProfile.field7" class="wdFields" id="field7"></div></td>
+                                        <td ng-if="typePgFields.field7 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor7}" ng-bind-html="descField.desc7">&nbsp;</div></td>
+                                        <td ng-if="typePgFields.field7 == 1" colspan="2"> <div id="field7" dx-date-box="dateBoxUl7"></div></td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td>Security</td>
+                                        <td colspan="2"><div dx-select-box="editProfile.security" id="editSecurity"></div></td>
+                                    </tr> -->
+                                    <tr ng-if="showTagField">
+                                        <td>Category:</td>
+                                        <td colspan="2">
+                                            <div dx-tag-box="editProfile.tags" dx-item-alias="tag">
+                                                <div data-options="dxTemplate: { name: 'customTagItem' }">
+                                                <div class="customTagItem">
+                                                    <img ng-src="{{$root.host}}{{tag.CI}}" width="16" height="16" />
+                                                    <div class="tagName">
+                                                        {{tag.CD}}
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+        
+                                </table>
+            
+                                <!-- <div class="dx-field">
+                                    <div class="dx-field-label">Desc/Comm:</div>
+                                    <div class="dx-field-value profileContainer">
+                                    <div dx-text-area="editProfile.descComm"></div>
+                                    </div>
+                                </div>
+            
+                    
+                                <div class="dx-field">
+                                    <div class="dx-field-label">Cabinet:</div>
+                                    <div class="dx-field-value profileContainer">
+                                    <div dx-select-box="editProfile.Cabinets" id="editCabinet"></div>
+                                    </div>
+                                    <div class="wdFieldDesc">&nbsp;</div>
+                                </div>
+                    
+                                <div class="dx-field" ng-if="fieldContainer.Field1">
+                                    <div class="dx-field-label" ><a ng-click="getFieldTables(1, editFields.placeholder1, false)" ng-class="{'selected': selectedField == 1}">{{ editFields.placeholder1 }}</a></div>
+                                    <div class="dx-field-value wdxFields">
+                                    <div dx-text-box="editProfile.field1" class="wdFields" id="field1"></div>
+                                    </div>
+                                    <div class="wdDescField" ng-bind-html="descField.desc1" ng-style="{'color': wdFieldColor1}">&nbsp;</div>
+                                </div>
+                    
+                                <div class="dx-field" ng-if="fieldContainer.Field2">
+                                    <div class="dx-field-label" ><a ng-click="getFieldTables(2, editFields.placeholder2, false)" ng-class="{'selected': selectedField == 2}">{{ editFields.placeholder2 }}</a></div>
+                                    <div class="dx-field-value wdxFields">
+                                    <div dx-text-box="editProfile.field2" class="wdFields" id="field2"></div>
+                                    </div>
+                                    <div class="wdDescField" ng-bind-html="descField.desc2" ng-style="{'color': wdFieldColor2}">&nbsp;</div>
+                                </div>
+                                
+                                <div class="dx-field" ng-if="fieldContainer.Field3">
+                                    <div class="dx-field-label" ><a ng-click="getFieldTables(3, editFields.placeholder3, false)" ng-class="{'selected': selectedField == 3}">{{ editFields.placeholder3 }}</a></div>
+                                    <div class="dx-field-value wdxFields">
+                                    <div dx-text-box="editProfile.field3" class="wdFields" id="field3"></div>
+                                    </div>
+                                    <div class="wdDescField" ng-bind-html="descField.desc3" ng-style="{'color': wdFieldColor3}">&nbsp;</div>
+                                </div>
+                    
+                                <div class="dx-field" ng-if="fieldContainer.Field4">
+                                    <div class="dx-field-label" ><a ng-click="getFieldTables(4, editFields.placeholder4, false)" ng-class="{'selected': selectedField == 4}">{{ editFields.placeholder4 }}</a></div>
+                                    <div class="dx-field-value wdxFields">
+                                    <div dx-text-box="editProfile.field4" class="wdFields" id="field4"></div>
+                                    </div>
+                                    <div class="wdDescField" ng-bind-html="descField.desc4" ng-style="{'color': wdFieldColor4}">&nbsp;</div>
+                                </div>
+                    
+                                <div class="dx-field" ng-if="fieldContainer.Field5">
+                                    <div class="dx-field-label" ><a ng-click="getFieldTables(5, editFields.placeholder5, false)" ng-class="{'selected': selectedField == 5}">{{ editFields.placeholder5 }}</a></div>
+                                    <div class="dx-field-value wdxFields">
+                                    <div dx-text-box="editProfile.field5" class="wdFields" id="field5"></div>
+                                    </div>
+                                    <div class="wdDescField" ng-bind-html="descField.desc5" ng-style="{'color': wdFieldColor5}">&nbsp;</div>
+                                </div>
+                                
+                                <div class="dx-field" ng-if="fieldContainer.Field6">
+                                    <div class="dx-field-label" ><a ng-click="getFieldTables(6, editFields.placeholder6, false)" ng-class="{'selected': selectedField == 6}">{{ editFields.placeholder6 }}</a></div>
+                                    <div class="dx-field-value wdxFields">
+                                    <div dx-text-box="editProfile.field6" class="wdFields" id="field6"></div>
+                                    </div>
+                                    <div class="wdDescField" ng-bind-html="descField.desc6" ng-style="{'color': wdFieldColor6}">&nbsp;</div>
+                                </div>
+                    
+                                <div class="dx-field" ng-if="fieldContainer.Field7">
+                                    <div class="dx-field-label"><a ng-click="getFieldTables(7, editFields.placeholder7, false)" ng-class="{'selected': selectedField == 7}">{{ editFields.placeholder7 }}</a></div>
+                                    <div class="dx-field-value wdxFields">
+                                    <div dx-text-box="editProfile.field7" class="wdFields" id="field7"></div>
+                                    </div>
+                                    <div class="wdDescField" ng-bind-html="descField.desc7" ng-style="{'color': wdFieldColor7}">&nbsp;</div>
+                                </div>
+                    
+                                <div class="dx-field">
+                                    <div class="dx-field-label" >Security:</div>
+                                    <div class="dx-field-value profileContainer">
+                                    <div dx-select-box="editProfile.security" id="editSecurity"></div>
+                                    </div>
+                                </div>
+                    
+                                <div class="dx-field" ng-if="showTagField">
+                                    <div class="dx-field-label" >Category:</div>
+                                    <div class="dx-field-value profileContainer">
+                                    <div dx-tag-box="editProfile.tags" dx-item-alias="tag">
+                                        <div data-options="dxTemplate: { name: 'customTagItem' }">
+                                        <div class="customTagItem">
+                                            <img ng-src="{{$root.host}}{{tag.CI}}" width="16" height="16" />
+                                            <div class="tagName">
+                                                {{tag.CD}}
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                    
+                                
+                                <div class="profileField removeLines" ng-if="selectedRow > 1">
+                                    <label>Comment:</label>
+                                    <div class="dx-field-value profileContainer">
+                                    <div dx-text-area="editProfile.comment"></div>
+                                    </div>
+                                </div> -->
+                            
+                        </div>
+                        <div class="updateprofile">
+                            <div dx-button="updateProfile" id="editProfileBtn"></div>
+                        </div>
+                    </form>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+

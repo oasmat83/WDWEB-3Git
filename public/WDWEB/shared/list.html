@@ -1,0 +1,33 @@
+<div class="wdNewFileList" ng-init="init()">
+    <div class="wdHeadRow">
+        <div class="title">
+            {{ fileList.root.desc }}
+            <div class="filecount">{{ count }}</div>
+        </div>
+    </div>
+    
+    <div class="wdItemRow" ng-repeat="f in files">
+        <div>
+            <h1 class="{{f.EXT | lowercase}}Ico"> {{ f.XN | uppercase }}</h1>
+            <div class='wdItemFields'>
+                <p>
+                    <span ng-show="f.V !== ''">v{{ f.V }}</span> 
+                    <span ng-show="f.V == ''">v1</span>
+                    <span ng-hide="f.ON == ''"> | <a href="#">{{ f.ON }}</a></span> 
+                    <span ng-hide="f.TwN == ''"> | <a href="#">{{ f.TwN }}</a></span> 
+                    <span ng-hide="f.ThrN == ''"> | <a href="#">{{ f.ThrN }}</a></span> 
+                    <span ng-hide="f.FourN == ''"> | <a href="#">{{ f.FourN }}</a></span> 
+                    <span ng-hide="f.FivN == ''"> | <a href="#">{{ f.FivN }}</a></span> 
+                    <span ng-hide="f.SixN == ''"> | <a href="#">{{ f.SixN }}</a></span> 
+                    <span ng-hide="f.SevN == ''"> | <a href="#">{{ f.SevN }}</a></span>
+                </p>
+            </div>
+            <div class='wdItemData'>
+                <p>DocID: {{ f.FN }}</p>
+                <p>Date Modified: {{f.UD * 1000 | date:'MM/dd/yyyy'}}</p>
+                <p>Size: {{ f.SZ }}</p>
+                <p>Author: {{ f.OW }}</p>
+            </div>
+        </div>
+    </div> 
+</div>

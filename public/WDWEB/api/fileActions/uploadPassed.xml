@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<upload>
+    <status>File uploaded Successfully</status>
+    <session>^&%wd_SID^</session>
+    <docId>^&wd_File_Filename_Value^</docId>
+    ^wd_ErrorStatusXML^
+</upload>

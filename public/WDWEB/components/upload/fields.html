@@ -1,0 +1,109 @@
+<form class="phx-form-upload" ng-submit="uploadFile()">    
+    <div class="ms-Grid">
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-sm12" style="text-align:right;margin-bottom:10px;">
+    
+                <button class="ms-Button ms-Button--small">
+                    <span class="ms-Button-label">Save outside of Worldox</span>
+                </button>
+    
+            </div>
+        </div>
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-sm12" ng-init="init()">
+                <div class="phx-tags">
+                    <div class="control-group">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">Cabinets</span>
+                            </button>
+                        </div>
+                        <label for="select-cabinet">Cabinet</label>
+                        <selectize id="cab-config" config="cabConfig" options="cabinets" ng-model="myCabinet"></selectize>
+                    </div>
+                    <div class="control-group" ng-if="selectObj.f1n">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">{{ selectObj.f1n }}</span>
+                            </button>
+                        </div>
+                        <label for="select-client">{{ selectObj.f1n }}</label>
+                        <selectize id='config1' config="config1" options="selectObj.fields" ng-model="f1"></selectize>
+                    </div>
+                    <div class="control-group" ng-if="selectObj.f2n">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">{{ selectObj.f2n }}</span>
+                            </button>
+                        </div>
+                        <label for="select-matter">{{ selectObj.f2n }}</label>
+                        <selectize id='config2' config="config2" options="getChild.field2" ng-model="f2"></selectize>
+                    </div>
+                    <div class="control-group" ng-if="selectObj.f3n">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">{{ selectObj.f3n }}</span>
+                            </button>
+                        </div>
+                        <label for="select-matter">{{ selectObj.f3n }}</label>
+                        <selectize id='config3' config="config3" options="getChild.field3" ng-model="f3"></selectize>
+                    </div>
+                    <div class="control-group" ng-if="selectObj.f4n">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">{{ selectObj.f4n }}</span>
+                            </button>
+                        </div>
+                        <label for="select-matter">{{ selectObj.f4n }}</label>
+                        <selectize id='config4' config="config4" options="getChild.field4" ng-model="f4"></selectize>
+                    </div>
+                    <div class="control-group" ng-if="selectObj.f5n">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">{{ selectObj.f5n }}</span>
+                            </button>
+                        </div>
+                        <label for="select-matter">{{ selectObj.f5n }}</label>
+                        <selectize id='config5' config="config5" options="getChild.field5" ng-model="f5"></selectize>
+                    </div>
+                    <div class="control-group" ng-if="selectObj.f6n">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">{{ selectObj.f6n }}</span>
+                            </button>
+                        </div>
+                        <label for="select-matter">{{ selectObj.f6n }}</label>
+                        <selectize id='config6' config="config6" options="getChild.field6" ng-model="f6"></selectize>
+                    </div>
+                    <div class="control-group" ng-if="selectObj.f7n">
+                        <div class="ms-CommandButton">
+                            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                                <span class="ms-CommandButton-label">{{ selectObj.f7n }}</span>
+                            </button>
+                        </div>
+                        <label for="select-matter">{{ selectObj.f7n }}</label>
+                        <selectize id='config7' config="config7" options="getChild.field7" ng-model="f7"></selectize>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-sm12" style="text-align:center;">
+                <button type="submit" class="ms-Button ms-Button--small">
+                    <span class="ms-Button-label">OK</span>
+                </button>
+                <button type="clear" class="ms-Button ms-Button--small">
+                    <span class="ms-Button-label">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

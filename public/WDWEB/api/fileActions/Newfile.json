@@ -1,0 +1,46 @@
+^wd_Inc_Script_CR^
+{
+	"download": {
+
+    <script language="WDWEB">
+        var _szFN = unconvert (wd_File_DownloadName_Value,&);
+        var _szFND = escape(szFN);
+        document.write("\"Cabinet\": \"^:wd_File_ProfileGroup_Value^\",");
+        document.write("\"Description\": \"^:fileDesc^\",");
+        document.write("\"Security\": \"^:fileSecurity^\",");
+        document.write("\"Extension\": \"^:fileExt^\",");
+        document.write("\"FileField1\": \"^:wd_File_Field1_Value^\",");
+        document.write("\"FileField2\": \"^:wd_File_Field2_Value^\",");
+        document.write("\"FileField3\": \"^:wd_File_Field3_Value^\",");
+        document.write("\"FileField4\": \"^:wd_File_Field4_Value^\",");
+        document.write("\"FileField5\": \"^:wd_File_Field5_Value^\",");
+        document.write("\"FileField6\": \"^:wd_File_Field6_Value^\",");
+        document.write("\"FileField7\": \"^:wd_File_Field7_Value^\",");
+        document.write("\"FileField1Desc\": \"^:wd_File_Field1Desc_Value^\",");
+        document.write("\"FileField2Desc\": \"^:wd_File_Field2Desc_Value^\",");
+        document.write("\"FileField3Desc\": \"^:wd_File_Field3Desc_Value^\",");
+        document.write("\"FileField4Desc\": \"^:wd_File_Field4Desc_Value^\",");
+        document.write("\"FileField5Desc\": \"^:wd_File_Field5Desc_Value^\",");
+        document.write("\"FileField6Desc\": \"^:wd_File_Field6Desc_Value^\",");
+        document.write("\"FileField7Desc\": \"^:wd_File_Field7Desc_Value^\",");
+        document.write("\"UploadTo\": \"^:wd_URL_UPLOAD^\",");
+        document.write("\"FileZMS\": \"^:wd_DownLoadLink_ZPF^\",");
+		document.write("\"FileLID\": \"^:wd_List_ID^\",");
+		document.write("\"FileRN\": \"^:wd_List_RecNum^\",");
+        document.write("\"Name\": \"^:wd_File_DownloadName_Value^\",");
+        write.text ( szCR );
+
+    </script>
+
+	
+    "errorStatus": {
+        "ErrorCount": "^:wd_Error_Count^",
+        "wd_Error_RCID": "^:wd_Error_RCID^",
+        "wd_Error_RCTX": "^:wd_Error_RCTX^",
+        "wd_Error_MSG": "^:wd_Error_MSG^",
+        "wd_Error_VAR": "^:wd_Error_VAR^",
+        "wd_Error_VAL": "^:wd_Error_VAL^"
+    }
+
+	}
+}

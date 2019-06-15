@@ -1,0 +1,115 @@
+<div id="catTabPanel" dx-tab-panel="cat.catTabPanel">
+    <div data-options="dxTemplate : { name: 'category' } ">
+        <div id="catGridOptions" dx-data-grid="cat.catGridOptions" dx-item-alias="category" class="catTable">
+            <div data-options="dxTemplate:{ name:'fileData' }" class="catData">
+                <div>
+                    <h1>{{ cat.selectedFile.DocId | uppercase }} <span>{{ cat.catErr }}</span></span></h1> Description: {{ cat.selectedFile.Description }}
+                </div>
+            </div>
+            <div data-options="dxTemplate:{ name:'catTemplate' }" class="catList">
+                <img ng-src="{{ $root.host }}{{ category.data.CI }}" height="16" width="16" /> &nbsp;&nbsp; {{ category.data.CD }}
+            </div>
+        </div>
+          
+    </div>               
+</div>
+<div pageslide ps-open="cat.openCatPanel" ps-side="bottom" ps-size="70%" ps-container="catTabPanel" ps-push="false" class="catSlide" ps-body-class="true">
+    <div class="closeIcon bottomIco">
+        <a ng-click="cat.setcloseIconPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+    </div>
+    <div class="dx-fieldset" ng-show="cat.categoryTypeDialog" style="margin:15px 20px;">
+
+        <div class="dx-field">
+            <div class="dx-field-label">
+                <h2><i class="ms-Icon ms-Icon--DocumentSet" aria-hidden="true"></i> Category Type</h2>
+            </div>
+            <div class="dx-field-value"></div>
+        </div>
+
+        <div class="dx-field">
+            <div class="dx-field-label">Select a category:</div>
+            <div class="dx-field-value">
+                <div dx-radio-group="cat.catergoryType"></div>
+            </div>
+        </div>
+
+        <div class="dx-field">
+            <div class="dx-field-label">
+                <div dx-button="cat.setType"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dx-fieldset" ng-show="!cat.categoryTypeDialog">
+        <div ng-show="cat.moreIcon">
+            <div class="dx-field">
+                <div class="dx-field-label">
+                    <h2><i class="ms-Icon ms-Icon--DocumentSet" aria-hidden="true"></i> {{ cat.selectedCategory }} Category</h2>
+                </div>
+            </div>
+
+            <div class="dx-field">
+                <div class="dx-field-label">Choose Icon:</div>
+                <div class="dx-field-value">
+                    <ul>
+                        <li ng-repeat="ico in cat.catInternal" ng-click="cat.setIcon(ico)"> <img ng-src="{{$root.host}}{{ico.CI}}" width="16" height="16"/></li>
+                        <li><span ng-click="cat.getMoreIcon()">More</span></li>
+                        <li ng-click="cat.clearCatIcon()"><span>None</span></li>
+                    </ul>
+                </div>
+            </div>
+            <form ng-submit="cat.submit()">
+                <div class="dx-field">
+                    <div class="dx-field-label">New category name: <span ng-bind-html="cat.setHtmlIcon"></span></div>
+                    <div class="dx-field-value">
+                        <div dx-text-box="cat.newCatName" dx-validator="cat.categoryNameValidation" id="newCatName"></div>
+                    </div>
+                </div>
+
+                <div class="dx-field">
+                    <div class="dx-field-label">
+                        <div dx-button="cat.updateEditNewCat" id="updateEditNewCat"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div ng-show="!cat.moreIcon">
+            <div class="dx-field">
+                <div class="dx-field-label">
+                    <h2><i class="ms-Icon ms-Icon--DocumentSet" aria-hidden="true"></i> Select an Icon</h2>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">Icon Set:</div>
+                <div class="dx-field-value">
+                    <div dx-select-box="cat.selectCatGroup"></div>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">Choose Icon:</div>
+                <div class="dx-field-value groupIco">
+                    <ul>
+                        <li ng-repeat="ico in cat.iconList" ng-click="cat.setIcon(ico)"> <img ng-src="{{$root.host}}{{ico.CI}}" width="16" height="16"/></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="dx-field">
+                <div class="dx-field-label">Selected:</div>
+                <div class="dx-field-value" style="display: inline-flex; align-items: center;">
+                    <span ng-bind-html="cat.setHtmlIcon"></span>&nbsp;&nbsp;{{ cat.iconName }}
+                </div>
+            </div>
+
+            <div class="dx-field">
+                <div class="dx-field-label">
+                    <div dx-button="cat.setMoreIcon"></div>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+</div> 

@@ -1,0 +1,296 @@
+
+
+<div class="ms-CommandBar ms-CommandBar--navBar" ng-init="init()">
+    <div class="ms-CommandBar-sideCommands">
+
+        <div class="ms-CommandButton wdx-CommandButton-admin">
+            <button class="ms-CommandButton-button">
+                <span class="ms-CommandButton-label">Admin</span>
+                <span class="ms-CommandButton-dropdownIcon"><i class="ms-Icon ms-Icon--ChevronDown"></i></span>
+            </button>
+
+            <ul class="ms-ContextualMenu is-opened ms-ContextualMenu--hasIcons">
+                <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Dashboard</a>
+                    <i class="ms-Icon ms-Icon--Waffle"></i>
+                </li>
+                <li class="ms-ContextualMenu-item ms-ContextualMenu-item--divider"></li>
+                <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Compliance</a>
+                    <i class="ms-Icon ms-Icon--Admin"></i>
+                </li>
+                <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Security</a>
+                    <i class="ms-Icon ms-Icon--Permissions"></i>
+                </li>
+                <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Connectors</a>
+                    <i class="ms-Icon ms-Icon--Flow"></i>
+                </li>
+                <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Reports</a>
+                    <i class="ms-Icon ms-Icon--Financial"></i>
+                </li>
+                    <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Members</a>
+                    <i class="ms-Icon ms-Icon--People"></i>
+                </li>
+                        <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Teams</a>
+                    <i class="ms-Icon ms-Icon--Teamwork"></i>
+                </li>
+                    <li class="ms-ContextualMenu-item ms-ContextualMenu-item--divider"></li>
+                <li class="ms-ContextualMenu-item">
+                    <a class="ms-ContextualMenu-link" tabindex="1">Settings</a>
+                    <i class="ms-Icon ms-Icon--DeveloperTools"></i>
+                </li>
+            </ul>
+
+        </div>
+
+
+        <div class="ms-CommandButton wd-BtnOpen-help" ng-click="wdHelp = !wdHelp">
+
+            <button class="ms-CommandButton-button ms-CommandButtona--noLabel">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Help"></i></span>
+                <span class="ms-CommandButton-label"></span>
+            </button>
+
+        </div>
+
+        <div class="ms-CommandButton wd-BtnOpen-settings" ng-click="wdSettings = !wdSettings">
+            <button class="ms-CommandButton-button ms-CommandButton--noLabel">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Settings"></i></span>
+                <span class="ms-CommandButton-label"></span>
+            </button>
+        </div>
+
+    </div>
+    <div class="ms-CommandBar-mainArea">
+
+        <div class="logoBox">
+            <h1><a href="#">Worldox Web <span>3.0</span></a></h1>
+        </div>
+
+        <div class="ms-SearchBox ms-SearchBox--commandBar tooltip" title="Search Worldox!">
+            <input class="ms-SearchBox-field" type="text" value="" ng-init="$root.searchDialog = false" ng-focus="$root.searchDialog = true" ng-blur="$root.searchDialog = false">
+            <label class="ms-SearchBox-label">
+                <i class="ms-SearchBox-icon ms-Icon ms-Icon--Search"></i>
+                <span class="ms-SearchBox-text">Search Worldox</span>
+            </label>
+            <div class="ms-CommandButton ms-SearchBox-clear ms-CommandButton--noLabel">
+                <button class="ms-CommandButton-button">
+                    <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Cancel"></i></span>
+                    <span class="ms-CommandButton-label"></span>
+                </button>
+            </div>
+            <div class="ms-CommandButton ms-SearchBox-exit ms-CommandButton--noLabel">
+                <button class="ms-CommandButton-button">
+                    <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--ChromeBack"></i></span>
+                    <span class="ms-CommandButton-label"></span>
+                </button>
+            </div>
+            <div class="ms-CommandButton ms-SearchBox-filter ms-CommandButton--noLabel">
+                <button class="ms-CommandButton-button">
+                    <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Filter"></i></span>
+                    <span class="ms-CommandButton-label"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="wdx-FormHideAway" ng-include="'./WDWEB/searchDialog.html'" ng-class="{ 'is-active' : $root.searchDialog }"></div>
+
+<div class="ms-Panel wd-Panel--help" ng-class="{ 'is-open' : wdHelp  }">
+
+    <div class="wd-Panel-help">
+        <button class="ms-Panel-closeButton ms-PanelAction-close" ng-click="wdHelp = !wdHelp">
+            <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
+        </button>
+        <div class="ms-Panel-contentInner">
+            <p class="ms-Panel-headerText">Help & Feedback</p>
+            <div class="ms-Panel-content">
+
+
+        <button class="ms-Button ms-Button--compound">
+            <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+            <span class="ms-Button-label">Online Knowledgebase</span>
+            <span class="ms-Button-description">Worldox online manuals and references.</span>
+        </button>
+        <button class="ms-Button ms-Button--compound">
+            <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+            <span class="ms-Button-label">Support</span>
+            <span class="ms-Button-description">Contact Worldox Support</span>
+        </button>
+        <button class="ms-Button ms-Button--compound">
+            <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+            <span class="ms-Button-label">Worldox Community</span>
+            <span class="ms-Button-description">Partners & Affiliates of Worldox.</span>
+        </button>
+        <button class="ms-Button ms-Button--compound">
+            <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+            <span class="ms-Button-label">Legal</span>
+            <span class="ms-Button-description">Privacy Policy</span>
+        </button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="ms-Panel ms-Panel-lg wd-Panel--settings" ng-class="{ 'is-open' : !wdSettings  }">
+
+    <div class="wd-Panel-settings">
+
+        <button class="ms-Panel-closeButton ms-PanelAction-close" ng-click="wdSettings = !wdSettings; defaultPanel()">
+            <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
+        </button>
+
+        <div class="ms-Panel-contentInner" ng-show="mainList">
+            <p class="ms-Panel-headerText ms-fontColor-themePrimary" translate="settings.title"></p>
+            <div class="ms-Panel-content ms-Grid">
+                <div class="ms-Persona wd-Persona ms-Persona--available">
+
+                    <div class="ms-Persona-imageArea">
+                        <img class="ms-Persona-image" src="../../assets/images/fpo_avatar.png">
+                    </div>
+                    <div class="ms-Persona-presence">
+                        <i class="ms-Persona-presenceIcon ms-Icon ms-Icon--SkypeCheck"></i>
+                    </div>
+                    <div class="ms-Persona-details">
+                        <div class="ms-Persona-primaryText">{{ $root.name }}</div>
+                        <div class="ms-Persona-secondaryText">{{ $root.email }}</div>
+                    </div>
+
+                </div>
+                <div class="ms-Grid-row">
+                    <div class="ms-Grid-col">
+
+                        <h2 class="ms-Panel-headerText" translate="settings.languageTitle"></h2>
+
+                        <div class="ms-Dropdown" tabindex="0">
+                            <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--ChevronDown"></i>
+                            <select class="ms-Dropdown-select" ng-model="langkey" ng-change="changeLanguage(langKey)">
+                                <option ng-repeat="language in languages" value="{{ language.abbr }}">{{ language.lang }}</option>
+                            </select>
+                        </div>
+
+                        <h2 class="ms-Panel-headerText">Online/Offline</h2>
+
+                        <div class="ms-Toggle ms-Toggle--textLeft">
+                            <span class="ms-Toggle-description">Offline Mode will download active files to your device and sync when reconnected.</span>
+                            <input type="checkbox" id="toggle-offline" class="ms-Toggle-input" />
+                            <label for="toggle-offline" class="ms-Toggle-field is-selected" tabindex="1">
+                                <span class="ms-Label ms-Label--off">Offline</span>
+                                <span class="ms-Label ms-Label--on">Online</span>
+                            </label>
+                        </div>
+
+                        <h2 class="ms-Panel-headerText" translate="settings.accountsTitle"></h2>
+
+                        <div class="ms-Toggle is-disabled ms-Toggle--textLeft">
+                            <span class="ms-Toggle-description">Worldox</span>
+                            <input type="checkbox" id="toggle-worldox" class="ms-Toggle-input" />
+                            <label for="toggle-worldox" class="ms-Toggle-field is-selected" tabindex="0">
+                                <span class="ms-Label ms-Label--on">On</span>
+                                <span class="ms-Label ms-Label--off">Off</span>
+
+                            </label>
+                        </div>
+
+                        <div class="ms-Toggle ms-Toggle--textLeft">
+                            <span class="ms-Toggle-description">Azure Active Directory</span>
+                            <input type="checkbox" id="toggle-aad" class="ms-Toggle-input" />
+                            <label for="toggle-aad" class="ms-Toggle-field is-selected" tabindex="1">
+                                <span class="ms-Label ms-Label--off">Off</span>
+                                <span class="ms-Label ms-Label--on">On</span>
+                            </label>
+                        </div>
+
+                        <div class="ms-Toggle ms-Toggle--textLeft">
+                            <span class="ms-Toggle-description">Clio - Case Management</span>
+                            <input type="checkbox" id="toggle-clio" class="ms-Toggle-input" />
+                            <label for="toggle-aad" class="ms-Toggle-field is-selected" tabindex="2">
+                                <span class="ms-Label ms-Label--off">Off</span>
+                                <span class="ms-Label ms-Label--on">On</span>
+                            </label>
+                        </div>
+
+                        <div class="ms-Toggle ms-Toggle--textLeft">
+                            <span class="ms-Toggle-description">DocsCorp</span>
+                            <input type="checkbox" id="toggle-docscorp" class="ms-Toggle-input" />
+                            <label for="toggle-docscorp" class="ms-Toggle-field" tabindex="3">
+                                <span class="ms-Label ms-Label--off">Off</span>
+                                <span class="ms-Label ms-Label--on">On</span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="ms-Grid-col">
+                        <h2 class="ms-Panel-headerText" translate="settings.profileTitle"></h2>
+                        <ul class="ms-ContextualMenu is-opened ms-ContextualMenu--hasIcons">
+                            <li class="ms-ContextualMenu-item">
+                                <a class="ms-ContextualMenu-link" tabindex="1" ng-click="listConfig()">List Configuration</a>
+                                <i class="ms-Icon ms-Icon--BulletedList"></i>
+                            </li>
+                            <li class="ms-ContextualMenu-item">
+                                <a class="ms-ContextualMenu-link" tabindex="1">View Profile</a>
+                                <i class="ms-Icon ms-Icon--ContactCard"></i>
+                            </li>
+                            <li class="ms-ContextualMenu-item">
+                                <a class="ms-ContextualMenu-link" tabindex="1">Notification Settings</a>
+                                <i class="ms-Icon ms-Icon--Megaphone"></i>
+                            </li>
+                            <li class="ms-ContextualMenu-item">
+                                <a class="ms-ContextualMenu-link" tabindex="1">Security</a>
+                                <i class="ms-Icon ms-Icon--Permissions"></i>
+                            </li>
+                            <li class="ms-ContextualMenu-item">
+                                <a class="ms-ContextualMenu-link" tabindex="1" ng-click="signOff()">Sign Out</a>
+                                <i class="ms-Icon ms-Icon--OutOfOffice"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ms-Panel-contentInner" ng-hide="customList">
+            <p class="ms-Panel-headerText ms-fontColor-themePrimary" translate="settings.title"></p>
+            <div class="ms-Panel-content ms-Grid">
+                <div class="ms-Persona wd-Persona ms-Persona--available">
+
+                    <div class="ms-Persona-imageArea">
+                        <img class="ms-Persona-image" src="../../assets/images/fpo_avatar.png">
+                    </div>
+                    <div class="ms-Persona-presence">
+                        <i class="ms-Persona-presenceIcon ms-Icon ms-Icon--SkypeCheck"></i>
+                    </div>
+                    <div class="ms-Persona-details">
+                        <div class="ms-Persona-primaryText">{{ $root.name }}</div>
+                        <div class="ms-Persona-secondaryText">{{ $root.email }}</div>
+                    </div>
+
+                </div>
+                <div class="ms-Grid-row">
+                    <div class="ms-Grid-col">
+
+                        <h2 class="ms-Panel-headerText">Property Line</h2>
+                        <selectize placeholder='Pick some things...' options='listProperties' config="myConfig" ng-model="propertyList" ng-disabled='disable' required='true'></selectize>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

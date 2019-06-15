@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<script language="WDWEB">
+
+var	szPF = "";
+
+if (wd_List_ID > "")	// From List?
+{
+	szPF = wd_File_PathFile_Value[wd_List_RecNum];
+}
+else
+{
+	szPF = wd_File_Filename_Value;
+}
+
+szPF = unconvert (szPF,&);
+szPF = escape(szPF);
+
+</script>
+
+<wdl>
+	<project>^&szPF^</project>
+	<session>^&%wd_SID^</session>
+	^wd_ErrorStatusXML^
+</wdl>

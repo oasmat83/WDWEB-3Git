@@ -1,0 +1,40 @@
+{ "root": 
+	{ "Cabinets": [
+
+<script language="WDWEB">
+	var	nNowPGID = ProfileGroup (0, NEXT);
+
+	var	szCR = UnConvert ("&#13;&#10;", &);
+	
+	var	szFields = "";
+	
+	var	szPG = "";
+	
+	var nTotalPGs = 0;
+	
+	
+	nNowPGID = ProfileGroup (0, NEXT);
+
+	nTotalPGs = 0;
+	while (nNowPGID > 0)
+	{
+		szPG = ProfileGroup (nNowPGID, NAME);
+		
+		szFields = ProfileGroup (nNowPGID, SUBDFIELDS, |);
+		
+		if ("" != szFields)
+		{	
+			document.write("{ \"pgName\":\"" + szPG + "\"," + szCR +  "\"pgID\":\"" + nNowPGID + "\"," + szCR + "\"pgFields\":\"" + szFields "\"}," + szCR);
+		}
+		
+		nNowPGID = ProfileGroup (nNowPGID, NEXT);
+		nTotalPGs++;
+	}
+	document.write("{}" + szCR);
+
+</script>
+
+	],
+	^wd_Inc_Script_CR^
+	}
+}

@@ -1,0 +1,16 @@
+{
+    "dir": "ltr",
+    "lang": "en",
+    "name": "Worldox Web 3.0",
+    "scope": "/",
+    "display": "browser",
+    "start_url": "https://wd365.wdsaas.com/",
+    "short_name": "Worldox Web",
+    "theme_color": "transparent",
+    "description": "Worldox Web test",
+    "orientation": "any",
+    "background_color": "transparent",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": []
+}

@@ -1,0 +1,16 @@
+<div class="ms-Pivot-links topnav" id="myTopnav">
+    <a class="ms-Pivot-link"></a>
+    <a class="ms-Pivot-link" ng-click="templates = true; getDefaultTemplate(true);" onclick="navTabReponsiveToogle()">Advanced Search</a>
+    <a class="ms-Pivot-link" ng-click="showDirectAccess(); " onclick="navTabReponsiveToogle()">Direct Access</a>
+    <a class="ms-Pivot-link" ng-click="showUpload();" onclick="navTabReponsiveToogle()" ng-if="!softPop">Upload</a>
+    <!-- <a class="ms-Pivot-link" wd-projects ng-if="!softPop" onclick="navTabReponsiveToogle()">Project</a> -->
+    <a class="ms-Pivot-link" ng-click="openNewTab();" onclick="navTabReponsiveToogle()" ng-if="!softPop" style="padding-right: 15px">
+        <div class="newTabLink">
+            <i class="ms-Icon ms-Icon--CircleAddition" aria-hidden="true"></i> New Tab
+        </div>
+    </a>
+    <a class="ms-Pivot-link" ng-if="softPop">&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" class="icon" onclick="navTabReponsiveToogle()">
+        <i class="ms-Icon ms-Icon--GlobalNavButton" aria-hidden="true"></i>
+    </a>
+</div>

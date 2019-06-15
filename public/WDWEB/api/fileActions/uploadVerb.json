@@ -1,0 +1,24 @@
+^wd_Inc_Script_CR^
+{
+	"uploadVerb": {
+
+    <script language="WDWEB">
+        var _szFN = unconvert (wd_File_DownloadName_Value,&);
+        var _szFND = escape(szFN);
+        document.write("\"Name\": \"^:wd_File_DownloadName_Value^\",");
+        write.text ( szCR );
+
+    </script>
+
+	
+    "errorStatus": {
+        "ErrorCount": "^:wd_Error_Count^",
+        "wd_Error_RCID": "^:wd_Error_RCID^",
+        "wd_Error_RCTX": "^:wd_Error_RCTX^",
+        "wd_Error_MSG": "^:wd_Error_MSG^",
+        "wd_Error_VAR": "^:wd_Error_VAR^",
+        "wd_Error_VAL": "^:wd_Error_VAL^"
+    }
+
+	}
+}

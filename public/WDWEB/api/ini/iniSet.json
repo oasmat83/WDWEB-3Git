@@ -1,0 +1,71 @@
+<script language="WDWEB">
+	var szCR = UnConvert ("&#13;&#10;",&);
+
+	var _szSection;
+	var _szKey;
+    	var _szINI;
+    	var _szData;
+	var nINI = strnum(szINI);
+	var szRC;
+	var szOut;
+
+	szRC = WDAPI_SetINI (nINI, szSection, szKey, szData, _WDCINI_FLAG_MORU );
+
+	var  szItems;
+	var szHeader;
+	szHeader= Elem.JSON(szHeader, "List_ID","^wd_List_ID^");
+	szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+	szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+	szHeader= Elem.JSON("","Header",szHeader);
+
+	if ( "" != szKey)
+	{
+        szItems = Elem.JSON(szItems, szKey,szOut);
+        szItems = Elem.JSON("",szHeader,szItems);
+		szItems = Elem.JSON("","root",szItems);
+	}
+	else
+	{
+		var uCountKeys = strnum(szOut);
+		var uIndexKeys = 0;
+
+		if (0 == uCountKeys)
+		{
+			szItems = Elem.JSON(szItems, "items", "");
+			szItems = Elem.JSON("",szHeader,szItems);
+			szItems = Elem.JSON("","root",szItems);
+		}
+		else
+		{
+			var szJSON;
+			while (uIndexKeys < uCountKeys)
+			{
+				szItems = "";
+				uIndexKeys ++;
+
+				//szItems = Elem.JSON(szItems, szOut[_WDAPI_GETINI_KEY][uIndexKeys], szOut[_WDAPI_GETINI_DATA][uIndexKeys]);
+				szItems = Elem.JSON(szItems, "K", szOut[_WDAPI_GETINI_KEY][uIndexKeys]);
+				szItems = Elem.JSON(szItems, "D", szOut[_WDAPI_GETINI_DATA][uIndexKeys]);
+				szItems = "{"+szItems + "}";
+				if (szJSON > "")
+				szJSON += ",";
+
+				szJSON += szItems;
+			}
+
+			szItems = Elem.JSON("","items",szJSON );
+			szItems = Elem.JSON("",szHeader,szItems);
+			szItems = Elem.JSON("","root",szItems);
+		}
+	}
+
+	szItems = "{"+szItems+"}";
+
+	Write.Text(szItems );
+
+</script>

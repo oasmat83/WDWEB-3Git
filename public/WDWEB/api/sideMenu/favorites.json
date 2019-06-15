@@ -1,0 +1,41 @@
+<script language="WDWEB">
+
+var nIndexBM = 0;
+var szBME;
+var          szBM_Raw;
+var szJSON;
+var szHeader;
+    szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+    szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+    szHeader= Elem.JSON("","Header",szHeader);
+
+while (true)
+{  
+nIndexBM ++;
+szBM_Raw = wd_FavFileCat_Name[nIndexBM];
+    if ("" == szBM_Raw)
+    break;
+
+szBME = Elem.JSON("","Desc",szBM_Raw );
+szBME = Elem.JSON(szBME,"Loc","Favorite Files: " + szBM_Raw);
+szBME = Elem.JSON(szBME,"flag","search");
+
+szBME = "{" + szBME + "}";
+
+if (szJSON > "")
+                szJSON += ",";
+
+szJSON += szBME;
+
+}
+szJSON = Elem.JSON("","Favorites",szJSON);
+szJSON = Elem.JSON("",szHeader, szJSON);
+szJSON = Wrap.JSON("root",szJSON);
+
+document.write(szJSON);
+</script>

@@ -1,0 +1,107 @@
+<script language="WDWEB">
+    var szCR = UnConvert ("&#13;&#10;", &);
+    wd_Find_Template[0];
+    var szJSON;
+    var szHeader;
+    szHeader= Elem.JSON(szHeader, "List_ID","^wd_List_ID^");
+    szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+    szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+    szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+    szHeader= Elem.JSON("","Header",szHeader);
+    var nCount = strnum(wd_List_Count);
+
+    for (var nIndex = 1; nIndex <= nCount; nIndex++) {
+        var szFTE;
+        var szPGIDs = wd_Find_Template_PGS[nIndex];
+        var	szPGflds = ProfileGroup (szPGIDs, FINDFIELDS, |);
+
+        szFTE = Elem.JSON(szFTE,"name",wd_Find_Template[nIndex] );
+
+        var szField;
+        var aszFields;
+        var aszLabels;
+
+        aszFields[1] = wd_Find_Template_EditIDs[nIndex];
+        aszLabels[1] = "Edit";
+        aszFields[2] = wd_Find_Template_Filters[nIndex];
+        aszLabels[2] = "Filter";
+        
+        var szLabel = "Label";
+
+        var uIndexField;
+        var uIndexElem;
+        var auCountElem;
+
+        for (uIndexField = 1; uIndexField <= 2; uIndexField++)
+        {
+            szField = aszFields[uIndexField];
+
+            uIndexElem = 0;
+
+            while (true)
+            {
+                var cbField = StrLen(szField);
+                var nOffset = StrFind(szField,"|");
+
+                var szElem = StrLeft(szField,nOffset);
+
+                uIndexElem ++;
+
+                aszFields[uIndexField][uIndexElem] = szElem;
+
+                if (-1 == nOffset)
+                {
+                    auCountElem[uIndexField] = uIndexElem;
+                    break;
+                }
+
+                cbField  -= nOffset;
+                cbField  --;
+
+                szField = StrRight(szField,cbField );
+            }
+        }
+
+        var uCountElem = auCountElem[1];
+        if (uCountElem > auCountElem[2])
+            uCountElem = auCountElem[2];
+            szField = "";
+        for (uIndexElem = 1; uIndexElem <= uCountElem; uIndexElem++) {
+            var szItem = "";
+            for (uIndexField = 1; uIndexField <= 2; uIndexField++)
+            {
+                szItem   = Elem.JSON (szItem,aszLabels[uIndexField],aszFields[uIndexField][uIndexElem]);
+            }
+            szItem = "{" +  szItem +"}";
+            if (szField> "")
+            szField += ",";
+            szField += szItem;
+        }
+
+        szFTE = Elem.JSON(szFTE,"Fields",szField );
+
+        szFTE = Elem.JSON(szFTE,"Edits",wd_Find_Template_EditIDs[nIndex] );
+        szFTE = Elem.JSON(szFTE,"Filters",wd_Find_Template_Filters[nIndex] );
+        szFTE = Elem.JSON(szFTE,"PgFields", szPGflds);
+        szFTE = Elem.JSON(szFTE,"Instant",wd_Find_Template_GO[nIndex] );
+        szFTE = Elem.JSON(szFTE,"Source",wd_Find_Template_Source[nIndex] );
+	szFTE = Elem.JSON(szFTE,"Index","temp" + nIndex );
+
+        szFTE = "{" + szFTE + "}";
+
+        if (szJSON > "")
+        szJSON += ",";
+
+        szJSON += szFTE;
+    }
+
+    szJSON = Elem.JSON("","FindTemplates",szJSON);
+    szJSON = Elem.JSON("",szHeader, szJSON);
+    szJSON = Wrap.JSON("root",szJSON);
+    document.write(szJSON);
+</script>
+

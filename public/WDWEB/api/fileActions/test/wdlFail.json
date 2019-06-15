@@ -1,0 +1,7 @@
+{
+	"wdl": {
+		"project": "failed",
+		"session": "^:%wd_SID^",
+		^wd_ErrorStatusJson^
+	}
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<download>
+<script language="WDWEB">
+
+    var	nRecNum = StrNum(wd_List_RecNum);
+    var	nOffset = wd_List_Offset[nRecNum];
+    var	nRC = WDAPI_ReReadRecord (nRecNum);
+    var	szCR = UnConvert ("&#13;&#10;", &);
+    var	bDownload = 0;
+    var	bProject = 0;
+    var	bView = 1;
+
+    var	szFileName = wd_File_FileName_Value[nOffset];
+
+    var	szExt = "";
+    var _wd_ViewOpenExts;
+
+    var	nLen = StrLen(szFileName);
+
+    if (nLen > 3)	// Room for 3 Char Ext?
+    {
+        szExt = StrRight ( szFileName, 3 );
+        
+        szExt = StrUpper (szExt);
+        
+        nLen = StrFind(wd_ViewOpenExts, szExt);	// On the Exclude List?
+        
+        if (nLen == -1)	// Not Found?
+        {
+            nLen = StrFind ( "WDL", szExt );	// Project?
+            
+            if (nLen == -1)	// Not Found?
+            {
+                bDownload = 1;
+            }
+            else	// Project
+            {
+                bProject = 1;
+            }
+            
+            bView = 0;
+        }
+    }
+
+    // Add to Favorites
+    nRC = WDAPI_SetField (0,nRecNum,200,"Downloaded");
+
+    var	szURL = unconvert (wd_DownloadLink,&);
+    var szPing = escape(szURL);
+
+    var	szPF = unconvert (wd_File_PathFile_Value[nOffset],&);
+    var	szPF = escape(szPF);
+
+    document.write("<fileLoc>" + szPing + "</fileLoc> <FileNme>" + wd_File_DownloadName_Value[nOffset] + "</FileNme> <domain>^&%wd_SRVADDRESS^</domain>");
+
+
+</script>
+<session>^&%wd_SID^</session>
+^wd_ErrorStatusXML^
+</download>

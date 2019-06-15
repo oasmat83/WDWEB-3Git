@@ -1,0 +1,12 @@
+{
+	"loggedOff": "failed",
+	<script language="WDWEB">
+		document.write("\"session\": \"^:%wd_SID^\",");
+		document.write("\"ErrorCount\": \"^:wd_Error_Count^\", ");
+		document.write ( "\"wd_Error_RCID\":\"^:wd_Error_RCID^\"," );
+		document.write ( "\"wd_Error_RCTX\":\"^:wd_Error_RCTX^\"," );
+		document.write ( "\"wd_Error_MSG\":\"^:wd_Error_MSG^\"," );
+		document.write ( "\"wd_Error_VAR\":\"^:wd_Error_VAR^\"," );
+		document.write ( "\"wd_Error_VAL\":\"^:wd_Error_VAL^\"" );
+	</script>
+}

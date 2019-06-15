@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<script language="WDWEB">
+	var szBasePath = wd_BasePath;
+	var	szCR = UnConvert ("&#13;&#10;", &);
+	ListCreate(FOLDERS,szBasePath,0);
+    document.write("<root>"+ szCR);
+
+    var lpcszFormat = "<Cabinets>" + szCR;
+	var lpcszFormat = lpcszFormat + "<FolderPath>%PATH%</FolderPath>" + szCR;
+	var lpcszFormat = lpcszFormat + "<PathReal>%PATHREAL%</PathReal>" + szCR;
+	var lpcszFormat = lpcszFormat + "<DESC>%DESC%</DESC>" + szCR;
+	var lpcszFormat = lpcszFormat + "<LFN>%LFN%</LFN>" + szCR;
+	var lpcszFormat = lpcszFormat + "</Cabinets>" + szCR;
+	var lpcszPageOut;
+	var dwIndexFr = 0;
+	var dwLinesMax = 1000;
+	var dwLinesOut = 1;
+
+	while (dwLinesOut > 0)
+	{
+		var	szRC = wdapi_GetXML(dwIndexFR,dwLinesMax,dwLinesOut,lpcszFormat,lpcszPageOut);
+		
+		document.write(lpcszPageOut+""+szCR);
+		
+		
+		if ("OK" != szRC)
+		{
+			break;
+		}
+		if (dwLinesOut < dwLinesMax)
+		{
+			break;
+		}
+		dwIndexFR = dwIndexFR + dwLinesOut;
+	}
+
+    document.write("</root>" + szCR);
+	//document.write("<Folder DESC=\"zzShow me the files in this folder\"/>"+szCR);
+</script>

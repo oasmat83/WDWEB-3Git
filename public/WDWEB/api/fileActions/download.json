@@ -1,0 +1,72 @@
+<script language="WDWEB">
+var szCR = UnConvert ("&#13;&#10;",&);
+</script>
+
+{
+ "download": {
+
+<script language="WDWEB">
+
+var nRecNum = wd_List_RecNum;
+var nListOffset = wd_List_Offset;
+
+if (0 == nListOffset)
+{
+ document.write("\"message\": \"0=wd_List_Offset(" + nRecNum + ")\",");
+
+}
+else // Valid RecNum
+{
+ var nRC = WDAPI_ReReadRecord(nRecNum);
+
+ if (nRC > 0) // Bad Record?
+ {
+  document.write("\"message\": \"" + nRC + "=WDAPI_ReReadRecord(" + nRecNum + ")\",");
+  //write.text ( nRC + "=WDAPI_ReReadRecord("+nRecNum+")" );  Do something
+ }
+ else // Valid Record
+ {
+  // Add to Favorites
+  var _FavCatInput;
+  var szFavCat;
+
+  if (FavCatInput)
+  {
+   szFavCat = FavCatInput;
+
+   var szRC = WDAPI_SetField (0,wd_List_RecNum,200,szFavCat);
+   nRC = strnum(szRC);
+  }
+
+  if (nRC > 0)
+  {
+   document.write("\"message\": \"" + nRC + "=WDAPI_SetField(" + nRecNum +"," + szFavCat + ")\",");
+   //write.text ( nRC + "=WDAPI_SetField("+nRecNum+","+szFavCat+")" ); // Do something
+  }
+  else // Favorites Updated
+  {
+   var _szFN = unconvert (wd_File_DownloadName_Value[nListOffset],&);
+   var _szFND = escape(szFN);
+   document.write("\"fileLoc\": \"");
+   write.URL( wd_DownloadLink, "/." );
+   document.write("\",");
+   document.write("\"FileNme\": \"" + szFND + "\",");
+   document.write("\"FileZMS\": \"^:wd_DownLoadLink_ZPF^\",");
+  }
+ }
+}
+write.text ( szCR );
+
+</script>
+ 
+"errorStatus": {
+    "ErrorCount": "^:wd_Error_Count^",
+    "wd_Error_RCID": "^:wd_Error_RCID^",
+    "wd_Error_RCTX": "^:wd_Error_RCTX^",
+    "wd_Error_MSG": "^:wd_Error_MSG^",
+    "wd_Error_VAR": "^:wd_Error_VAR^",
+    "wd_Error_VAL": "^:wd_Error_VAL^"
+}
+
+ }
+}

@@ -1,0 +1,169 @@
+<div ng-init="direct.init()" class="save-tabs">
+    <div dx-toolbar="{ dataSource: direct.uploadToolBar, menuItemTemplate: 'menuItem' }"></div>
+    <div class="icontabs global">
+
+        <div class="ms-CommandButton ms-CommandButton--actionButton ms-CommandButton--noLabel">
+            <button class="ms-CommandButton-button tablinks" title="Favorite Matters"  ng-click="direct.wdButtons('fm', 'Favorite Matters')" ng-class="{ active: direct.prefillData == 'fm' }" title-direction="right">
+                <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Heart"></i></span>
+            </button>
+        </div>
+
+    </div>
+    <div id="phxUpload" style="padding: 20px;" class="tabcontent">
+        <div class="imageIndicator" dx-load-indicator="{
+            height:40, weight: 40
+        }" ng-if="direct.showUploadLoader"></div>
+        <div class="form" id="formDirectAccess" ng-if="!direct.showUploadLoader">
+            <div class="nav-save">
+                <h1 class="ms-font-xl">{{ direct.uploadTitle }} </h1> <span class="ms-font-m count" ng-if="direct.prefillData == 'ft'">{{ direct.ftCount }}</span>
+                <ul class="nav">
+                    <li>
+                        <div id="contactsList" class="subMenu-wrap is-open">
+                            <div class="ms-SearchBox ms-SearchBox--commandBar is-animated">
+                                <ng-include src="'./WDWEB/shared/textbox/textbox.html'"></ng-include>
+
+                            </div>
+                            <div class="leftOpenPanelLoader" ng-hide="direct.fieldTableSpin">
+                                <div class="menuPreLoader">
+                                    <div dx-load-indicator="{
+                                        height: 40,
+                                        width: 40
+                                    }"></div>
+                                </div>
+                            </div>
+                            <div class="dataList" dx-scroll-view="direct.scrollLeftNav" id="leftDirect">
+                                <ul class="subMenu list" ng-if="direct.prefillData == 'fm'">
+                                    <li class="subMenuItem" ng-repeat="data in direct.favMatters | filter: textValue" ng-click="direct.setSelected(data)" ng-dblclick="direct.getUploadData(data, false)" ng-class="{ activeRow: direct.isActive(data) }" style="height: auto">
+                                        <a href=""><i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i> <span class="displayName" ng-bind-html="direct.setFavMatter(data)"></span></a>
+                                    </li>
+                                </ul>
+                                <ul class="subMenu list" ng-if="direct.prefillData == 'ft'">
+                                    <li>{{direct.noResults}}</li>
+                                    <li class="subMenuItem" ng-repeat="data in direct.fieldListData" ng-click="direct.setSelected(data)" ng-dblclick="direct.setField(data)" ng-class="{ activeRow: direct.isActive(data) }" >
+                                        <a href=""><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='direct.setFieldTableOrder(data)'></span></a>
+                                    </li>
+                                    <li ng-show="direct.fieldListData.length < direct.total && direct.prefillData == 'ft'" class="loadBtn"><div dx-button="direct.loadMore"></div></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="saveForm">
+                <h1 class="ms-font-xl">{{ direct.formTitle }}</h1>
+                <form ng-submit="sendTo()">
+                    <div class="formContainer">
+                        <table class="wdSaveFields">
+                            <tr>
+                                <td>Cabinets</td>
+                                <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'directData.Cabinets', dataSource: 'cabinetList'}, valueExpr: 'pgFields', displayExpr: 'pgName', onValueChanged: selectedCabinet, itemTemplate: direct.setTooltip }"></div></td>
+                            </tr>
+                            <tr ng-if="direct.showPgFields.field1 != ''">
+                                <td><a ng-focus="direct.nextFocus('fieldDesc1')" href ng-click="direct.getTables(1, direct.showPgFields.field1)" ng-class="{'selected': direct.selectedField == 1}">{{ direct.showPgFields.field1 }}</a></td>
+                                <td><div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'field.field1', placeholder: 'direct.showPgFields.field1', onFocusOut: 'direct.getFieldsDesc'}, width: '100%', maxLength: '12'}"></div></td>
+                                <td><div class="overLoadData wdFieldDesc" ng-bind-html="direct.fieldDesc.field1" ng-style="{'color': direct.wdFieldColor1}">&nbsp;</div></td>
+                            </tr>
+                            <tr ng-if="direct.showPgFields.field2 != ''">
+                                <td><a ng-focus="direct.nextFocus('fieldDesc2')" href ng-click="direct.getTables(2, direct.showPgFields.field2)" ng-class="{'selected': direct.selectedField == 2}">{{ direct.showPgFields.field2 }}</a></td>
+                                <td><div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'field.field2', placeholder: 'direct.showPgFields.field2', onFocusOut: 'direct.getFieldsDesc'}, width: '100%', maxLength: '12'}"></div></td>
+                                <td><div class="overLoadData wdFieldDesc" ng-bind-html="direct.fieldDesc.field2" ng-style="{'color': direct.wdFieldColor2}">&nbsp;</div></td>
+                            </tr>
+                            <tr ng-if="direct.showPgFields.field3 != ''">
+                                <td><a ng-focus="direct.nextFocus('fieldDesc3')" href ng-click="direct.getTables(3, direct.showPgFields.field3)" ng-class="{'selected': direct.selectedField == 3}">{{ direct.showPgFields.field3 }}</a></td>
+                                <td><div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'field.field3', placeholder: 'direct.showPgFields.field3', onFocusOut: 'direct.getFieldsDesc'}, width: '100%', maxLength: '12'}"></div></td>
+                                <td><div class="overLoadData wdFieldDesc" ng-bind-html="direct.fieldDesc.field3" ng-style="{'color': direct.wdFieldColor3}">&nbsp;</div></td>
+                            </tr>
+                            <tr ng-if="direct.showPgFields.field4 != ''">
+                                <td><a href ng-focus="direct.nextFocus('fieldDesc4')" ng-click="direct.getTables(4, direct.showPgFields.field4)" ng-class="{'selected': direct.selectedField == 4}">{{ direct.showPgFields.field4 }}</a></td>
+                                <td><div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'field.field4', placeholder: 'direct.showPgFields.field4', onFocusOut: 'direct.getFieldsDesc'}, width: '100%', maxLength: '12'}"></div></td>
+                                <td><div class="overLoadData wdFieldDesc" ng-bind-html="direct.fieldDesc.field4" ng-style="{'color': direct.wdFieldColor4}">&nbsp;</div></td>
+                            </tr>
+                            <tr ng-if="direct.showPgFields.field5 != ''">
+                                <td><a href ng-focus="direct.nextFocus('fieldDesc5')" ng-click="direct.getTables(5, direct.showPgFields.field5)" ng-class="{'selected': direct.selectedField == 5}">{{ direct.showPgFields.field5 }}</a></td>
+                                <td><div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'field.field5', placeholder: 'direct.showPgFields.field5', onFocusOut: 'direct.getFieldsDesc'}, width: '100%', maxLength: '12'}"></div></td>
+                                <td><div class="overLoadData wdFieldDesc" ng-bind-html="direct.fieldDesc.field5" ng-style="{'color': direct.wdFieldColor5}">&nbsp;</div></td>
+                            </tr>
+                            <tr ng-if="direct.showPgFields.field6 != ''">
+                                <td><a href ng-focus="direct.nextFocus('fieldDesc6')" ng-click="direct.getTables(6, direct.showPgFields.field6)" ng-class="{'selected': direct.selectedField == 6}">{{ direct.showPgFields.field6 }}</a></td>
+                                <td><div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'field.field6', placeholder: 'direct.showPgFields.field6', onFocusOut: 'direct.getFieldsDesc'}, width: '100%', maxLength: '12'}"></div></td>
+                                <td><div class="overLoadData wdFieldDesc" ng-bind-html="direct.fieldDesc.field6" ng-style="{'color': direct.wdFieldColor6}">&nbsp;</div></td>
+                            </tr>
+                            <tr ng-if="direct.showPgFields.field7 != ''">
+                                <td><a href ng-focus="direct.nextFocus('fieldDesc7')" ng-click="direct.getTables(7, direct.showPgFields.field7)" ng-class="{'selected': direct.selectedField == 7}">{{ direct.showPgFields.field7 }}</a></td>
+                                <td><div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'field.field7', placeholder: 'direct.showPgFields.field7', onFocusOut: 'direct.getFieldsDesc'}, width: '100%', maxLength: '12'}"></div></td>
+                                <td><div class="overLoadData wdFieldDesc" ng-bind-html="direct.fieldDesc.field7" ng-style="{'color': direct.wdFieldColor7}">&nbsp;</div></td>
+                            </tr>
+                        </table>
+                        <!-- <div class="dx-field">
+                            <div class="dx-field-label">Cabinets</div>
+                            <div class="dx-field-value">
+                                <div dx-select-box="{bindingOptions:{value: 'directData.Cabinets', dataSource: 'cabinetList'}, valueExpr: 'pgFields', displayExpr: 'pgName', onValueChanged: selectedCabinet, itemTemplate: direct.setTooltip }"></div>
+                            </div>
+                            <div class="wdFieldDesc">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="direct.showPgFields.field1 != ''">
+                            <div class="dx-field-label"><a href ng-click="direct.getTables(1, direct.showPgFields.field1)" ng-class="{'selected': direct.selectedField == 1}">{{ direct.showPgFields.field1 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'field.field1', placeholder: 'direct.showPgFields.field1', onFocusOut: 'direct.getFieldsDesc', width: '115'}}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-bind-html="direct.fieldDesc.field1" ng-style="{'color': direct.wdFieldColor1}">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="direct.showPgFields.field2 != ''">
+                            <div class="dx-field-label"><a href ng-click="direct.getTables(2, direct.showPgFields.field2)" ng-class="{'selected': direct.selectedField == 2}">{{ direct.showPgFields.field2 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'field.field2', placeholder: 'direct.showPgFields.field2', onFocusOut: 'direct.getFieldsDesc', width: '115'}}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-bind-html="direct.fieldDesc.field2" ng-style="{'color': direct.wdFieldColor2}">&nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="direct.showPgFields.field3 != ''">
+                            <div class="dx-field-label"><a href ng-click="direct.getTables(3, direct.showPgFields.field3)" ng-class="{'selected': direct.selectedField == 3}">{{ direct.showPgFields.field3 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'field.field3', placeholder: 'direct.showPgFields.field3', onFocusOut: 'direct.getFieldsDesc', width: '115'}}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-bind-html="direct.fieldDesc.field3" ng-style="{'color': direct.wdFieldColor3}"> &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="direct.showPgFields.field4 != ''">
+                            <div class="dx-field-label"><a href ng-click="direct.getTables(4, direct.showPgFields.field4)" ng-class="{'selected': direct.selectedField == 4}">{{ direct.showPgFields.field4 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'field.field4', placeholder: 'direct.showPgFields.field4', onFocusOut: 'direct.getFieldsDesc', width: '115'}}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-bind-html="direct.fieldDesc.field4" ng-style="{'color': direct.wdFieldColor4}"> &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="direct.showPgFields.field5 != ''">
+                            <div class="dx-field-label"><a href ng-click="direct.getTables(5, direct.showPgFields.field5)" ng-class="{'selected': direct.selectedField == 5}">{{ direct.showPgFields.field5 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'field.field5', placeholder: 'direct.showPgFields.field5', onFocusOut: 'direct.getFieldsDesc', width: '115'}}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-bind-html="direct.fieldDesc.field5" ng-style="{'color': direct.wdFieldColor5}"> &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="direct.showPgFields.field6 != ''">
+                            <div class="dx-field-label"><a href ng-click="direct.getTables(6, direct.showPgFields.field6)" ng-class="{'selected': direct.selectedField == 6}">{{ direct.showPgFields.field6 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'field.field6', placeholder: 'direct.showPgFields.field6', onFocusOut: 'direct.getFieldsDesc', width: '115'}}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-bind-html="direct.fieldDesc.field6" ng-style="{'color': direct.wdFieldColor6}"> &nbsp;</div>
+                        </div>
+
+                        <div class="dx-field" ng-if="direct.showPgFields.field7 != ''">
+                            <div class="dx-field-label"><a href ng-click="direct.getTables(7, direct.showPgFields.field7)" ng-class="{'selected': direct.selectedField == 7}">{{ direct.showPgFields.field7 }}</a></div>
+                            <div class="dx-field-value wdxFields">
+                                <div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'field.field7', placeholder: 'direct.showPgFields.field7', onFocusOut: 'direct.getFieldsDesc', width: '115'}}"></div>
+                            </div>
+                            <div class="wdFieldDesc" ng-bind-html="direct.fieldDesc.field7" ng-style="{'color': direct.wdFieldColor7}"> &nbsp;</div>
+                        </div> -->
+
+                    </div>
+                    <div dx-button="direct.sendBtn" ng-if="directData.Cabinets !== ''"></div>
+                    <div dx-load-indicator="{ height: 20, width: 20 }"  ng-if="direct.Cabinets !== '' && direct.directUrl"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

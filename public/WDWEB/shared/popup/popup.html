@@ -1,0 +1,37 @@
+<div>
+    <div dx-popup="popupFileChangedOptions" class='wdDialogPopup wdMessageDialog'>
+
+        <div data-options="dxTemplate: { name:'popupFileChangedTemplate' }">
+            <div class="messageTitle icon">
+                <i class="ms-Icon ms-Icon--{{dialogTxt.line7.split(',')[0]}} action-icon" aria-hidden="true"></i>
+                <i class="ms-Icon ms-Icon--{{dialogTxt.line8.split(',')[0]}} status-icon {{dialogTxt.line8.split(',')[1]}}" aria-hidden="true"></i>
+            </div>
+            <div class="messageTitle title">
+                <div class="statusRowContainer" ng-if="dialogTxt.line2 !== ''">
+                    <div class="statusCellContainer label" ng-show="data.fileAction">Doc ID:</div>
+                    <div class="statusCellContainer value" ng-class="{setLineHeight: data.fileAction == false}">&nbsp;&nbsp;{{ dialogTxt.line2 }}</div>
+                </div>
+                <div class="statusRowContainer" ng-if="dialogTxt.line3 !== ''">
+                    <div class="statusCellContainer label" ng-show="data.fileAction">Description:</div>
+                    <div class="statusCellContainer value">&nbsp;&nbsp;{{ dialogTxt.line3 }}</div>
+                </div>
+            </div>
+
+            <div class="messageContent">
+                <div class="statusMessage  {{dialogTxt.line8.split(',')[1]}}" ng-if="dialogTxt.line4 !== ''">{{ dialogTxt.line4 }}</div>
+                <div dx-radio-group="wdRadioOpt" ng-show="radioSelection" style="padding-top: 15px"></div>
+                <div dx-text-box="wdlDesc"style="margin-top: 15px"></div>
+                <!-- <div dx-check-box="wdChkBoxOpt" ng-show="radioSelection" style="padding-top: 15px"></div> -->
+                <!-- <div class="statusMessage resultMessage">You may not {{fileChange.action}} the file at this time.</div> -->
+            </div>
+            <div class="ms-Dialog-actions" >
+                <div class="rowBtn" ng-if="wdShowBtn">
+                    <div dx-button="wdOkayBtn" style="margin: 20px 10px 0"></div>
+                </div>
+                <div class="rowBtn" ng-if="wdShowCancel">
+                    <div dx-button="wdCancelBtn" style="margin: 20px 10px 0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

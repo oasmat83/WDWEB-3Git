@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <session>^&%wd_SID^</session> 
+    <ErrorCount>^&wd_Error_Count^</ErrorCount>
+    <script lang="WDWEB">
+		for (var nIndex = 1; nIndex <= wd_Error_Count; nIndex++)
+		{
+			document.write ("<wd_Error_RCID^nIndex^>^:wd_Error_RCID[nIndex]^</wd_Error_RCID^nIndex^>");
+            document.write ("<wd_Error_RCTX^nIndex^>^:wd_Error_RCTX[nIndex]^</wd_Error_RCTX^nIndex^>");
+            document.write ("<wd_Error_MSG^nIndex^>^:wd_Error_MSG[nIndex]^</wd_Error_RCTX^nIndex^>");
+            document.write ("<wd_Error_VAR^nIndex^>^:wd_Error_VAR[nIndex]^</wd_Error_VAR^nIndex^>");
+            document.write ("<wd_Error_VAL^nIndex^>^:wd_Error_VAL[nIndex]^</wd_Error_VAL^nIndex^>");
+		}
+	</script>
+</root>

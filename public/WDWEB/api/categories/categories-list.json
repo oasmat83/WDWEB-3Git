@@ -1,0 +1,46 @@
+<script language="WDWEB">
+
+var szCR = UnConvert ("&#13;&#10;",&);
+</script>
+
+
+
+<script language="WDWEB">
+
+var szHeader;
+szHeader= Elem.JSON(szHeader ,"List_ID","^wd_List_ID^");
+szHeader= Elem.JSON(szHeader ,"List_Count","^wd_List_Count^");
+szHeader= Elem.JSON(szHeader ,"Error_Count","^wd_Error_Count^");
+szHeader= Elem.JSON(szHeader ,"Error_RCID","^wd_Error_RCID^");
+szHeader= Elem.JSON(szHeader ,"Error_RCTX","^wd_Error_RCTX^");
+szHeader= Elem.JSON(szHeader ,"Error_Msg","^wd_Error_Msg^");
+szHeader= Elem.JSON("","Header",szHeader);
+
+var  szItems;
+
+szItems = Elem.JSON(szItems, "L", "%L#%");
+szItems = Elem.JSON(szItems, "R", "%R#%");
+szItems = Elem.JSON(szItems, "CN", "%CAT_ID%");
+szItems = Elem.JSON(szItems, "TAB_NAME", "%CAT_TAB_NAME%");
+szItems = Elem.JSON(szItems, "TAB_BBID", "%CAT_TAB_BBID%");
+szItems = Elem.JSON(szItems, "TAB_FLAG", "%CAT_TAB_FLAG%");
+szItems = Elem.JSON(szItems, "CD", "%CAT_NAME%");
+szItems = Elem.JSON(szItems, "CI", "%CAT_ICON%");
+
+szItems = Wrap.JSON(szItems,"");
+
+var dwIndexFr = 0;
+var dwLinesMax = 100;
+var dwLinesOut = 0;
+
+var szRC = wdapi_GetXML(dwIndexFr,dwLinesMax,dwLinesOut,szItems,szItems);
+
+szItems= Elem.JSON("","Items",szItems);
+szItems = Elem.JSON("", szHeader,szItems);
+
+var szJSON = Wrap.JSON ( "root", szItems );
+
+
+document.write(szJSON );
+
+</script>

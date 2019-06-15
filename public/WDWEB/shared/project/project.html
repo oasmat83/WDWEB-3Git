@@ -1,0 +1,5 @@
+<div ng-init="project.init()" class="save-tabs">
+    <div dx-toolbar="{ dataSource: project.uploadToolBar, menuItemTemplate: 'menuItem' }"></div>
+    <h1>Open a project by selecting a .WDL file.</h1>
+    <div dx-file-uploader="project.openWDL"></div>
+</div>

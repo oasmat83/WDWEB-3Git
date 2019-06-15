@@ -1,0 +1,51 @@
+<script language="WDWEB">
+
+	var	nNowPGID = ProfileGroup (0, NEXT);
+	var _wdFieldId;
+	var _szPGLst;
+	var _szBME;
+	var _szJSON;
+	var	szPG = "";
+
+	var szHeader;
+	szHeader= Elem.JSON(szHeader, "List_ID","^wd_List_ID^");
+	szHeader= Elem.JSON(szHeader, "List_Count","^wd_List_Count^");
+	szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+	szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+	szHeader= Elem.JSON("","Header",szHeader);
+
+	while (nNowPGID > 0) {
+		var	szPG = ProfileGroup (nNowPGID,NAME);
+		var szFields = ProfileGroup (nNowPGID, FINDFIELDS, |);
+		
+		if ("" != szFields) {
+			wdFieldId = StrNum(nNowPGID) + "|" + szFields;
+			szBME = Elem.JSON("","pgName",szPG );
+			szBME = Elem.JSON(szBME,"pgID",StrNum(nNowPGID));
+			szBME = Elem.JSON(szBME,"pgFields",wdFieldId);
+			szBME = "{" + szBME + "}";
+
+		if (szJSON > "") 
+			szJSON += ",";
+			szJSON += szBME;
+		} 
+
+		if (StrComp(szPGLst,szPG,0)) {
+			break;
+		} else {
+			szPGLst = szPG;
+		}
+	nNowPGID = ProfileGroup (nNowPGID, NEXT);
+
+	}
+
+	szJSON = Elem.JSON("","Cabinets",szJSON);
+	szJSON = Elem.JSON("",szHeader, szJSON);
+	szJSON = Wrap.JSON("root",szJSON);
+	document.write(szJSON);
+
+</script>

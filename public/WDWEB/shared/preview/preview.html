@@ -1,0 +1,13 @@
+<div class="preview-module fileList" style="padding: 10px 10px;">
+  <!-- <div file-title-data owner='listOptions[0].OW' status='listOptions[0].I' name='listOptions[0].Description' doc='listOptions[0].DocId' list='listOptions[0].LID' rec='listOptions[0].RN' ln='listOptions[0].LN' field1='listOptions[0].Field1' field2='listOptions[0].Field2' field3='listOptions[0].Field3' field4='listOptions[0].Field4' field5='listOptions[0].Field5' field6='listOptions[0].Field6' field7='listOptions[0].Field7' pop='softPop' pgid='listOptions[0].profileGroupId' comment='listOptions[0].Comments' desc='listOptions[0].Description' selectlist='selectedFiles' class="titleDesc"></div> -->
+  <span>
+    <h1>{{ listOptions[0].DocId | uppercase }} - {{ listOptions[0].Description | uppercase }} </h1>
+    <i class="ms-Icon ms-Icon--Cancel previewClose" ng-click="toggle(null, false, true); resetToolbarPreparing()"></i>
+  </span>
+  <div ng-show="viewType" class="panelData" dx-scroll-view="scrollPreview" id="scrollPreview">
+    <div ng-bind-html="fileView"></div>
+  </div>
+  <!-- <div ng-show="viewType" class="panelData" dx-scroll-view="scrollPreview" id="scrollPreview">{{ fileView }}</div> -->
+  <div id="pdfViewer" ng-show="!viewType"></div>
+  <div class="dwnSpinner preview" ng-hide="loadPreview"></div>
+</div>

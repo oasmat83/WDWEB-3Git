@@ -1,0 +1,8 @@
+{
+    "upload": {
+        "status": "File uploaded Successfully",
+        "session": "^:%wd_SID^",
+        "docId": "^:wd_File_Filename_Value^",
+        ^wd_ErrorStatusJson^
+    }
+}

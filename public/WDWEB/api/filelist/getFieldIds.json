@@ -1,0 +1,32 @@
+{
+    "root": {
+        "data": {
+            "desc": "^#wd_File_Xname_Value^",
+            "comments": "^#wd_File_COMMENTS_Value^",
+            "version": "^#wd_File_Version_Value^",
+            "field1": "^#wd_File_Field1_Value^",
+			"field1Desc":"^#wd_FILE_FIELD1DESC_VALUE^",
+            "field2": "^#wd_File_Field2_Value^",
+			"field2Desc":"^#wd_FILE_FIELD2DESC_VALUE^",
+            "field3": "^#wd_File_Field3_Value^",
+			"field3Desc":"^#wd_FILE_FIELD3DESC_VALUE^",
+            "field4": "^#wd_File_Field4_Value^",
+			"field4Desc":"^#wd_FILE_FIELD4DESC_VALUE^",
+            "field5": "^#wd_File_Field5_Value^",
+			"field5Desc":"^#wd_FILE_FIELD5DESC_VALUE^",
+            "field6": "^#wd_File_Field6_Value^",
+			"field6Desc":"^#wd_FILE_FIELD6DESC_VALUE^",
+            "field7": "^#wd_File_Field7_Value^",
+			"field7Desc":"^#wd_FILE_FIELD7DESC_VALUE^",
+            "create": "^#wd_FILE_CREATED_TTIME^",
+            "update": "^#wd_FILE_UPDATED_TTIME^",
+			"access": "^#wd_FILE_ACCESSDATE_TTIME^",
+            "size": "^#wd_FILE_SIZE_VALUE^",
+            "docid": "^#wd_FILE_FILENAME_VALUE^",
+            "cabinet": "^#wd_PROFILEGROUP_NAME_VALUE^",
+			"location": "^#wd_FILE_LOCATION_VALUE^",
+			"category": "^#wd_FILE_LIBRARY_VALUE^"
+        },
+        ^wd_ErrorStatusJson^
+    }
+}

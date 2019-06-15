@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<script language="WDWEB">
+    document.write("<root>");
+    document.write("<loggedOff>successfully</loggedOff>");
+    document.write("<session> ^&%wd_SID^ </session>");
+    document.write("<ErrorCount> ^&wd_Error_Count^ </ErrorCount>");
+    document.write("</root>")
+</script>

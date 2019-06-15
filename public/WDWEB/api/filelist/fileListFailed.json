@@ -1,0 +1,35 @@
+{
+"root": {
+<script language="WDWEB">
+
+	var	szCR = UnConvert ("&#13;&#10;", &);
+	var nSortID = wd_File_Sort_key1;
+	var szTabLabel = wd_LIST_TABLABEL;
+	var szTabQuery = wd_FIND_QUERY;
+	var _skip;
+	var _take;
+	
+
+    var lpcszFormat;
+	
+	
+	var lpcszPageOut;
+	var dwIndexFr = StrNum(skip);
+	var dwLinesMax = StrNum(take);
+	var dwLinesOut = StrNum(skip);
+	document.write("\"items\":" + szCR);
+	document.write("["+szCR);
+	
+	var	szRC = wdapi_GetXML(dwIndexFR,dwLinesMax,dwLinesOut,lpcszFormat,lpcszPageOut);
+		
+	document.write(lpcszPageOut);
+	dwIndexFR = dwIndexFR + dwLinesOut;
+	
+	document.write("]," +szCR);
+	document.write("\"totalCount\": \"" + wd_List_Count + "\", \"desc\": \"" + wd_LIST_DESCRIPTION + "\"");
+	document.write("," +szCR);
+</script>
+"session":"^:%wd_SID^",
+^wd_ErrorStatusJson^
+}
+}

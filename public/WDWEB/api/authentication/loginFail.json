@@ -1,0 +1,15 @@
+{
+	"session": "^:%wd_SID^",
+	"ErrorCount": "^:wd_Error_Count^",
+	<script lang="WDWEB">
+		for (var nIndex = 1; nIndex <= wd_Error_Count; nIndex++)
+		{
+			document.write ( "\"wd_Error_RCID^nIndex^\":\"^:wd_Error_RCID[nIndex]^\"," );
+			document.write ( "\"wd_Error_RCTX^nIndex^\":\"^:wd_Error_RCTX[nIndex]^\"," );
+			document.write ( "\"wd_Error_MSG^nIndex^\":\"^:wd_Error_MSG[nIndex]^\"," );
+			document.write ( "\"wd_Error_VAR^nIndex^\":\"^:wd_Error_VAR[nIndex]^\"," );
+			document.write ( "\"wd_Error_VAL^nIndex^\":\"^:wd_Error_VAL[nIndex]^\"," );
+		}
+		document.write("\"End\":\"\"");
+	</script>
+}

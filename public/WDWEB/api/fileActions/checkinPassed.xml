@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<checkIn>
+    <checkStatus>Successful</checkStatus>
+    <session>^&%wd_SID^</session>
+    ^wd_ErrorStatusXML^
+    <!-- <ErrorCount>^&wd_Error_Count^</ErrorCount> -->
+</checkIn>

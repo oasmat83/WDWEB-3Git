@@ -1,0 +1,105 @@
+<script language="WDWEB">
+
+    var _szFieldCode1;
+    var _szFieldCode2;
+    var _szFieldCode3;
+    var _szFieldCode4;
+    var _szFieldCode5;
+    var _szFieldCode6;
+    var _szFieldCode7;
+    var _dwPGID;
+    var _dwFieldNum;
+    var _dwParentRecNum;
+
+    var dwRecNum = 0;
+    var szFieldOut1 = "";
+    var szFieldOut2 = "";
+    var szFieldOut3 = "";
+    var szFieldOut4 = "";
+    var szFieldOut5 = "";
+    var szFieldOut6 = "";
+    var szFieldOut7 = "";
+
+    if (strlen(szFieldCode1))
+    {
+        dwRecNum = WDAPI_GetTableField ( dwPGID, 1, dwParentRecNum, szFieldCode1, 22, szFieldOut1 );
+    }
+
+    if (strlen(szFieldCode2))
+    {
+        dwRecNum = WDAPI_GetTableField ( dwPGID, 2, dwRecNum, szFieldCode2, 22, szFieldOut2 );
+        if (0 == dwRecNum)
+        {
+            dwRecNum = WDAPI_GetTableField ( dwPGID, 2, 0, szFieldCode2, 22, szFieldOut2 );
+        }
+    }
+
+    if (strlen(szFieldCode3))
+    {
+        dwRecNum = WDAPI_GetTableField ( dwPGID, 3, dwRecNum, szFieldCode3, 22, szFieldOut3 );
+        if (0 == dwRecNum)
+        {
+            dwRecNum = WDAPI_GetTableField ( dwPGID, 3, 0, szFieldCode3, 22, szFieldOut3 );
+        }
+    }
+
+    if (strlen(szFieldCode4))
+    {
+        dwRecNum = WDAPI_GetTableField ( dwPGID, 4, dwRecNum, szFieldCode4, 22, szFieldOut4 );
+        if (0 == dwRecNum)
+        {
+            dwRecNum = WDAPI_GetTableField ( dwPGID, 4, 0, szFieldCode4, 22, szFieldOut4 );
+        }
+    }
+
+    if (strlen(szFieldCode5))
+    {
+        dwRecNum = WDAPI_GetTableField ( dwPGID, 5, dwRecNum, szFieldCode5, 22, szFieldOut5 );
+        if (0 == dwRecNum)
+        {
+            dwRecNum = WDAPI_GetTableField ( dwPGID, 5, 0, szFieldCode5, 22, szFieldOut5 );
+        }
+    }
+
+    if (strlen(szFieldCode6))
+    {
+        dwRecNum = WDAPI_GetTableField ( dwPGID, 6, dwRecNum, szFieldCode6, 22, szFieldOut6 );
+        if (0==dwRecNum)
+        {
+            dwRecNum = WDAPI_GetTableField ( dwPGID, 6, 0, szFieldCode6, 22, szFieldOut6 );
+        }
+    }
+
+    if (strlen(szFieldCode7))
+    {
+        dwRecNum = WDAPI_GetTableField ( dwPGID, 7, dwRecNum, szFieldCode7, 22, szFieldOut7 );
+        if (0==dwRecNum)
+        {
+            dwRecNum = WDAPI_GetTableField ( dwPGID, 7, 0, szFieldCode7, 22, szFieldOut7 );
+        }
+    }
+
+</script>
+
+
+{
+    "data": {
+        "errorStatus": {
+            "ErrorCount": "^:wd_Error_Count^",
+            "wd_Error_RCID": "^:wd_Error_RCID^",
+            "wd_Error_RCTX": "^:wd_Error_RCTX^",
+            "wd_Error_MSG": "^:wd_Error_MSG^",
+            "wd_Error_VAR": "^:wd_Error_VAR^",
+            "wd_Error_VAL": "^:wd_Error_VAL^"
+        },
+        "fields": {
+            "field1": "^:szFieldOut1^",
+            "field2": "^:szFieldOut2^",
+            "field3": "^:szFieldOut3^",
+            "field4": "^:szFieldOut4^",
+            "field5": "^:szFieldOut5^",
+            "field6": "^:szFieldOut6^",
+            "field7": "^:szFieldOut7^"
+        }
+    }
+}

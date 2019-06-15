@@ -1,0 +1,54 @@
+<!-- login.html -->
+<div ng-show="showlogin" id="phxLogin" class="phx-login" ng-init="init()">
+    <div class="isLogin form">
+        <img class="login-img" src="WDWEB/assets/images/logos/wd-logo-full-rasterize-colored-md2.png"/>
+        <form id="loginForm" class="phx-login-form"  ng-submit="login($event)" name="formLogin">
+            <div class="slider">
+                <div id="form">
+                    <div style="height:250px" data-options="dxTemlpate: { name: 'Username' }" class="animate-switch-container longStage" ng-class="{forward: direction, backward:!direction}" ng-switch on="selection">
+                        <div class="ms-Spinner ms-Spinner--large" ng-show="spinner"></div>
+                        <div style="position: relative;" ng-hide="spinner">
+                            <div id="userContainer" class="animate-switch"  ng-switch-default>
+                                <h1>{{ loginUiTxt }}</h1>
+                                <div id="user" dx-text-box="{bindingOptions:{value: 'loginData.username.value', placeholder: 'emailPlaceholder'}, label: { visible: false }, tabIndex: 1}"></div>
+                                <br/>
+                                <div class="pssCont">
+                                    <div id="password" dx-text-box="{bindingOptions:{value: 'loginData.password.value', placeholder: 'passPlaceholder'}, label: { visible: false }, mode: 'password', tabIndex: 2, onKeyUp: testEnter}"></div>
+                                    <div dx-button="togglePassword" class="passIcoCont"></div>
+                                </div>
+                                <br/>
+                                <div dx-check-box="rememberUserName"></div>
+                                <br/>
+                                <br/>
+                                <div dx-button="submitOptions"></div>
+                                <div class="loginLoader" ng-hide="setBtnVisibility">
+                                    <div dx-load-indicator="logInLoader" class="wdListLoader"></div>
+                                    <span class="wdListLoader">Loading Worldox Web</span>
+                                </div>
+                                <div class="loginErr">
+                                    {{ loginErr }}
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div dx-select-box="wdLangOption" dx-item-alias="lang" ng-hide="spinner">
+            <div data-options="dxTemplate: { name: 'wdlangField' }">
+                <div class="flag-icon flag-icon-{{lang.code}} custom-item"></div>
+                <div dx-text-box=" {value: lang.display, readOnly: true, elementAttr: {class: 'customName'} }"></div>
+            </div>
+            <div data-options="dxTemplate: { name: 'langItem' }" class="wdlangItems">
+                <div class="flag-icon flag-icon-{{lang.code}}">{{lang.display}}</div>
+            </div>
+        </div>
+        <div class="revData">
+            <span>{{ $root.date }}</span><br/>
+            <span>Copyright 2019</span>
+        </div>
+    </div>
+    <wd-dialog visible="errorDailog" rctx="wdErrorRctx" host='WDXHOST' data="wdFileData"></wd-dialog>
+</div>

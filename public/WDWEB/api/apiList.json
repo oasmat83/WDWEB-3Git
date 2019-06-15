@@ -1,0 +1,53 @@
+{
+    "api": {
+        "newFile": "^wd_NEWFILE^",
+        "testProfile": "^wd_TESTPROFILE^",
+        "logon": "^wd_LOGON^",
+        "serve": "^wd_SERVE^",
+        "upload": "^wd_UPLOAD^",
+        "find": "^wd_FINDFILES^",
+        "tables": "^wd_FIELDTABLE^",
+        "sort": "^wd_SortFiles^",
+        "sortTables": "^wd_SortTable^",
+        "checkOut": "^wd_CHECKOUT^",
+        "delete": "^wd_DELFILE^",
+        "verList": "^wd_VERLIST^",
+        "logoff": "^wd_LOGOFF^",
+        "checkin": "^wd_CHECKIN^",
+        "download": "^wd_DOWNLOAD^",
+        "openWDL": "^wd_OPENWDL^",
+        "UploadAsp":"^wd_URL_UPLOAD^",
+        "categories":"^wd_CATEGORIES^",
+        "rename": "^wd_RENAME^",
+        "version": "^wd_VERLIST^",
+        "closelist": "^wd_CLOSELIST^"
+    },
+    "fileData": {
+        "cancel": "^cancel^",
+        "location": "^loc^",
+        "dwnLoc": "^dwLoc^",
+        "name": "^name^",
+        "domain": "^domain^",
+		"fmt":"^format^",
+        "f1": "^f1^",
+        "f2": "^f2^",
+        "f3": "^f3^",
+        "f4": "^f4^",
+        "f5": "^f5^",
+        "f6": "^f6^",
+        "f7": "^f7^",
+        "cabinet": "^cabinet^",
+        "security": "^security^",
+        "description": "^desc^",
+        "comment": "^comment^",
+        "flag": "^type^",
+        "zms": "^zms^",
+<script language="WDWEB">
+		document.write("\"zmsr\":\"^:wd_DownLoadLink_ZPF^\",");
+</script>
+		"LID": "^wd_List_ID^",
+		"RN": "^wd_List_RecNum^",
+        "type": "^popFlag^"
+    },
+    ^wd_ErrorStatusJson^
+}

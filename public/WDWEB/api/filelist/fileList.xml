@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+<script language="WDWEB">
+
+	var	szCR = UnConvert ("&#13;&#10;", &);
+	var nSortID = wd_File_Sort_key1;
+	var szTabLabel = wd_LIST_TABLABEL;
+	var szTabQuery = wd_FIND_QUERY;
+	var _skip;
+	var _take;
+	
+    var lpcszFormat = "<items>";
+
+    lpcszFormat = lpcszFormat + "<LN>%&L#%</LN> <RN>%&R#%</RN> <Description>%&XNAME%</Description> <DocId>%&DOCID%</DocId> <Comments>%&COMMENTS%</Comments>";
+
+	lpcszFormat = lpcszFormat + "<FilePath>%&PATHFILEREAL%</FilePath> <Owner>%&OWNERINIT%</Owner> <Version>%&VERSION%</Version> <I>%&wSTATUSID%</I> <LID>" + wd_List_ID + "</LID>";
+
+	lpcszFormat = lpcszFormat + "<Name>%&LONGNAME%</Name> <Field1>%&FIELD1%</Field1> <Field1Desc>%&FIELD1DESC%</Field1Desc> <Field2>%&FIELD2%</Field2> <Field2Desc>%&FIELD2DESC%</Field2Desc>";
+
+	lpcszFormat = lpcszFormat + "<Field3>%&FIELD3%</Field3> <Field3Desc>%&FIELD3DESC%</Field3Desc> <Field4>%&FIELD4%</Field4> <Field4Desc>%&FIELD4DESC%</Field4Desc>";
+
+	lpcszFormat = lpcszFormat + "<Field5>%&FIELD5%</Field5> <Field5Desc>%&FIELD5DESC%</Field5Desc> <Field6>%&FIELD6%</Field6> <Field6Desc>%&FIELD6DESC%</Field6Desc> <Field7>%&FIELD7%</Field7>";
+
+	lpcszFormat = lpcszFormat + "<Field7Desc>%&FIELD7DESC%</Field7Desc> <Field1Name>%&Field1Name%</Field1Name> <Field2Name>%&Field2Name%</Field2Name> <Field3Name>%&Field3Name%</Field3Name>";
+
+	lpcszFormat = lpcszFormat + "<Field4Name>%&Field4Name%</Field4Name> <Field5Name>%&Field5Name%</Field5Name> <Field6Name>%&Field6Name%</Field6Name> <Field7Name>%&Field7Name%</Field7Name>";
+
+	lpcszFormat = lpcszFormat + "<DateUpdated>%&wUPDATED%</DateUpdated> <Size>%&SIZE%</Size> <AccessedDate>%&wACCESSED%</AccessedDate> <DateCreated>%&wCREATED%</DateCreated> <PathMap>%&PATHMAP%</PathMap>";
+
+	lpcszFormat = lpcszFormat + "<profileGroupId>%&wGROUP%</profileGroupId> <Cabinet>%&GROUP%</Cabinet> <Location>%&PATH%</Location> <Extension>%&EXT%</Extension>";
+	
+    lpcszFormat = lpcszFormat + "</items>";
+
+	var lpcszPageOut;
+	var dwIndexFr = StrNum(skip);
+	var dwLinesMax = StrNum(take);
+	var dwLinesOut = StrNum(skip);
+
+	
+	var	szRC = wdapi_GetXML(dwIndexFr,dwLinesMax,dwLinesOut,lpcszFormat,lpcszPageOut);
+	
+	document.write(lpcszPageOut);
+	dwIndexFr = dwIndexFr + dwLinesOut;
+	
+	document.write ("<totalCount>" + wd_List_Count + "</totalCount>");
+	document.write ("<desc>" + wd_LIST_DESCRIPTION + "</desc>");
+
+</script>
+	<session>^&%wd_SID^</session>
+	^wd_ErrorStatusXML^
+</root>

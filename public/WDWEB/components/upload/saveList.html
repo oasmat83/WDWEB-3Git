@@ -1,0 +1,55 @@
+<h1 class="ms-font-xl">Save As: {{ uploadSelect | uppercase }}</h1>
+
+<div class="nav-save">
+    <ul class="nav">
+        <li>
+            <div id="contactsList" class="subMenu-wrap is-open">
+                <div class="ms-SearchBox ms-SearchBox--commandBar">
+                    <input class="ms-SearchBox-field search" type="text" name="qContactsNav" value="" ng-model="myFilter">
+                    <label class="ms-SearchBox-label">
+                        <i class="ms-SearchBox-icon ms-Icon ms-Icon--Filter"></i>
+                        <span class="ms-SearchBox-text">...</span>
+                    </label>
+                    <div class="ms-CommandButton ms-SearchBox-clear ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Clear"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                    <div class="ms-CommandButton ms-SearchBox-exit ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--ChromeBack"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                    <div class="ms-CommandButton ms-SearchBox-filter ms-CommandButton--noLabel">
+                        <button class="ms-CommandButton-button reIndex">
+                            <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Filter"></i></span>
+                            <span class="ms-CommandButton-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <ul class="subMenu list" ng-if="uploadSelect == 'contacts'">
+                    <li class="subMenuItem tooltip" ng-repeat="list in saveList | filter: { displayName: myFilter }" data-content="{{ list.displayName }} - <{{ list.emailAddresses[0].address }}>" title="{{ list.displayName }} - < {{ list.emailAddresses[0].address }} >" ng-click="setBox(list, 'contacts')">
+                        <div class="menuItem-actions" favorite-heart></div>
+                        <a href="#"><i class='ms-Icon ms-Icon--Contact' aria-hidden='true'></i> <span class="displayName">{{ list.displayName }}</span></a>
+                    </li>
+                </ul>
+
+                <ul class="subMenu list" ng-if="uploadSelect == 'clients'">
+                    <li class="subMenuItem tooltip" ng-repeat="list in saveList | filter: myFilter" data-content="{{ list.f1 }} - {{ list.f1d }}" title="{{ list.f1 }} - {{ list.f1d }}" ng-click="setBox(list, 'clients')">
+                        <div class="menuItem-actions" favorite-heart></div>
+                        <a href="#"><i class='ms-Icon ms-Icon--ContactCard' aria-hidden='true'></i> <span class="displayName">{{ list.f1 }} - {{ list.f1d }}</span></a>
+                    </li>
+                </ul>
+
+                <ul class="subMenu list" ng-if="uploadSelect == 'favorite matters'">
+                    <li class="subMenuItem tooltip" ng-repeat="list in saveList | filter: myFilter" data-content="{{ list.f2 }} - {{ list.f2d }}" title="{{ list.f2 }} - {{ list.f2d }}" ng-click="setBox(list, 'favorite matters')">
+                        <div class="menuItem-actions" favorite-heart></div>
+                        <a href="#"><i class='ms-Icon ms-Icon--ContactCard' aria-hidden='true'></i> <span class="displayName">{{ list.f2 }} - {{ list.f2d }}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

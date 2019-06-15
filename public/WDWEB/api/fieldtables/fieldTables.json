@@ -1,0 +1,56 @@
+<script language="WDWEB">
+var _IndexFr;
+var _maxCount;
+var szHeader;
+var _szCount;
+
+var szFormat;
+var nFieldNum = StrNum (wd_FIELD_NUMBER_FILTER);
+
+var nPGID = StrNum (wd_FIELD_PROFILEGROUP_FILTER);
+var nEndField = nFieldNum;
+
+szHeader= Elem.JSON(szHeader ,"ListCount",wd_list_count);
+szHeader= Elem.JSON(szHeader, "List_ID",wd_List_ID);
+szHeader= Elem.JSON(szHeader, "ErrorCount", "^:wd_Error_Count^");
+szHeader= Elem.JSON(szHeader, "wd_Error_RCID", "^:wd_Error_RCID^");
+szHeader= Elem.JSON(szHeader, "wd_Error_RCTX", "^:wd_Error_RCTX^");
+szHeader= Elem.JSON(szHeader, "wd_Error_MSG", "^:wd_Error_MSG^");
+szHeader= Elem.JSON(szHeader, "wd_Error_VAR", "^:wd_Error_VAR^");
+szHeader= Elem.JSON(szHeader, "wd_Error_VAL", "^:wd_Error_VAL^");
+szHeader= Elem.JSON(szHeader, "FieldNum", nEndField);
+szHeader= Elem.JSON("","Header",szHeader);
+
+while (nFieldNum >= 1)
+{
+                var         szFlags = ProfileField ( nPGID, nFieldNum, FLAGS );
+                                var dwFlags = StrNum(szFlags);
+
+                szFormat = Elem.JSON(szFormat, "f"+nFieldNum +"n", "%&FIELD"+nFieldNum+"CODE%");
+                szFormat = Elem.JSON(szFormat, "f"+nFieldNum +"d", "%&FIELD"+nFieldNum+"DESC%");
+                
+
+      nFieldNum --;
+
+      if (2048 & dwFlags)
+      {
+      }
+      else        break;
+
+}
+//szFormat = Elem.JSON(szFormat, "FieldNum", nEndField);
+szFormat =Wrap.JSON(szFormat,"");
+var dwIndexFr = IndexFr;
+var dwLinesMax = maxCount;
+var dwLinesOut = IndexFr;
+
+var szRC = wdapi_GetXML(dwIndexFR,dwLinesMax,dwLinesOut,szFormat,szFormat);
+
+szFormat = Elem.JSON("","FieldTbl",szFormat);
+szFormat = Elem.JSON("",szHeader,szFormat);
+var szJSON = Wrap.JSON ( "root", szFormat  );
+
+document.write ( szJSON );
+
+
+</script>

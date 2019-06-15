@@ -1,0 +1,33 @@
+<div class="logout-module">
+  <nav ng-init="init()">
+    <div style="font-style: italic; display: inline-block">{{ firm }}</div>
+    <div class="ms-CommandButton" style="display: inline-block">
+      <button class="ms-CommandButton-button logOut" title="{{userDesc()}}" title-direction="left" id="wdLogOut">
+        <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--BlockContact"></i></span>
+        <span class="ms-CommandButton-label"></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <div class="ms-Dialog">
+      <div class="ms-Dialog-title">Log Off</div>
+      <div class="ms-Dialog-content">
+        <p class="ms-Dialog-subText">Are you sure you want to logoff from Worldox?</p>
+      </div>
+      <div class="ms-Dialog-actions">
+          
+      <button class="ms-Button ms-Button--primary" ng-click="logOff()" ng-if="wdLogOffBtn">
+        <span class="ms-Button-label">Logout</span>
+      </button>
+      <button class="ms-Button ms-Dialog-action" ng-if="wdLogOffBtn" ng-click="cancelLogOff()">
+        <span class="ms-Button-label">Cancel</span>
+      </button>
+
+      <div dx-load-indicator="{
+        height: 20,
+        width: 20
+      }" ng-if="!wdLogOffBtn"></div>
+    </div>
+  </div>
+</div>

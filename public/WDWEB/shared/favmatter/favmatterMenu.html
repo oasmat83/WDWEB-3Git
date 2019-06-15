@@ -1,0 +1,49 @@
+<script type="text/ng-template" id="nodes_renderer1.html">
+    <div ui-tree-handle class="tree-node tree-node-content">
+        <div class="favmasterTitle">
+            <!-- <div ng-mousedown="fmc.setSelectMenu(node)" ng-dblclick="fmc.goTo(node,'fm')" class="favmasterTitle"> -->
+            <span ng-if="node.f1c && ttlLeftMenu!=' ' " ng-mousedown="fmc.goTo(node, 'fm')" title="{{str}}" ng-mouseover="hoverMenuList($event)">{{ node.f1c }} ({{node.f1d}})</span>
+            <span ng-if="node.f2c && ttlLeftMenu!=' ' " ng-mousedown="fmc.goTo(node, 'fm')" title="{{str}}" ng-mouseover="hoverMenuList($event)">/ {{ node.f2c }} ({{node.f2d}})</span>
+            <span ng-if="node.f3c && ttlLeftMenu!=' ' " ng-mousedown="fmc.goTo(node, 'fm')" title="{{str}}" ng-mouseover="hoverMenuList($event)">/ {{ node.f3c }} ({{node.f3d}})</span>
+            <span ng-if="node.f4c && ttlLeftMenu!=' ' " ng-mousedown="fmc.goTo(node, 'fm')" title="{{str}}" ng-mouseover="hoverMenuList($event)">/ {{ node.f4c }} ({{node.f4d}})</span>
+            <span ng-if="node.f5c && ttlLeftMenu!=' ' " ng-mousedown="fmc.goTo(node, 'fm')" title="{{str}}" ng-mouseover="hoverMenuList($event)">/ {{ node.f5c }} ({{node.f5d}})</span>
+            <span ng-if="node.f6c && ttlLeftMenu!=' ' " ng-mousedown="fmc.goTo(node, 'fm')" title="{{str}}" ng-mouseover="hoverMenuList($event)">/ {{ node.f6c }} ({{node.f6d}})</span>
+            <span ng-if="node.f7c && ttlLeftMenu!=' ' " ng-mousedown="fmc.goTo(node, 'fm')" title="{{str}}" ng-mouseover="hoverMenuList($event)">/ {{ node.f7c }} ({{node.f7d}})</span>
+
+            <span ng-if="node.f1c && ttlLeftMenu==' ' " ng-mousedown="fmc.goTo(node, 'fm')" ng-mouseover="hoverMenuList($event)">{{ node.f1c }} ({{node.f1d}})</span>
+            <span ng-if="node.f2c && ttlLeftMenu==' ' " ng-mousedown="fmc.goTo(node, 'fm')" ng-mouseover="hoverMenuList($event)">/ {{ node.f2c }} ({{node.f2d}})</span>
+            <span ng-if="node.f3c && ttlLeftMenu==' ' " ng-mousedown="fmc.goTo(node, 'fm')" ng-mouseover="hoverMenuList($event)">/ {{ node.f3c }} ({{node.f3d}})</span>
+            <span ng-if="node.f4c && ttlLeftMenu==' ' " ng-mousedown="fmc.goTo(node, 'fm')" ng-mouseover="hoverMenuList($event)">/ {{ node.f4c }} ({{node.f4d}})</span>
+            <span ng-if="node.f5c && ttlLeftMenu==' ' " ng-mousedown="fmc.goTo(node, 'fm')" ng-mouseover="hoverMenuList($event)">/ {{ node.f5c }} ({{node.f5d}})</span>
+            <span ng-if="node.f6c && ttlLeftMenu==' ' " ng-mousedown="fmc.goTo(node, 'fm')" ng-mouseover="hoverMenuList($event)">/ {{ node.f6c }} ({{node.f6d}})</span>
+            <span ng-if="node.f7c && ttlLeftMenu==' ' " ng-mousedown="fmc.goTo(node, 'fm')" ng-mouseover="hoverMenuList($event)">/ {{ node.f7c }} ({{node.f7d}})</span>
+        </div>
+        <a class="tooltiptext tooltip-right"  ng-mousedown="fmc.goTo(node, 'fm')">Select</a>
+    </div>
+</script>
+<div class="favmasterHeader">
+    <h1 class="ms-font-xl">Fav Matters: {{ fmc.favMattersTitle }}</h1>
+    <div class="closeIcon">
+        <a ng-click="fmc.closeFavmatter()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+    </div>
+</div>
+<div class="favmasterSpinner" ng-hide="fmc.spinner"></div>
+<div class="filterContainer">
+        <ng-include src="'./WDWEB/shared/textbox/textbox.html'"></ng-include>
+    <!-- <input id="filterFavMat" type="text" ng-model="fmc.filterFm" placeholder="Filter" style="margin-left: 1em"/>
+    <label class="ms-SearchBox-label" style="height: 124px; left: 13px;">
+            <i class="ms-SearchBox-icon ms-Icon ms-Icon--Filter" style="color: #666"></i>
+            <span class="ms-SearchBox-text"></span>
+    </label> -->
+</div>
+
+<div class="favmasterMessage" ng-show="fmc.message != ''">
+    <div class="noData">{{ fmc.message }}</div>
+</div>
+
+<div ui-tree data-nodrop-enabled="true" data-drag-enabled="false" class="treeholder" ng-show="fmc.spinner" dx-scroll-view="scrollFM" id="fmContainer">
+    <ol ui-tree-nodes="" ng-model="fmc.favmatters" id="tree-root" ng-class="{'hidden': collapsed}">
+        <!-- <li ng-repeat="node in fmc.favmatters | filter:{ Desc: $root.fvMatter} | filter: { fdesc: fmc.filterFm } " ui-tree-node ng-include="'nodes_renderer1.html'"></li> -->
+        <li ng-repeat="node in fmc.favmatters | filter: { fdesc: textValue } " ui-tree-node ng-include="'nodes_renderer1.html'" ng-class="{'setSeleted': fmc.setFmSelect == node}"></li>
+    </ol>
+</div>

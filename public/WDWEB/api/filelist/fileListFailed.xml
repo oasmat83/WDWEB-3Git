@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+<script language="WDWEB">
+
+	var	szCR = UnConvert ("&#13;&#10;", &);
+	var nSortID = wd_File_Sort_key1;
+	var szTabLabel = wd_LIST_TABLABEL;
+	var szTabQuery = wd_FIND_QUERY;
+	var _skip;
+	var _take;
+	
+    var lpcszFormat = "<items></items>";
+
+	var lpcszPageOut;
+	var dwIndexFr = StrNum(skip);
+	var dwLinesMax = StrNum(take);
+	var dwLinesOut = StrNum(skip);
+
+	
+	var	szRC = wdapi_GetXML(dwIndexFr,dwLinesMax,dwLinesOut,lpcszFormat,lpcszPageOut);
+	
+	document.write(lpcszPageOut);
+	dwIndexFr = dwIndexFr + dwLinesOut;
+	
+	document.write ("<totalCount>" + wd_List_Count + "</totalCount>");
+	document.write ("<desc>" + wd_LIST_DESCRIPTION + "</desc>");
+
+</script>
+	<session>^&%wd_SID^</session>
+	^wd_ErrorStatusXML^
+</root>

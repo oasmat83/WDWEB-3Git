@@ -1,0 +1,164 @@
+<!-- subMenu.html -->
+
+<div class="sub-menu">
+
+    <div ng-if="type === 'BM' && checkRights('BM')">
+        <div ng-if="$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('bookmark')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'bookmark'}" title="" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--SingleBookmark" aria-hidden="true"></i><span class="nav-item-title">Bookmarks</span></a>
+        </div>
+        <div ng-if="!$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('bookmark')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'bookmark'}" title="Bookmarks" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--SingleBookmark" aria-hidden="true"></i><span class="nav-item-title">Bookmarks</span></a>
+        </div>
+        <div id="leftNavBM" class="subMenu-wrap" id="b" ng-class="{ 'is-open': $parent.$parent.selectedTab == 'bookmark' }">
+
+            <div id="leftNavFilterBM">
+                <ng-include src="'./WDWEB/shared/textbox/leftNavFilterBox.html'"></ng-include>
+            </div>
+
+            <div id="dxScrollBookmarks" class="subMenuContainer" dx-scroll-view="leftMenuView">
+                <div class="outSpinner" ng-hide="$parent.$parent.spinners.bookmarks">
+                    <div class="navSpinner" dx-load-indicator="{ height: 20, width: 20 }"></div>
+                </div>
+                <ul class="subMenu list" ng-hide="!$parent.$parent.spinners.bookmarks">
+                    <li class="subMenuItem" ng-repeat="li in $parent.$parent.bookmarks | filter: textValue" ng-mousedown="setSelected(li)" ng-click="goTo(li,'bm', $index, $parent.$parent.$parent.bookmarks)" ng-class="{'activeMenu' : selected === li}">
+                        <a href="#" class="subCat">
+                            <i class='ms-Icon {{ getIco(li) }}' aria-hidden='true'></i>
+                            <span ng-if="ttlLeftMenu!=' '" title="{{li.Desc}}" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Desc }}</span>
+                            <span ng-if="ttlLeftMenu==' '" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Desc }}</span>
+                            <div dx-load-indicator="listPreLoader" id="{{ setListId($index, 'bm') }}" class="wdListLoader"></div>
+                        </a>
+                    </li>
+                    <span class="noResults" ng-if="bmkMessage == ''">{{ bmkMessage }}</span>
+                </ul>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+
+    <div ng-if="type === 'FM'">
+        <div ng-if="$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('matters')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'matters'}" title="" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i><span class="nav-item-title">Fav Matters</span></a>
+        </div>
+        <div ng-if="!$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('matters')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'matters'}" title="Fav Matters" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i><span class="nav-item-title">Fav Matters</span></a>
+        </div>
+        <div id="leftNavFM" class="subMenu-wrap" ng-class="{ 'is-open': $parent.$parent.selectedTab == 'matters' }">
+
+            <div id="leftNavFilterFM">
+                <ng-include src="'./WDWEB/shared/textbox/leftNavFilterBox.html'"></ng-include>
+            </div>
+
+            <div id="dxScrollFavMatters" class="subMenuContainer" dx-scroll-view="leftMenuView">
+                <div class="outSpinner" ng-hide="$parent.$parent.spinners.matters">
+                    <div class="navSpinner" dx-load-indicator="{ height: 20, width: 20 }"></div>
+                </div>
+                <ul class="subMenu list" ng-hide="!$parent.$parent.spinners.matters">
+                    <li class="subMenuItem" ng-repeat="li in $parent.$parent.mainNavfavMatters | filter:textValue" ng-mousedown="getMenuFavMatters(li)" ng-class="{'activeMenu' : selected === li}">
+                        <a href="#" class="subCat">
+                            <i class='ms-Icon ms-Icon--Package' aria-hidden='true'></i>
+                            <span ng-if="ttlLeftMenu!=' '" title="{{li.szPGID}}" ng-mouseover="hoverMenuList($event)" class="name">{{ li.szPGID }}</span>
+                            <span ng-if="ttlLeftMenu==' '" ng-mouseover="hoverMenuList($event)" class="name">{{ li.szPGID }}</span>
+                        </a>
+                    </li>
+                    <span class="noResults" ng-if="favMMessage == ''">{{ favMMessage }}</span>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-if="type === 'WS' && checkRights('WS')">
+        <div ng-if="$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('workspaces')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'workspaces'}" title="" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--FieldNotChanged" aria-hidden="true"></i><span class="nav-item-title">Workspaces</span></a>
+        </div>
+        <div ng-if="!$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('workspaces')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'workspaces'}" title="Workspaces" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--FieldNotChanged" aria-hidden="true"></i><span class="nav-item-title">Workspaces</span></a>
+        </div>
+        <div id="leftNavWS" class="subMenu-wrap" ng-class="{ 'is-open': $parent.$parent.selectedTab == 'workspaces' }">
+
+            <div id="leftNavFilterWS">
+                <ng-include src="'./WDWEB/shared/textbox/leftNavFilterBox.html'"></ng-include>
+            </div>
+
+            <div id="dxScrollWorkspaces" class="subMenuContainer" dx-scroll-view="leftMenuView">
+                <div class="outSpinner" ng-hide="$parent.$parent.spinners.workspaces">
+                    <div class="navSpinner" dx-load-indicator="{ height: 20, width: 20 }"></div>
+                </div>
+                <ul class="subMenu list" ng-hide="!$parent.$parent.spinners.workspaces">
+                    <li class="subMenuItem" ng-repeat="li in $parent.$parent.workspaces.items | filter: textValue" ng-mousedown="getWorkSpace(li, $parent.$parent.$parent.workspaces.Header.List_ID)" ng-class="{'activeMenu' : selected === li}">
+                        <a href="#" class="subCat">
+                            <i class='ms-Icon ms-Icon--Package' aria-hidden='true'></i>
+                            <span ng-if="ttlLeftMenu!=' '" title="{{li.Text}}" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Text }}</span>
+                            <span ng-if="ttlLeftMenu==' '" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Text }}</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <span class="noResults" ng-if="wkMessage == ''">{{ wkMessage }}</span>
+        </div>
+    </div>
+
+    <div ng-if="type === 'PG' && checkRights('PG')">
+        <div ng-if="$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('cabinets')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'cabinets'}" title="" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--FabricFormLibrary" aria-hidden="true"></i><span class="nav-item-title">Cabinets</span></a>
+        </div>
+        <div ng-if="!$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('cabinets')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'cabinets'}" title="Cabinets" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--FabricFormLibrary" aria-hidden="true"></i><span class="nav-item-title">Cabinets</span></a>
+        </div>
+        <div id="leftNavPG" class="subMenu-wrap" ng-class="{ 'is-open': $parent.$parent.selectedTab == 'cabinets' }">
+
+            <div id="leftNavFilterPG">
+                <ng-include src="'./WDWEB/shared/textbox/leftNavFilterBox.html'"></ng-include>
+            </div>
+
+            <div id="dxScrollCabinates" class="subMenuContainer" dx-scroll-view="leftMenuView">
+                <div class="outSpinner" ng-hide="$parent.$parent.spinners.cabinets">
+                        <div class="navSpinner" dx-load-indicator="{ height: 20, width: 20 }"></div>
+                </div>
+                <ul class="subMenu list" ng-hide="!$parent.$parent.spinners.cabinets">
+                    <li class="subMenuItem" ng-repeat="li in $parent.$parent.cabinets | filter: textValue" ng-mousedown="getCabinet(li)" ng-class="{'activeMenu' : selected === li}">
+                        <a href="#" class="subCat pgList">
+                            <i class='ms-Icon ms-Icon--Package' aria-hidden='true'></i>
+                            <span ng-if="ttlLeftMenu!=' '" title="{{li.Desc}}" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Desc }}</span>
+                            <span ng-if="ttlLeftMenu==' '" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Desc }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="type === 'FF'">
+        <div ng-if="$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('favorites')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'favorites'}" title="" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i><span class="nav-item-title">Favorites</span></a>
+        </div>
+        <div ng-if="!$parent.$parent.leftMenuAction" class="navBtn getSubMenu" ng-click="$parent.$parent.$parent.navAction('favorites')" ng-class="{'active': $parent.$parent.$parent.selectedTab == 'favorites'}" title="Favorites" title-direction="right">
+            <a href="#"><i class="ms-Icon ms-Icon--Heart" aria-hidden="true"></i><span class="nav-item-title">Favorites</span></a>
+        </div>
+        <div id="leftNavFF" class="subMenu-wrap" ng-class="{ 'is-open': $parent.$parent.selectedTab == 'favorites' }">
+
+            <div id="leftNavFilterFF">
+                <ng-include src="'./WDWEB/shared/textbox/leftNavFilterBox.html'"></ng-include>
+            </div>
+
+            <div id="dxScrollFavorites" class="subMenuContainer" dx-scroll-view="leftMenuView">
+                <div class="outSpinner" ng-hide="$parent.$parent.spinners.favorites">
+                    <div class="navSpinner" dx-load-indicator="{ height: 20, width: 20 }"></div>
+                </div>
+                <ul class="subMenu list" ng-hide="!$parent.$parent.spinners.favorites">
+                    <li class="subMenuItem" ng-repeat="li in $parent.$parent.favorites | filter:textValue" ng-mousedown="setSelected(li)" ng-click="goTo(li,'ff', $index, $parent.$parent.$parent.favorites)" ng-class="{'activeMenu' : selected === li}">
+                        <a href="#" class="subCat">
+                            <i class='ms-Icon ms-Icon--Package' aria-hidden='true'></i>
+                            <span ng-if="ttlLeftMenu!=' '" title="{{li.Desc}}" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Desc }}</span>
+                            <span ng-if="ttlLeftMenu==' '" ng-mouseover="hoverMenuList($event)" class="name">{{ li.Desc }}</span>
+                            <div dx-load-indicator="listPreLoader" id="{{ setListId($index, 'ff') }}" class="wdListLoader"></div>
+                        </a>
+                    </li>
+                    <span class="noResults" ng-if="ffMessage == ''">{{ ffMessage }}</span>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

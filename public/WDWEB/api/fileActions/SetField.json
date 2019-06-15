@@ -1,0 +1,31 @@
+^wd_Inc_Script_CR^
+{
+	"SetField": {
+
+<script language="WDWEB">
+
+// Add to Favorites
+var _szData;
+var _nElemID;
+
+
+var szRC = WDAPI_SetField (0,wd_List_RecNum,nElemID,szData);
+var nRC = strnum (szRC);
+
+if (nRC > 0)	// Bad Record?
+{
+document.write("\"RC\": \""+nRC+"\"");
+}
+else
+{
+	document.write("\"wd_List_ID\": \""+wd_List_ID+"\",");
+	document.write("\"wd_List_RecNum\": \""+wd_List_RecNum+"\",");
+	document.write("\"RC\": \""+nRC+"\",");
+	document.write("\"ElemID\": \""+nElemID+"\",");
+	document.write("\"Data\": \""+szData+"\"");
+	document.write("},");
+}		
+
+</script>
+	^wd_ErrorStatusJson^
+}

@@ -1,0 +1,14 @@
+<div style="position: relative">
+  <div class="header-limiter">
+    <h1><a href="#" ng-click="gohome()">Worldox Web <span>3.0</span></a></h1>
+    <div class="wdSearch" wdx-search></div>
+    <wdx-logout></wdx-logout>
+  </div>
+  <!-- <div dx-button="openMenu" id="wdOpenMenu"></div> -->
+  <div dx-menu="wdMenuOptions" id="wdMenuOptions"></div>
+  <div wd-projects style="display: none"></div>
+  <div class="actionContainer" id="actionBtnList" ng-if="$root.chkRoute == '/home'">
+    <div ng-init="init()"></div>
+    <div dx-toolbar="fileActionToolbar" class="actionBtn"></div>
+  </div>
+</div>

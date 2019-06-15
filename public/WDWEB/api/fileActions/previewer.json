@@ -1,0 +1,41 @@
+^wd_Inc_Script_CR^
+{
+	"preview": {
+
+<script language="WDWEB">
+
+var nRecNum = wd_List_RecNum;
+var nListOffset = wd_List_Offset;
+var wd_VIEW_HTML_FLAVOR = 20;
+var wd_VIEW_OUTPUTCHARSET = "UNICODE";
+
+if (0 == nListOffset)
+{
+	document.write("\"message\": \"0=wd_List_Offset(" + nRecNum + ")\",");
+	
+}
+else	// Valid RecNum
+{
+	var nRC = WDAPI_ReReadRecord(nRecNum);
+
+	if (nRC > 0)	// Bad Record?
+	{
+		document.write("\"message\": \"" + nRC + "=WDAPI_ReReadRecord(" + nRecNum + ")\",");
+		//write.text ( nRC + "=WDAPI_ReReadRecord("+nRecNum+")" );	 Do something
+	}
+	else	// Valid Record
+	{
+		var _szFN = unconvert (wd_File_DownloadName_Value[nListOffset],&);
+		var _szFND = escape(szFN);
+		document.write("\"fileLoc\": \"");
+		write.URL( wd_DownloadLink, "/." );
+		document.write("\",");
+		document.write("\"FileNme\": \"" + szFND + "\",");
+	}
+}
+write.text ( szCR );
+
+</script>
+	^wd_ErrorStatusJson^
+	}
+}

@@ -1,0 +1,14 @@
+<div>
+    <div dx-list="custom.setGroupUserList" class="wdCustomList" id="wdCustomList"></div>
+    <div class="wdBtnContainer">
+        <div ng-repeat="btns in custom.btnTypeoptions" class="wdBtn">
+            <div dx-button="btns"></div>
+        </div>
+    </div>
+
+    <div class="wdChkBtnContainer">
+        <div ng-repeat="chk in custom.chkGroup" class="wdChkBtn">
+            <div dx-check-box="chk"></div>
+        </div>
+    </div>
+</div>

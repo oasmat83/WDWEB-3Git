@@ -1,0 +1,7 @@
+{
+	"previewer": {
+		"checkStatus": "Failed",
+		"session": "^:%wd_SID^",
+        ^wd_ErrorStatusJson^
+	}
+}

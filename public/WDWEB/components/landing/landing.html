@@ -1,0 +1,69 @@
+<!-- landing.html -->
+<div id="landingContainer" ng-style="windowHeight" ng-init="la.init();">
+    <div class="ms-Pivot ms-Pivot--tabs wd-Pivot--tabs" ng-init="init()"></div>
+    <div class="laContain" style="height: calc(100vh - 104px); position: relative;">
+        <div class="container">
+            <div class="inputContainer">
+                <div dx-button="la.contexualMenuBtn" class="laContextual" id="contextBtn"></div>
+                <div dx-context-menu="la.contexualMenu" id="searchContext"  dx-item-alias="item">
+                    <div data-options="dxTemplate:{ name:'contextItem' }">
+                        <div>
+                            <span ng-if="item.setTo == ''"><i class="ms-Icon ms-Icon--CircleRing" aria-hidden="true"></i></span>
+                            <span ng-if="item.setTo == 'Default'"><i class="ms-Icon ms-Icon--Completed" aria-hidden="true"></i></span>
+                            {{item.text}}
+                        </div>
+                    </div>
+                </div>
+                <div dx-text-box="la.searchTxtBox" id="searchLanding"></div>
+                <p id="demo"></p>
+                <div dx-button="la.searchBtn" class="laSearchBtn" id="laSearchBtn"></div>
+            </div>
+            
+            <div class="imgContainer">
+                    <img src="./wdweb/assets/images/Worldox_Logo_blue.svg" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div pageslide ng-show="uploadToggle" ps-open="uploadToggle" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':uploadToggle,'slideShadow': uploadToggle, 'slideShadow': uploadToggle }" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{setPanelWidth()}}">
+    <div>
+        <div class="closeIcon">
+            <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+            <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+        </div>
+        <div ng-include="'./WDWEB/components/upload/uploadCtrler.html'" ng-controller="uploadCtrler as upload"></div>
+    </div>
+</div>
+
+<div pageslide ng-show="directAccess" ps-open="directAccess" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':directAccess,'slideShadow': directAccess, 'slideShadow': directAccess}" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{setPanelWidth()}}">
+    <div>
+        <div class="closeIcon">
+            <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+            <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+        </div>
+        <div ng-include="'./WDWEB/shared/directAccess/directAccess.html'" ng-controller="directAccessCtrl as direct"></div>
+    </div>
+</div>
+
+<div pageslide ng-show="templates" ps-open="templates" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':templates,'slideShadow': templates}" ng-style="parentPanel ? {} : {'display': 'none'}" ps-size="{{setPanelWidth()}}">
+    <div>
+        <div class="closeIcon">
+            <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+            <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+        </div>
+        <div ng-include="'./WDWEB/shared/template/templates.html'" ng-controller="templateCtrl as temp"></div>
+    </div>
+</div>
+
+<div pageslide ng-show="openCats" ps-open="openCats" ps-click-outside="false" ps-body-class="true" ps-container="wdApp" class="slidePanel" ng-class="{'fullscreen':expandPanel,'panelActive':openCats, 'slideShadow': openCats}" ng-style="parentPanel ? {} : {'display': 'none'}">
+    <div>
+      <div class="closeIcon">
+        <a ng-click="cancelPanel()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+        <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
+      </div>
+      <div ng-include="'./WDWEB/shared/category/category.html'" ng-controller="categoryCtrl as cat"></div>
+    </div>
+</div>
+
+<wd-dialog visible="errorDailog" rctx="wdErrorRctx" host='WDXHOST' data='wdFileData'></wd-dialog>

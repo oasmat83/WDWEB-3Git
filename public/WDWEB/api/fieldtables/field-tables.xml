@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<script language="WDWEB">
+
+	var	szCR = UnConvert ("&#13;&#10;", &);
+
+	var	nLinesPerPage = 100;
+	
+	var	nList_Count = StrNum (wd_List_Count);
+
+	var	nOffset = StrNum(Offset);
+	
+	if (0 == nOffset)	nOffset = 1;
+
+	var	nPGID = StrNum (wd_File_ProfileGroup_Value);
+
+	var	szPGname = ProfileGroup (nPGID, NAME);
+	
+	var	szFieldName = ProfileField ( nPGID, wd_Field_Number_Value, NAME );
+
+	var	nFieldNum = StrNum (wd_Field_Number_Value);
+
+	var	aszField[1] = "";
+	var	aszField[2] = "";
+	var	aszField[3] = "";
+	var	aszField[4] = "";
+	var	aszField[5] = "";
+	var	aszField[6] = "";
+	var	aszField[7] = "";
+			
+	aszField[nFieldNum] = ProfileField ( nPGID, nFieldNum, NAME );
+
+	var	n1stField = nFieldNum;
+	var	nEndField = nFieldNum;
+	var lpcszFormat = "<ListCount>" + wd_list_count + "</ListCount>";
+	lpcszFormat = lpcszFormat + "<FieldTbl>";	
+	
+	while (nFieldNum >= 1)
+	{
+		var	dwFlags = ProfileField ( nPGID, nFieldNum, FLAGS );
+		
+
+		lpcszFormat = lpcszFormat + "<FieldNum>%&FIELD"+nFieldNum+"CODE%</FieldNum>";
+		lpcszFormat = lpcszFormat + "<FieldDesc>%&FIELD"+nFieldNum+"DESC%</FieldDesc>";
+		
+		
+		nFieldNum --;
+		
+		
+		if (2048 & dwFlags)
+			aszField[nFieldNum] = ProfileField ( nPGID, nFieldNum, NAME );
+		else
+			break;
+			
+		n1stField --;
+	}
+	
+	lpcszFormat = lpcszFormat + "<FE>" + nFieldNum + "</FE>";
+	lpcszFormat = lpcszFormat + "</FieldTbl>";
+
+	var	nIndex = nOffset;
+		
+	var	nRidx = nOffset;
+	var	nRmax = nRidx + MaxListCount + 1;
+			
+	if (nRmax > nList_Count)
+		nRmax = nList_Count;
+
+	document.write("<root>"+szCR);
+
+	var lpcszPageOut;
+	var dwIndexFr = StrNum(IndexFr);
+	var dwLinesMax = StrNum(maxCount);
+	
+	var dwLinesOut = StrNum(IndexFr);
+
+	var szRC = wdapi_GetXML(dwIndexFR,dwLinesMax,dwLinesOut,lpcszFormat,lpcszPageOut);
+	document.write(lpcszPageOut+""+szCR);
+	if ("OK" != szRC)
+		{
+		break;
+		}
+
+	dwIndexFR = dwIndexFR + dwLinesOut;
+
+    document.write("</root>"+szCR);
+</script>
+
+

@@ -1,0 +1,8 @@
+<errorStatus>
+    <ErrorCount>^:wd_Error_Count^</ErrorCount>
+    <wd_Error_RCID>^:wd_Error_RCID^</wd_Error_RCID>
+    <wd_Error_RCTX>^:wd_Error_RCTX^</wd_Error_RCTX>
+    <wd_Error_MSG>^:wd_Error_MSG^</wd_Error_MSG>
+    <wd_Error_VAR>^:wd_Error_VAR^</wd_Error_VAR>
+    <wd_Error_VAL>^:wd_Error_VAL^</wd_Error_VAL>
+</errorStatus>
