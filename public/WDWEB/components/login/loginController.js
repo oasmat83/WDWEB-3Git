@@ -93,7 +93,6 @@ angular.module('WDWeb').controller("loginController",
             default:
                 WDXHOST = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/";
         }
-
         WDXHOST= "http://24.190.224.178/";
       }
 
@@ -107,16 +106,6 @@ angular.module('WDWeb').controller("loginController",
         return $scope.selected === x;
       }
 
-    //   $scope.emailValidationRules = {
-    //     validationRules: [{
-    //         type: "email",
-    //         message: "Not an email"
-    //     }],
-    //     onOptionChanged: function(e) {
-    //         $scope.userValid = e.value;
-    //     }
-
-    //   }
 
       $scope.pssValidation = {
         validationRules: [{
@@ -191,9 +180,6 @@ angular.module('WDWeb').controller("loginController",
 
 
       $timeout(function(){
-          for (var i = 0; i < spinner.length; i++) {
-              new fabric['Spinner'](spinner[i]);
-          }
           angular.element(document).ready(function(){
             
             // $('#user input').focus();
@@ -333,44 +319,17 @@ angular.module('WDWeb').controller("loginController",
 
         loginService.loginPhx(WDXHOST, formData, "LOGON").then(function(res){
             if (res.data.ErrorCount != ""){
-                // switch (res.data.wd_Error_VAR1) {
-                //     case 'wd_USER_CODE_VALUE' :
-                //         $scope.selection = "";
-                //         $scope.loginData.password.value = "";
-                //         $scope.errorDailog = true;
-                //         $scope.wdErrorRctx = res.data.wd_Error_RCTX1;
-                //         $scope.WDXHOST = WDXHOST;
-                //         $scope.setBtnVisibility = true;
-                //         break;
-                //     case 'wd_USER_PASSWORD_VALUE' :
-                //         $scope.loginData.password.value = "";
-                //         $timeout(function(){
-                //             $scope.errorDailog = true;
-                //             $('#password input').focus();
-                //             $scope.setBtnVisibility = true;
-                //             }, 0);
-                //         break;
-                //     case 'wd_USER_NAME_VALUE' :
-                //         $scope.errorDailog = true;
-                //         $scope.setBtnVisibility = true;
-                //         break;
-                //     case 'wd_SERVER_NAME_VALUE' :
-                //         $scope.loginErr = res.data.wd_Error_MSG1;
-                //         $scope.setBtnVisibility = true;
-                //         break;
-                //     default:
-                        if (res.data.error) {
-                            $scope.loginSpinner = true;
-                            $scope.loginErr = res.data.error;
-                            $scope.setBtnVisibility = true;
-                            return false;
-                        }
-                        $scope.errorDailog = true;
-                        $scope.wdErrorRctx = res.data.wd_Error_RCTX1;
-                        $scope.WDXHOST = WDXHOST;
-                        $scope.setBtnVisibility = true;
-                // }
 
+                if (res.data.error) {
+                    $scope.loginSpinner = true;
+                    $scope.loginErr = res.data.error;
+                    $scope.setBtnVisibility = true;
+                    return false;
+                }
+                $scope.errorDailog = true;
+                $scope.wdErrorRctx = res.data.wd_Error_RCTX1;
+                $scope.WDXHOST = WDXHOST;
+                $scope.setBtnVisibility = true;
                 return false;
             }
 

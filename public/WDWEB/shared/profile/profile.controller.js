@@ -185,6 +185,7 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
         useNative: true
     }
     $scope.typePgFields = {"field1": 0, "field2": 0, "field3": 0, "field4": 0, "field5": 0, "field6": 0, "field7": 0};
+
     $scope.$watch(function() {
         return homeService.getSelectedList();
     }, function(newData) {
@@ -194,7 +195,7 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
         if ($scope.newData !== undefined) {
             $scope.pgCabinetValue = $scope.newData.profileGroupId + "|" + ($scope.newData.Field1Name == undefined ? '' : $scope.newData.Field1Name) + "|" + ($scope.newData.Field2Name == undefined ? '' : $scope.newData.Field2Name) + "|" + ($scope.newData.Field3Name == undefined ? '' : $scope.newData.Field3Name) + "|" + ($scope.newData.Field4Name == undefined ? '' : $scope.newData.Field4Name) + "|" + ($scope.newData.Field5Name == undefined ? '' : $scope.newData.Field5Name) + "|" + ($scope.newData.Field6Name == undefined ? '' : $scope.newData.Field6Name) + "|" + ($scope.newData.Field7Name == undefined ? '' : $scope.newData.Field7Name) + "|";
             for (var i = 1; i <= 7; i++) {
-                if ($scope.newData['Field' + i] != undefined) {
+                if ($scope.newData['Field' + i + 'Name'] != undefined) {
                     angular.forEach($scope.cabinetListFull, function(key, index) {
                         if($scope.newData.Cabinet == key.Name){
                             angular.forEach(key.Fields, function(key2, index2) {
@@ -770,7 +771,6 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
     }
 
     $scope.updateProfileList = function(x, y) {
-        console.log($scope.editFields);
         var handleUpdateProfileList = function () {
             var cabs = { Cabinets: $scope.pgCabinetValue };
             wdService.checkProfile(cabs, $scope.editFields).then(function(res) {
@@ -1105,8 +1105,15 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
     $scope.listTable = function(x, y) {
 
         wdService.getfieldTables($scope.pgCabinetValue.split("|")[0], $scope.editFields, $scope.selectedField, $scope.maxcount, $scope.indexFr, y, $scope.textValue).then(function(res){
-            $scope.total = res.data.root.Header.ListCount;
+            var wdFilter = $("#wdFilterProfile").dxTextBox("instance"),
+            wdFilterValue = wdFilter.option("value");
             $scope.listlength = res.data.root.FieldTbl.length;
+
+            if (wdFilterValue == "") {
+                $scope.total = res.data.root.Header.ListCount;
+            } else {
+                $scope.total = res.data.root.FieldTbl.length
+            }
 
             if (res.data.root.Header.ErrorCount != "") {
                 $scope.chkError(res.data.root.Header)
@@ -1282,6 +1289,7 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
 
     function getCabinets () {
         wdService.getPgCabinets().then(function(res) {
+            console.log(res);
             var pgList = res.data.root;
             if (pgList.Header.ErrorCount !== "") {
                 console.log(pgList.Header.wd_Error_MSG);
@@ -1299,7 +1307,7 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
               console.log(res.data.root.Header.wd_Error_MSG);
               return false;
           }
-          for (i = 0; i < res.data.root.Cabinets.length; i++) {
+          for (var i = 0; i < res.data.root.Cabinets.length; i++) {
               cabinetList.push(res.data.root.Cabinets[i]);
           }
         }, function(error){

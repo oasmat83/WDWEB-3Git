@@ -121,7 +121,7 @@
         function lockFile(){
             return $q(function(resolve, reject) {
                 var infoData = $("#gridContainer").dxDataGrid("instance").getSelectedRowsData().pop();
-                $http.get($localStorage.host + 'cgi-bin/wdwebcgi.exe?LOCK+wd_SID='+$localStorage.userData.session+'+wd_List_ID=' + infoData.LID + '+wd_List_RecNum=' + infoData.RN + '+html=api/fileActions/fileStatus.json')
+                $http.get($localStorage.host + 'cgi-bin/wdwebcgi.exe?LOCK+wd_SID='+$localStorage.userData.session+'+wd_List_ID=' + infoData.LID + '+wd_List_RecNum=' + infoData.RN + '+html=api/fileActions/lock.json')
                     .then(function (response) {
                         if(response.data.fileStatus.errorStatus.ErrorCount==""){
                             resolve({error: false, res: response});
@@ -138,7 +138,7 @@
         function unLockFile(){
             var request = {
                 method: 'GET',
-                url: $localStorage.host + 'cgi-bin/wdwebcgi.exe?LOCK+wd_SID='+$localStorage.userData.session+'+wd_List_ID=' + $localStorage.wdListID + '+html=api/fileActions/fileStatus.json',
+                url: $localStorage.host + 'cgi-bin/wdwebcgi.exe?LOCK+wd_SID='+$localStorage.userData.session+'+wd_List_ID=' + $localStorage.wdListID + '+html=api/fileActions/lock.json',
             }
             return $http(request);
         }
@@ -191,7 +191,7 @@
         function setFileLock(){
             var request = {
                 method: 'GET',
-                url: $localStorage.host + 'cgi-bin/wdwebcgi.exe?LOCK+wd_SID='+$localStorage.userData.session+'+wd_List_ID=' + $localStorage.wdListID + '+html=api/fileActions/fileStatus.json',
+                url: $localStorage.host + 'cgi-bin/wdwebcgi.exe?LOCK+wd_SID='+$localStorage.userData.session+'+wd_List_ID=' + $localStorage.wdListID + '+html=api/fileActions/lock.json',
             }
             return $http(request);
         }
@@ -476,7 +476,7 @@
                 url = $localStorage.host + '/cgi-bin/wdwebcgi.exe?FIELDTABLE+wd_SID=' + $localStorage.userData.session + '+HTMLOnOk=/api/fieldtables/fieldTables.json+HTMLOnFail=/api/fieldtables/fieldTables.json+wd_FIELD_PROFILEGROUP_FILTER=' + a + '+wd_FIELD1CODE_FILTER=' + copy.field1 + '+wd_FIELD2CODE_FILTER=' + copy.field2 + '+wd_FIELD3CODE_FILTER=' + copy.field3 + '+wd_FIELD4CODE_FILTER=' + copy.field4 + '+wd_FIELD5CODE_FILTER=' + copy.field5 + '+wd_FIELD6CODE_FILTER=' + copy.field6 + '+wd_FIELD7CODE_FILTER=' + copy.field7 + '+wd_FIELD_NUMBER_FILTER=' + c + '+maxCount=' + y + '+IndexFr=' + z + '+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now() + filterValue;
                 //url = $localStorage.host + '/cgi-bin/wdwebcgi.exe?FIELDTABLE+wd_SID=' + $localStorage.userData.session + '+HTMLOnOk=/api/fieldtables/fieldTables.json+HTMLOnFail=/api/fieldtables/fieldTables.json+wd_FIELD_PROFILEGROUP_FILTER=' + a + '+ID=11407+wd_FIELD1CODE_FILTER=' + copy.field1 + '+wd_FIELD2CODE_FILTER=' + copy.field2 + '+wd_FIELD3CODE_FILTER=' + copy.field3 + '+wd_FIELD4CODE_FILTER=' + copy.field4 + '+wd_FIELD5CODE_FILTER=' + copy.field5 + '+wd_FIELD6CODE_FILTER=' + copy.field6 + '+wd_FIELD7CODE_FILTER=' + copy.field7 + '+wd_FIELD_NUMBER_FILTER=' + c + '+maxCount=' + y + '+IndexFr=' + z + '+wd_FIELD1DESC_FILTER=' + copy.field1 + '+wd_FIELD2DESC_FILTER=' + copy.field2 + '+wd_FIELD3DESC_FILTER=' + copy.field3 + '+wd_FIELD4DESC_FILTER=' + copy.field4 + '+wd_FIELD5DESC_FILTER=' + copy.field5 + '+wd_FIELD6DESC_FILTER=' + copy.field6 + '+wd_FIELD7DESC_FILTER=' + copy.field7 + '+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now();
             } else {
-                copy["field" + c].value = "";
+                copy["field" + c] = "";
                 filterValue = "+wd_List_Filter="
                 url = $localStorage.host + '/cgi-bin/wdwebcgi.exe?FIELDTABLE+wd_SID=' + $localStorage.userData.session + '+HTMLOnOk=/api/fieldtables/fieldTables.json+HTMLOnFail=/api/fieldtables/fieldTables.json+wd_FIELD_PROFILEGROUP_FILTER=' + a + '+wd_FIELD1CODE_FILTER=' + copy.field1 + '+wd_FIELD2CODE_FILTER=' + copy.field2 + '+wd_FIELD3CODE_FILTER=' + copy.field3 + '+wd_FIELD4CODE_FILTER=' + copy.field4 + '+wd_FIELD5CODE_FILTER=' + copy.field5 + '+wd_FIELD6CODE_FILTER=' + copy.field6 + '+wd_FIELD7CODE_FILTER=' + copy.field7 + '+wd_FIELD_NUMBER_FILTER=' + c + '+maxCount=' + y + '+IndexFr=' + z + '+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now() + filterValue;
                 //url = $localStorage.host + '/cgi-bin/wdwebcgi.exe?FIELDTABLE+wd_SID=' + $localStorage.userData.session + '+HTMLOnOk=/api/fieldtables/fieldTables.json+HTMLOnFail=/api/fieldtables/fieldTables.json+wd_FIELD_PROFILEGROUP_FILTER=' + a + '+ID=11407+wd_FIELD1CODE_FILTER=' + copy.field1 + '+wd_FIELD2CODE_FILTER=' + copy.field2 + '+wd_FIELD3CODE_FILTER=' + copy.field3 + '+wd_FIELD4CODE_FILTER=' + copy.field4 + '+wd_FIELD5CODE_FILTER=' + copy.field5 + '+wd_FIELD6CODE_FILTER=' + copy.field6 + '+wd_FIELD7CODE_FILTER=' + copy.field7 + '+wd_FIELD_NUMBER_FILTER=' + c + '+maxCount=' + y + '+IndexFr=' + z + '+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now();

@@ -568,14 +568,23 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
             }, 1000);
             return false
         }
+        
         $scope.fieldTableSpin = true;
     }
 
     $scope.listTable = function(x, y) {
         wdService.fieldTables($scope.uploadData.Cabinets.PGID, $scope.fields, vm.selectedField, vm.maxcount, vm.indexFr, y, $scope.textValue).then(function(res){
             
-            vm.total = res.data.root.Header.ListCount;
+            var wdFilter = $("#wdFilterUpload").dxTextBox("instance"),
+            wdFilterValue = wdFilter.option("value");
             vm.listlength = res.data.root.FieldTbl.length;
+            vm.noResults = "";
+
+            if (wdFilterValue == "") {
+                vm.total = res.data.root.Header.ListCount;
+            } else {
+                vm.total = res.data.root.FieldTbl.length
+            }
 
             if (res.data.root.Header.ErrorCount != "") {
                 vm.chkError(res.data.root.Header)
@@ -883,10 +892,11 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
                         $scope.fields['field' + [i]].value = "";
                     }
                 }
-
-                $location.path('/home').search({xName: "", fName: "", access: "", create: "", modified: "", text: "", field1: $scope.fields.field1.value, field2: $scope.fields.field2.value, field3: $scope.fields.field3.value, field4: $scope.fields.field4.value, field5: $scope.fields.field5.value, field6: $scope.fields.field6.value, field7: $scope.fields.field7.value, cabinet: $scope.uploadData.Cabinets.PGID, typeid: "template", temp: "", "id": Date.now()});
-
-            }, 4000);
+                $rootScope.uploadLocation = { xName: "", fName: "", access: "", create: "", modified: "", text: "", field1: $scope.fields.field1.value, field2: $scope.fields.field2.value, field3: $scope.fields.field3.value, field4: $scope.fields.field4.value, field5: $scope.fields.field5.value, field6: $scope.fields.field6.value, field7: $scope.fields.field7.value, cabinet: $scope.uploadData.Cabinets.PGID, typeid: "template", temp: "", "id": Date.now() };
+                //$location.path('/home').search({xName: "", fName: "", access: "", create: "", modified: "", text: "", field1: $scope.fields.field1.value, field2: $scope.fields.field2.value, field3: $scope.fields.field3.value, field4: $scope.fields.field4.value, field5: $scope.fields.field5.value, field6: $scope.fields.field6.value, field7: $scope.fields.field7.value, cabinet: $scope.uploadData.Cabinets.PGID, typeid: "template", temp: "", "id": Date.now()});
+                var data = { fileAction: false };
+                $rootScope.$broadcast("errorAction", {visible: true, rctx: "UPLOAD_SUCCESS", data: data});
+            }, 0);
 
         }, function(err) {
             vm.uploadInc = true;
@@ -1156,8 +1166,8 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
         vm.selected = x;
         for (i = 1; i <= 7; i++) {
             if (x["f" + i + "n"]) {
-                $scope.fields["field" + i].value = x["f" + i + "n"];
-                vm.fieldDesc["field" + i] = x["f" + i + "d"];
+                $scope.fields["field" + i].value = x["f" + i + "n"].replace(/<[^>]+>/gm, '');
+                vm.fieldDesc["field" + i] = x["f" + i + "d"].replace(/<[^>]+>/gm, '');
             }
         }
         vm.autoSearch = "";

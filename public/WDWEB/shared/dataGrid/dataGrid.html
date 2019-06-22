@@ -203,7 +203,7 @@
     <div data-options="dxTemplate: { name: 'versionCell' }" class="verIco topPadding">
         <i class="ms-Icon ms-Icon--Page" aria-hidden="true" ng-if="file.data.Version"></i>
         <div class="versionContainer" ng-style="{'overflow': 'hidden', 'white-space': 'nowrap', 'text-overflow': 'ellipsis'}">
-            <span href ng-click="setVersion(file.data);" ng-if="!getQuery.verid" class="lineOne">{{ file.data.Version }}</span>
+            <span href ng-click="setVersion(file.data);" ng-if="!getQuery.verid" class="lineOne docVers">{{ file.data.Version }}</span>
             <span ng-if="getQuery.verid" class="lineOne">{{ file.data.Version }}</span>
         </div>
     </div>

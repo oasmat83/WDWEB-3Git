@@ -57,13 +57,14 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                 { 
                     name: "ADVANCED SEARCH",
                     onClick: function(e) {
+                        $rootScope.checkDetailForm = true;
                         $rootScope.$broadcast('openPanel', {'panel': e.itemData.name});
                     }
                  },
                 { 
                     name: "DIRECT ACCESS",
                     onClick: function(e) {
-                        console.log(e);
+                        $rootScope.checkDetailForm = true;
                         $rootScope.$broadcast('openPanel', {'panel': e.itemData.name});
                     },
                     elementAttr: {
@@ -75,6 +76,7 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                 { 
                     name: "UPLOAD",
                     onClick: function(e) {
+                        $rootScope.checkDetailForm = true;
                         $rootScope.$broadcast('openPanel', {'panel': e.itemData.name});
                     },
                     visible: $scope.softPop

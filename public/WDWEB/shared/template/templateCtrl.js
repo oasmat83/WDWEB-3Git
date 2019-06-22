@@ -1576,8 +1576,15 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
             vm.fields["field" + [i]].value = $scope.field["field" + [w]];
         }
         wdService.fieldTables(vm.pgCabinetID, vm.fields, vm.selectedField, vm.maxcount, vm.indexFr, y, $scope.textValue).then(function (res) {
-            vm.total = res.data.root.Header.ListCount;
+            var wdFilter = $("#wdFilterTemplate").dxTextBox("instance"),
+            wdFilterValue = wdFilter.option("value");
             vm.listlength = res.data.root.FieldTbl.length;
+
+            if (wdFilterValue == "") {
+                vm.total = res.data.root.Header.ListCount;
+            } else {
+                vm.total = res.data.root.FieldTbl.length
+            }
 
             if (res.data.root.Header.ErrorCount != "") {
                 vm.chkError(res.data.root.Header);
@@ -1642,8 +1649,8 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
         vm.selected = x;
         for (var i = 1, w = 10; i <= 7; i++, w++) {
             if (x["f" + i + "n"]) {
-                $scope.field["field" + [w]] = x["f" + i + "n"];
-                $scope.fieldDesc["field" + [i]] = x["f" + i + "d"];
+                $scope.field["field" + [w]] = x["f" + i + "n"].replace(/<[^>]+>/gm, '');;
+                $scope.fieldDesc["field" + [i]] = x["f" + i + "d"].replace(/<[^>]+>/gm, '');;
             }
         }
         vm.autoSearch = "";

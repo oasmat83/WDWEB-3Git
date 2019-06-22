@@ -79,7 +79,7 @@
 							$scope.wdlDescTxt = e.value;
 						},
 						placeholder: "Description"
-					}
+					};
 
 					$scope.popupFileChangedOptions = {
 						width: 'auto',
@@ -118,7 +118,8 @@
 										line10: ""
 									}
 									return false;
-								}
+								} 
+
 								var setDialog = $scope.setDialogTxtType(dialogData)
 								$scope.dialogTxt = setDialog
 
@@ -141,7 +142,8 @@
 							});
 						},
 						onHiding: function(e) {
-							$scope.radioSelection = false
+							$scope.radioSelection = false;
+							delete $rootScope.uploadLocation;
 						}
 					};
 
@@ -234,6 +236,7 @@
 							case "PASSWORD_FIELD_EMPTY":
 							case "EMAIL_FIELD_EMPTY":
 							case "WDRC_LOGON_USER_NAME_INVALID":
+							case "UPLOAD_SUCCESS":
 								$scope.visible = false;
 								break;
 						}
@@ -274,7 +277,11 @@
 									$rootScope.$broadcast('closeAllPanel');
 									$scope.wdRefresh();
 								}
-							break
+							break;
+							case "Upload Successful":
+								$location.path('/home').search($rootScope.uploadLocation);
+								$timeout(function() { delete $rootScope.uploadLocation; }, 1000);
+							break;
 						}
 					};
 

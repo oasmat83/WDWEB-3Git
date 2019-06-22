@@ -393,10 +393,18 @@ angular.module('WDWeb').controller("directAccessCtrl", ['$scope', '$rootScope', 
     }
 
     vm.listTable = function(x, y) {
-
         wdService.getfieldTables($scope.directData.Cabinets.split("|")[0], $scope.field, vm.selectedField, vm.maxcount, vm.indexFr, y, $scope.textValue).then(function(res){
-            vm.total = res.data.root.Header.ListCount;
+            var wdFilter = $("#wdFilterDirectAccess").dxTextBox("instance"),
+            wdFilterValue = wdFilter.option("value");
             vm.listlength = res.data.root.FieldTbl.length;
+
+            if (wdFilterValue == "") {
+                vm.total = res.data.root.Header.ListCount;
+                
+            } else {
+                vm.total = res.data.root.FieldTbl.length
+            }
+           
 
             if (res.data.root.Header.ErrorCount != "") {
                 vm.chkError(res.data.root.Header)
@@ -479,8 +487,8 @@ angular.module('WDWeb').controller("directAccessCtrl", ['$scope', '$rootScope', 
         vm.selected = x;
         for (i = 1; i <= 7; i++) {
             if (x["f" + i + "n"]) {
-                $scope.field["field" + i] = x["f" + i + "n"];
-                vm.fieldDesc["field" + i] = x["f" + i + "d"];
+                $scope.field["field" + i] = x["f" + i + "n"].replace(/<[^>]+>/gm, '');;
+                vm.fieldDesc["field" + i] = x["f" + i + "d"].replace(/<[^>]+>/gm, '');;
             }
         }
         vm.autoSearch = "";

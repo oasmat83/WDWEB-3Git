@@ -56,10 +56,6 @@ function($scope, $rootScope, $route, $routeParams, $timeout, $log, $window, $loc
         }, function(error) {
             console.log("logout failed");
         });
-        // var showDialog = true,
-        // wdFileData = { fileAction: false },
-        // wdRTX = "LOGOFF_QUES";
-        // $scope.setPopupDailog(showDialog, wdRTX, wdFileData);
     });
 
     $scope.setPopupDailog = function(x, y, z) {
@@ -128,6 +124,14 @@ function($scope, $rootScope, $route, $routeParams, $timeout, $log, $window, $loc
 
         if (authSession !== undefined) {
             $cookies.remove("wdSession");
+        }
+
+        if (!param.multi) {
+            $scope.descTitle = "Desc/Comments";
+            $scope.descPlaceholder = "Description";
+        } else {
+            $scope.descTitle = "Comments";
+            $scope.descPlaceholder = "Comments";
         }
 
         $scope.tabNav = $location.url();
@@ -944,12 +948,16 @@ function($scope, $rootScope, $route, $routeParams, $timeout, $log, $window, $loc
             });
         } else {
             wdService.newTestProfile($scope.uploadData, $scope.fields).then(function(res) {
-                var fieldTables = res.data;
+                var fieldTables = res.data,
+                cats = $('#wdTagsList').dxTagBox('option', 'value'),
+                catsConv = cats.join(", ");
+
                 if (fieldTables.Header.ErrorCount != "") {
                     $scope.tableErr(fieldTables);
                     return false;
                 }
-                $window.location.href = ($localStorage.host + '/cgi-bin/wdwebcgi.exe?SERVE+wd_SID=' + $localStorage.userData.session + '+html=/api/apiList.json+cabinet=' + $scope.uploadData.Cabinets.split('|')[0] + '+f1=' + $scope.fields.field1.value + '+f2=' + $scope.fields.field2.value + '+f3=' + $scope.fields.field3.value + '+f4=' + $scope.fields.field4.value + '+f5=' + $scope.fields.field5.value + '+f6=' + $scope.fields.field6.value + '+f7=' + $scope.fields.field7.value  + '+desc=' + $scope.uploadData.Description + '+type=' + $scope.groupValue + '+security=' + $scope.uploadData.Security + '+loc=' + $localStorage.uploadLocation + '+domain=' + $localStorage.host + '+popFlag=' + $scope.softpopFlag + '+comment=' + $scope.uploadData.Comments);
+                
+                $window.location.href = ($localStorage.host + '/cgi-bin/wdwebcgi.exe?SERVE+wd_SID=' + $localStorage.userData.session + '+html=/api/apiList.json+cabinet=' + $scope.uploadData.Cabinets.PGID + '+f1=' + $scope.fields.field1.value + '+f2=' + $scope.fields.field2.value + '+f3=' + $scope.fields.field3.value + '+f4=' + $scope.fields.field4.value + '+f5=' + $scope.fields.field5.value + '+f6=' + $scope.fields.field6.value + '+f7=' + $scope.fields.field7.value  + '+desc=+type=' + $scope.groupValue + '+security=' + $scope.uploadData.Security + '+loc=' + $localStorage.uploadLocation + '+domain=' + $localStorage.host + '+popFlag=' + $scope.softpopFlag + '+comment=' + $scope.uploadData.Description + '+cats=' + catsConv);
 
             }, function(error){
                 var data = { fileAction: false };
@@ -1292,8 +1300,8 @@ function($scope, $rootScope, $route, $routeParams, $timeout, $log, $window, $loc
         $scope.selected = x;
         for (i = 1; i <= 7; i++) {
             if (x["f" + i + "n"]) {
-                $scope.fields["field" + i].value = x["f" + i + "n"];
-                $scope.fieldDesc["field" + i] = x["f" + i + "d"];
+                $scope.fields["field" + i].value = x["f" + i + "n"].replace(/<[^>]+>/gm, '');
+                $scope.fieldDesc["field" + i] = x["f" + i + "d"].replace(/<[^>]+>/gm, '');
             }
         }
     }
@@ -1326,11 +1334,30 @@ function($scope, $rootScope, $route, $routeParams, $timeout, $log, $window, $loc
         $scope.fieldTableSpin = true;
     }
 
+    $scope.setFieldTableOrder = function(e) {
+        var setTable = [];
+        for(var i = 1;  i <= 7; i++) {
+            if (e.hasOwnProperty("f" + i + "n")) {
+                var data = e["f" + i + "n"] + " (" + e["f" + i + "d"] + ")";
+                setTable.push(data);
+            }
+        }
+        return setTable.reverse().join(" - ");
+    }
+
     $scope.listTable = function(x, y) {
         wdService.fieldTables($scope.uploadData.Cabinets.PGID, $scope.fields, $scope.selectedField, $scope.maxcount, $scope.indexFr, y, $scope.textValue).then(function(res){
 
-            $scope.total = res.data.root.Header.ListCount;
+            var getFilterValue = $("#wdFilterSave").dxTextBox("instance"),
+            wdFilterValue = getFilterValue.option("value");
             $scope.listlength = res.data.root.FieldTbl.length;
+            $scope.noResults = "";
+
+            if ($scope.textValue == "") {
+                $scope.total = res.data.root.Header.ListCount;
+            } else {
+                $scope.total = res.data.root.FieldTbl.length
+            }
 
             if (res.data.root.Header.ErrorCount != "") {
                 $scope.chkError(res.data.root.Header);

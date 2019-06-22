@@ -6,7 +6,7 @@
                 <!-- Vihang [20181221]: START => Code to convert file menu panel from sliding panel to resizable panel
                  <a ng-click="toggleExpandPanel()"><i class="ms-Icon " ng-class="classExpandIcon"></i></a>
                 Vihang [20181221]: END => Code to convert file menu panel from sliding panel to resizable panel -->
-                <a ng-click="toggle(null, false, false)"><i class="ms-Icon ms-Icon--Cancel"></i></a>
+                <a ng-click="toggle(null, false, false); cancelEditFile()"><i class="ms-Icon ms-Icon--Cancel"></i></a>
             </div>
             <div id="tabPanelItems" ng-controller="panelTitleController"  ng-init="initPanelTitle()">
                 <!-- <div data-options="dxTemplate : { name: 'file' } "> -->

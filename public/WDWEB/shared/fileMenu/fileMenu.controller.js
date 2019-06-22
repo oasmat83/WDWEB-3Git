@@ -43,6 +43,9 @@ angular.module('WDWeb').controller("fileMenuCtrl",
         $scope.spinner = true;
       }
 
+      $scope.cancelEditFile = function(){
+          $rootScope.checkDetailForm = false;
+      }
 
 
       //Customs the PanelTitle

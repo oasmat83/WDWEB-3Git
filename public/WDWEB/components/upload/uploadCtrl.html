@@ -48,9 +48,9 @@
                                 <ul class="subMenu list">
                                     <li>{{noResults}}</li>
                                     <li class="subMenuItem" ng-repeat="data in fieldListData | filter:autoFilter" ng-if="prefillData == 'ft'" ng-click="setSelected(data)" ng-dblclick="setField(data)" ng-class="{ activeRow: isActive(data) }">
-                                        <a href=""><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='data["f" + fieldNum + "n"] + " - " + data["f" + fieldNum + "d"]'> </span></a>
+                                        <a href=""><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='setFieldTableOrder(data)'> </span></a>
                                     </li>
-                                    <li ng-show="fieldListData.length < listCount && prefillData == 'ft'" class="loadBtn"><div dx-button="loadMore"></div></li>
+                                    <li ng-show="fieldListData.length < total && prefillData == 'ft'" class="loadBtn"><div dx-button="loadMore"></div></li>
                                     <li ng-hide="fieldTableSpin" class="spin"><div class="fieldSpinner" ></div></li>
                                 </ul>
                             </div>
@@ -58,7 +58,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="saveForm" style="overflow: hidden;"id="saveFormUpload">
+            <div class="saveForm" style="overflow: hidden; width: calc(100vw - 600px);"id="saveFormUpload">
                 <div style="position: relative">
                     <h1 class="ms-font-xl">Save</h1>
                     <div dx-button="saveOutside"></div>
@@ -68,8 +68,8 @@
                         
                         <table class="wdSaveFields">
                             <tr>
-                                <td>Desc/Comments</td>
-                                <td colspan="2"><div dx-text-area="{bindingOptions:{value: 'uploadData.Description'}, placeholder: 'Description', height: 90, width: '100%'}"  dx-validator="checkDesc"></div></td>
+                                <td>{{ descTitle }}</td>
+                                <td colspan="2"><div dx-text-area="{bindingOptions:{value: 'uploadData.Description', placeholder: 'descPlaceholder'}, height: 90, width: '100%'}"  dx-validator="checkDesc"></div></td>
                             </tr>
                             <tr>
                                 <td>Cabinets</td>
@@ -129,10 +129,7 @@
                                 <td>Security</td>
                                 <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'uploadData.Security', dataSource: 'securityList'}, valueExpr: 'value', displayExpr: 'name', width: '200', onValueChanged: changeSecurity }"></div></td>
                             </tr>
-                            <tr>
-                                <td>Save As</td>
-                                <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'uploadData.SaveAs', dataSource: 'saveAsDrop'}, valueExpr: getSaveValue, displayExpr: 'K' }" id="wdSaveAsDialog"></div></td>
-                            </tr>
+                            
                             <tr>
                                 <td>
                                 <div dx-button="contexualMenuBtnCat" id="categoryMenuBtn" class="wdTagBtn"></div>
@@ -154,123 +151,14 @@
                                 </td>
                             </tr>
                             
+                            <tr ng-if="descTitle !== 'Comments'">
+                                <td>Save As</td>
+                                <td colspan="2"><div dx-select-box="{bindingOptions:{value: 'uploadData.SaveAs', dataSource: 'saveAsDrop'}, valueExpr: getSaveValue, displayExpr: 'K' }" id="wdSaveAsDialog"></div></td>
+                            </tr>
 
                         </table>
                         
-                        <!-- <div class="dx-field" ng-show="showHideDesc">
-                            <div class="dx-field-label" >Desc/Comments</div>
-                            <div class="dx-field-value">
-                                <div dx-text-area="{bindingOptions:{value: 'uploadData.Description'}, placeholder: 'Description', height: 90}"  dx-validator="checkDesc"></div>
-                            </div>
-                            <div class="wdFieldDesc">&nbsp;</div>
-                        </div>
-
-                        <div class="dx-field">
-                            <div class="dx-field-label">Cabinets</div>
-                            <div class="dx-field-value">
-                                <div dx-select-box="{bindingOptions:{value: 'uploadData.Cabinets', dataSource: 'cabinetList'}, valueExpr: 'pgFields', displayExpr: 'pgName', onValueChanged: selectedCabinet}"></div>
-                            </div>
-                            <div class="wdFieldDesc">&nbsp;</div>
-                        </div>
-
-                        <div class="dx-field" ng-show="!showHideDesc">
-                            <div class="dx-field-label">Comments</div>
-                            <div class="dx-field-value">
-                                <div dx-text-area="{bindingOptions:{value: 'uploadData.Comments'}, placeholder: 'Comments', height: 90 }"></div>
-                            </div>
-                            <div class="wdFieldDesc">&nbsp;</div>
-                        </div>
-
-                        <div class="dx-field" ng-if="showPgFields.field1 != ''">
-                            <div class="dx-field-label"><a href ng-click="getTables(1, showPgFields.field1)" ng-class="{'selected': selectedField == 1}">{{ showPgFields.field1 }}</a></div>
-                            <div class="dx-field-value wdxFields">
-                                <div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'fields.field1.value', placeholder: 'showPgFields.field1', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile }"></div>
-                            </div>
-                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor1}">{{ fieldDesc.field1 }} &nbsp;</div>
-                        </div>
-
-                        <div class="dx-field" ng-if="showPgFields.field2 != ''">
-                            <div class="dx-field-label"><a href ng-click="getTables(2, showPgFields.field2)" ng-class="{'selected': selectedField == 2}">{{ showPgFields.field2 }}</a></div>
-                            <div class="dx-field-value wdxFields">
-                                <div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'fields.field2.value', placeholder: 'showPgFields.field2', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
-                            </div>
-                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor2}">{{ fieldDesc.field2 }} &nbsp;</div>
-                        </div>
-
-                        <div class="dx-field" ng-if="showPgFields.field3 != ''">
-                            <div class="dx-field-label"><a href ng-click="getTables(3, showPgFields.field3)" ng-class="{'selected': selectedField == 3}">{{ showPgFields.field3 }}</a></div>
-                            <div class="dx-field-value wdxFields">
-                                <div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'fields.field3.value', placeholder: 'showPgFields.field3', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
-                            </div>
-                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor3}">{{ fieldDesc.field3 }} &nbsp;</div>
-                        </div>
-
-                        <div class="dx-field" ng-if="showPgFields.field4 != ''">
-                            <div class="dx-field-label"><a href ng-click="getTables(4, showPgFields.field4)" ng-class="{'selected': selectedField == 4}">{{ showPgFields.field4 }}</a></div>
-                            <div class="dx-field-value wdxFields">
-                                <div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'fields.field4.value', placeholder: 'showPgFields.field4', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
-                            </div>
-                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor4}">{{ fieldDesc.field4 }} &nbsp;</div>
-                        </div>
-                        
-                        <div class="dx-field" ng-if="showPgFields.field5 != ''">
-                            <div class="dx-field-label"><a href ng-click="getTables(5, showPgFields.field5)" ng-class="{'selected': selectedField == 5}">{{ showPgFields.field5 }}</a></div>
-                            <div class="dx-field-value wdxFields">
-                                <div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'fields.field5.value', placeholder: 'showPgFields.field5', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
-                            </div>
-                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor5}">{{ fieldDesc.field5 }} &nbsp;</div>
-                        </div>
-
-                        <div class="dx-field" ng-if="showPgFields.field6 != ''">
-                            <div class="dx-field-label"><a href ng-click="getTables(6, showPgFields.field6)" ng-class="{'selected': selectedField == 6}">{{ showPgFields.field6 }}</a></div>
-                            <div class="dx-field-value wdxFields">
-                                <div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'fields.field6.value', placeholder: 'showPgFields.field6', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
-                            </div>
-                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor6}">{{ fieldDesc.field6 }} &nbsp;</div>
-                        </div>
-                        
-                        <div class="dx-field" ng-if="showPgFields.field7 != ''">
-                            <div class="dx-field-label"><a href ng-click="getTables(7, showPgFields.field7)" ng-class="{'selected': selectedField == 7}">{{ showPgFields.field7 }}</a></div>
-                            <div class="dx-field-value wdxFields">
-                                <div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'fields.field7.value', placeholder: 'showPgFields.field7', width: '140'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile}"></div>
-                            </div>
-                            <div class="wdFieldDesc" ng-style="{'color': wdFieldColor7}">{{ fieldDesc.field7 }} &nbsp;</div>
-                        </div>
-
-                        <div class="dx-field">
-                            <div class="dx-field-label">Security</div>
-                            <div class="dx-field-value">
-                                <div dx-select-box="{bindingOptions:{value: 'uploadData.Security', dataSource: 'securityList'}, valueExpr: 'value', displayExpr: 'name', width: '200', onValueChanged: changeSecurity }"></div>
-                            </div>
-                            <div class="wdFieldDesc">&nbsp;</div>
-                        </div> -->
-
-                        <!-- <div class="dx-field">
-                            <div class="dx-field-label" style="padding-top: 0">
-                                <div dx-button="contexualMenuBtnCat" id="categoryMenuBtn" class="wdTagBtn"></div>
-                                <div dx-context-menu="categoryContextualMenu" id="wdCatMenu"></div>
-                            </div>
-                            <div class="dx-field-value profileContainer">
-                                <div dx-tag-box="tags" dx-item-alias="tag" id="wdTagsList">
-                                    <div data-options="dxTemplate: { name: 'customTagItem' }">
-                                        <div class="customTagItem">
-                                            <img ng-src="{{host}}{{tag.CI}}" width="16" height="16" />
-                                            <div class="tagName">
-                                                {{tag.CD}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="dx-field" ng-show="showHideDesc">
-                            <div class="dx-field-label">Save As</div>
-                            <div class="dx-field-value">
-                                <div dx-select-box="{bindingOptions:{value: 'uploadData.SaveAs', dataSource: 'saveAsDrop'}, valueExpr: getSaveValue, displayExpr: 'K' }"></div>
-                            </div>
-                            <div class="wdFieldDesc">&nbsp;</div>
-                        </div> -->
+                     
 
                         <div id="large-indicator" dx-load-indicator="{ height: 60, width: 60 }" ng-hide="uploadInc"></div>
                         {{ errMessage }}

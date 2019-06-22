@@ -24,11 +24,11 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
     $scope.wdErrorRctx = "";
     $scope.WDXHOST = $localStorage.host;
     $scope.wdFileData = "";
-    // $rootScope.wdTempCabinet = false;
-    
+
     window.addEventListener("dragover", function(e) {
         e.preventDefault();
     }, false);
+
     window.addEventListener("drop", function(e) {
         e && e.preventDefault();
     }, false);
@@ -59,7 +59,6 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
         $scope.setPopupDailog(showDialog, wdRTX, wdFileData);
     });
 
-
     $scope.$on("openSearchPanel", function(e, data) {
         $scope.getDefaultTemplate(false);
         $scope.templates = true;
@@ -73,10 +72,6 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
         }, function(error) {
             console.log("logout failed");
         });
-        // var showDialog = true,
-        // wdFileData = { fileAction: false },
-        // wdRTX = "LOGOFF_QUES";
-        // $scope.setPopupDailog(showDialog, wdRTX, wdFileData);
     });
 
     $scope.$on("openPanel", function (evt, data) {
@@ -121,15 +116,13 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
     });
 
     $scope.$watch('wdView', function (e) {
-    // $scope.$watch('checked', function (e) {
         $scope.resizeHomedataGrid();
         if (e) {
             $(".dx-datagrid-rowsview.dx-fixed-columns .dx-scrollable-scrollbar").addClass('openViewPanel');
             $("#homedataGrid .dx-resizable-handle-right").css("display", "block");
-            //$scope.sethandle = "right";
+
             return false;
         };
-        //$scope.sethandle = "";
         $("#homedataGrid .dx-resizable-handle-right").css("display", "none");
         $(".dx-datagrid-rowsview.dx-fixed-columns .dx-scrollable-scrollbar").removeClass('openViewPanel');
     });
@@ -383,7 +376,7 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
 
     $scope.classExpandIcon = {'ms-Icon--BackToWindow':$scope.expandPanel,'ms-Icon--FullScreen':!$scope.expandPanel}
 
-    //Inits customs home controller.
+
     $scope.init = function() {
 
         homeService.checkLocalStorage();
@@ -405,17 +398,6 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
                 $scope.resizeHomedataGrid();
             });
         }, 1000);
-
-        // if ($localStorage.wdListID) {
-        //     wdService.clearList().then(function(response){
-        //         var data = response.data.root;
-        //         if (data.ErrorCount != "") {
-        //             return false;
-        //         }
-        //     }, function(error) {
-        //         console.log(error);
-        //     });
-        // }
 
         userAgent = $window.navigator.userAgent;
 
@@ -524,9 +506,6 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
     $scope.loadPreviewWhenStartup = function (listfiles) {
         if( $localStorage.isOpeningDocPanel){
             var infoData;
-            // var infoData = listfiles.find(function (item) {
-            //     return item.DocId == $localStorage.currentFile.DocId
-            // })
 
             angular.forEach(listfiles, function(key, index) {
                 if (key.DocId == $localStorage.currentFile.DocId) {
@@ -536,7 +515,6 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
             });
 
             if(typeof infoData != 'undefined'){
-                //$scope.checked = true;
                 $scope.wdView = true;
                 $scope.filePage($localStorage.currentFile);
                 $rootScope.$broadcast('loadInfoPanelStartup', infoData);
@@ -590,6 +568,7 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
 
     // Closes tab panels.
     $scope.cancelPanel = function() {
+        $rootScope.checkDetailForm = false;
         homeService.setUploadPanel(1);
         $rootScope.viewOpt = homeService.getUploadPanel();
         $scope.uploadToggle = false;
@@ -624,28 +603,21 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
         return true;
     }
 
-    /* Vihang [20181221]: START => Code to convert file menu panel from sliding panel to resizable panel */
     $scope.marginBetweenPanels = 10;
     $scope.homeFileMenuDefaultWidth = 520;
 
     $scope.resizeHomedataGrid = function () {
 
         if ($scope.wdView && parseInt($("#homeFileMenu").css("width")) <= 0) {
-            // if ($scope.checked && parseInt($("#homeFileMenu").css("width")) <=0 ) {
             $("#homeFileMenu").css("width", $scope.homeFileMenuDefaultWidth);
         }
 
         var getHomeFileMenuWidth = ($scope.wdView ? $("#homeFileMenu").css("width") : 0);
-        // var getHomeFileMenuWidth = ($scope.checked ? $("#homeFileMenu").css("width") : 0);
         var getLeftNavWidth = parseInt($("#leftNav").innerWidth());
         var getWidth = parseInt(window.innerWidth) - parseInt(getHomeFileMenuWidth) - getLeftNavWidth - $scope.marginBetweenPanels + 10;
         $("#homedataGrid").css("width", getWidth);
         $(".dx-freespace-row").css("height", 1);
 
-        // Resize Toolbar
-        // setTimeout(function () {
-        //     angular.element('#homedataGrid div[dx-toolbar="fileActionToolbar"]').dxToolbar("instance")._windowResizeCallBack();
-        // }, 500);
     }
 
     $scope.validateAndResizeHomeFileMenu = function (eventObj) {
@@ -657,10 +629,8 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
         var getWidth = parseInt(window.innerWidth) - getLeftNavWidth - getHomedataGridWidth - $scope.marginBetweenPanels + 10;
         var setTitle = parseInt(eventObj.width) - parseInt(toolbarWidth) - 45;
         
-        // Validation: START -  file menu panel width should not violate min/max width rules
         var getHomeFileMenuMinWidth = parseInt($("#homeFileMenu").css("min-width"));
         var getHomeFileMenuMaxWidth = parseInt($("#homeFileMenu").css("max-width"));
-        //$("#listTitle").css("width", setTitle)
         if ((getHomeFileMenuMinWidth > 0 && getWidth <= getHomeFileMenuMinWidth)
             || (getHomeFileMenuMaxWidth > 0 && getWidth >= getHomeFileMenuMaxWidth)) {
 
@@ -671,15 +641,11 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
             $("#homeFileMenu").css("width", getWidth);
             return true;
         }
-        // Validation: END -  file menu panel width should not violate min/max width rules       
     }
 
     $scope.setHomeResizable = {
         minWidth: 400,
         maxWidth: 1200,
-        // bindingOptions: {
-        //     handles: "sethandle",
-        // },
         handles: "right",
         onInitialized: function(e) {
             var windowWidth = parseInt(window.innerWidth);
@@ -692,7 +658,6 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
                 $("#listTitle").css({'max-width': "0px", "width" : "0px"});
                 var grid = $("#gridContainer").dxDataGrid("instance");
                 grid._windowResizeCallBack();
-                // angular.element('#homedataGrid div[dx-toolbar="fileActionToolbar"]').dxToolbar("instance")._windowResizeCallBack();
                 var windowWidth = parseInt(window.innerWidth);
                 var leftWidth = parseInt($("#leftNav").innerWidth());
                 var bodyWidth = parseInt(windowWidth) - parseInt(leftWidth);
@@ -711,10 +676,7 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
             e.element.find(".dx-resizable-handle-right").removeAttr("style");
         }
     }
-    /* Vihang [20181221]: END => Code to convert file menu panel from sliding panel to resizable panel */
 
-
-    // Opens the file menu panel right.
     $scope.setToggle = function (x) {
         setTimeout(function(){
             $("#gridContainer").dxDataGrid("instance")._windowResizeCallBack();
@@ -725,12 +687,10 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
             $scope.resizeHomedataGrid();
             return false;
         }
-        // homeService.setTitle({"flag": "project", "name": x.Name });
         $location.path('/home').search({ query: 'Project: ' + encodeURIComponent(x.FilePath + "\\" + x.DocId) });
     }
     // Opens the version menu right.
     $scope.openVersionTab = function(x) {
-        // homeService.setTitle({"flag": "project", "name": x.Name });
         $scope.checked = true;
         $localStorage.isOpeningDocPanel = true
         $("#tabPanelItems").dxTabPanel({
@@ -792,15 +752,6 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
                 }
 
                 if (viewData.fileLoc == "") {
-                    // $scope.errorDailog = true;
-                    // $scope.wdErrorRctx = viewData.errorStatus.wd_Error_RCTX;
-                    // $scope.wdFileData = {
-                    //     title: "View",
-                    //     desc: x.Description,
-                    //     doc: x.DocId,
-                    //     action: "EntryView, wdInfo",
-                    //     fileAction: true
-                    // }
                     $scope.fileView = "<p>Viewer failed to load file.</p>";
                     $scope.loadPreview = true;
                     return false;
@@ -937,6 +888,9 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
                 $(arrayElements[elementFocus]).focus().click();
              }
          }
-     });
-}
+    });
 
+    $scope.$on("$destroy", function() {
+        console.log("HomeController Destroy");
+    });
+}

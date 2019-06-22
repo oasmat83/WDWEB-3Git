@@ -1288,6 +1288,9 @@ angular.module('WDWeb').factory('fileListUI', ['uxService', 'wdService', '$windo
     function getCategoryList(e) {
         var request = {
             method: 'GET',
+            // transformResponse: function (data, headersGetter) {
+            //     return { data: data }
+            // },
             url: $localStorage.host + 'cgi-bin/wdwebcgi.exe?CATLIST+wd_SID=' + $localStorage.userData.session + '+html=/api/categories/categories-list.json+wd_File_Path_Value=' + encodeURIComponent(e) + '+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now()
         }
         return $http(request);

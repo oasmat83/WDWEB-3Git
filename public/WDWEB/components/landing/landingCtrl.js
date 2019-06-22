@@ -286,7 +286,10 @@ function landingController($scope, $http, $localStorage, $location, $q, $window,
                     }
                 break;
                 case "UPLOAD":
-                getWdItems[idx].visible = $localStorage.userRights.Upload;
+                    var userAgent = $window.navigator.userAgent;
+                    if (userAgent.indexOf('Frowser') == -1) {
+                        getWdItems[idx].visible = $localStorage.userRights.Upload;
+                    }
                 break;
                 case "PROJECT":
                     if(window != top){

@@ -27,6 +27,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
     var config = {};
     var gridData;
     var gridRfId = 1;
+    var deleteIndicator;
 
     // Check on IE to toggle useKeyboard
     var isIE = /*@cc_on!@*/false || !!document.documentMode;
@@ -320,6 +321,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                             panel: true
                         }
                         $scope.$parent.checked = true;
+                        $rootScope.checkDetailForm = true;
                     } else {
                         var setDialogData = {title: "Lock", desc: grid.getSelectedRowsData().pop().Description, doc: grid.getSelectedRowsData().pop().DocId, action: "PageLock, wdInfo", fileAction: true}
                         $scope.setPopupDailog(true, lock.res.data.fileStatus.errorStatus.wd_Error_RCTX, setDialogData);
@@ -334,7 +336,6 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     }
                 }
                 homeService.setSelected(data.meta[0]);
-                // $("#tabPanelItems").dxTabPanel("instance").option("selectedIndex", 1);
                 $scope.toggle(getTopObj.row.data, true);
                 $scope.$parent.dialogTitle = data.profile;
                 $rootScope.chkedPanel = {
@@ -876,7 +877,8 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
     $rootScope.versionlist = false;
 
     var orders = new DevExpress.data.CustomStore({
-        key: ["DocId", "Version"],
+        // key: ["DocId", "Version"],
+        key: "LN",
         load: function (loadOptions) {
             if (!paginate) {
                 switch ($scope.sortFlag) {
@@ -1155,6 +1157,9 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
             gridData.refresh();
             gridData.getScrollable().scrollTo(0);
                    
+        },
+        remove: function (key) {
+            console.log(key);
         }
     });
 
@@ -1331,8 +1336,42 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
 
     }
 
+    $rootScope.checkDetailForm = false;
+
+    $(document).bind("keydown",function(e) {
+        if(!$rootScope.checkDetailForm){
+            gridData = $("#gridContainer").dxDataGrid("instance");
+            var selKey = gridData.getSelectedRowKeys(),
+                DOWN_KEY = 40,
+                UP_KEY = 38;
+            if (selKey.length) {
+                var currentKey = selKey[0];
+                var index = gridData.getRowIndexByKey(currentKey);
+                if (e.keyCode === UP_KEY) {
+                    if (gridData.getSelectedRowKeys().length <= 1) {
+                        index--;
+                        if (index >= 0)
+                            gridData.selectRowsByIndexes([index]);
+                    }
+                }
+                else if (e.keyCode === DOWN_KEY) {
+                    if (gridData.getSelectedRowKeys().length <= 1) {
+                        index++;
+                        if (gridData.getDataSource().items().length === index) {
+                            index = index;
+                        } else {
+                            gridData.selectRowsByIndexes([index]);
+                        }
+                    }
+                }
+            };
+            if ($scope.$parent.wdView && (e.keyCode === UP_KEY || e.keyCode === DOWN_KEY)) {
+                loadPreview($scope.gridData.component, $scope.gridData.component.getSelectedRowsData().pop(), $scope.gridData);
+            }
+        }
+    });
     $scope.dataGridOptions = {
-        //useKeyboard: isIE ? false : true,
+        useKeyboard: false, //isIE ? false : true,
         dataSource: {
             store: orders
         },
@@ -2905,7 +2944,12 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 $("#wdEditProfile").dxButton("instance").option("disabled", false);
                 // $("#wdCopyProfile").dxButton("instance").option("disabled", false);
             }
-        }
+        },
+        editing: {
+            texts: {
+                confirmDeleteMessage: ''
+            }
+        },
     };
 
     $scope.displayComments = function () {
@@ -4077,7 +4121,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     }
                 break;
                 case "UPLOAD":
-                getWdItems[idx].visible = $localStorage.userRights.Upload;
+                    var userAgent = $window.navigator.userAgent;
+                    if (userAgent.indexOf('Frowser') == -1) {
+                        getWdItems[idx].visible = $localStorage.userRights.Upload;
+                    }
                 break;
                 case "PROJECT":
                     if(window != top){
@@ -4315,6 +4362,11 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
         showCloseButton: false,
         bindingOptions: {
             visible: "visibleDeletePopup",
+        },
+        onShowing: function(e) {
+            var deleteGr = $("#wdDeleteGrp").dxRadioGroup("instance"),
+            grpValue = deleteGr.option("value", 16456);
+            $scope.textValue = 16456;
         }
     };
 
@@ -4340,11 +4392,22 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
         text: "Ok",
         type: "success",
         width: 90,
-        useSubmitBehavior: true
+        useSubmitBehavior: true,
+        template: function(data, container) {
+            $("<div class='button-indicator'></div><span class='dx-button-text'>" + data.text + "</span>").appendTo(container);
+            deleteIndicator = container.find(".button-indicator").dxLoadIndicator({
+                    visible: false,
+                    width: 16,
+                    height: 16,
+                    elementAttr: {id: "deleteIndicator"}
+            }).dxLoadIndicator("instance");
+        },
+        onClick: function(e) {
+            deleteIndicator.option("visible", true);
+        }
     };
 
     $scope.deleteData = function () {
-        $scope.visibleDeletePopup = false;
         angular.forEach($scope.currentDeleteFiles, function (key, index) {
             var xn = true;
             wdService.deleteFile(key, $scope.deleteValue).then(function (res) {
@@ -4356,8 +4419,17 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     $scope.errorType(setDeleteReturn.fileStatus, xn, key);
                     return false;
                 }
-                var getTableData = $("#gridContainer").dxDataGrid("instance");
-                getTableData.refresh();
+                var getTableData = $("#gridContainer").dxDataGrid("instance"),
+                keys = getTableData.getSelectedRowKeys();
+
+                for (var i = 0; i < keys.length; i++) {
+                    $scope.visibleDeletePopup = false;
+                    getTableData.deleteRow(getTableData.getRowIndexByKey(keys[i]));
+                    $scope.visibleDeletePopup = false;
+                    deleteIndicator.option("visible", false);
+                }
+
+                // getTableData.refresh();
             });
         });
     }
@@ -4367,6 +4439,8 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
         type: "danger",
         width: 90,
         onClick: function (e) {
+            // var deleteGr = $("#wdDeleteGrp").dxRadioGroup("instance"),
+            // grpValue = deleteGr.option("value", 16456);
             $scope.visibleDeletePopup = false;
         }
     };
@@ -4549,12 +4623,15 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
 
     $scope.delGroup = {
         items: $scope.deleteList,
-        // value: priorities[2],
+        valueExpr: "value",
         itemTemplate: function (itemData, _, itemElement) {
             itemElement.parent().text(itemData.text);
         },
         onValueChanged: function (e) {
-            $scope.deleteValue = e.value.value;
+            $scope.deleteValue = e.value;
+        },
+        elementAttr: {
+            id: "wdDeleteGrp"
         }
     }
 
@@ -4731,4 +4808,8 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
             $("#listTitle").css({ 'max-width': width_before + "px", "width": width_before + "0px" });
         }, 100);
     }
+
+    $scope.$on("$destroy", function() {
+        console.log("Datagrid Destroy");
+    });
 };

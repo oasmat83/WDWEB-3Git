@@ -6,7 +6,7 @@ angular.module('WDWeb').controller("leftNavCtrl",
             $scope.cabinets = [];
             $scope.menuUpdate = "#bmkContainer";
             $scope.leftNavColumn = true;
-            $rootScope.date = "Rev: 156052.0454 ";
+            $rootScope.date = "Rev: 156106.1912";
             //$scope.date = "Rev: " + uni.split(uniLen)[0] + "." + uniLen;
             $scope.textValue = "";
 
