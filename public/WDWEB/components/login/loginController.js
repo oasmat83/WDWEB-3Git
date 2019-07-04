@@ -10,7 +10,6 @@ angular.module('WDWeb').controller("loginController",
       var authSession = $cookies.get("wdSession");
       $scope.showlogin = false;
       $scope.isRememberUserName = "";
-      
 
       var formData = {
           "Username": "",
@@ -93,7 +92,9 @@ angular.module('WDWeb').controller("loginController",
             default:
                 WDXHOST = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/";
         }
-        WDXHOST= "http://24.190.224.178/";
+        // WDXHOST = "https://phoenix02.wdsaas.com/";
+        // WDXHOST= "http://65.206.104.80/";
+        WDXHOST= "http://localhost/";
       }
 
 

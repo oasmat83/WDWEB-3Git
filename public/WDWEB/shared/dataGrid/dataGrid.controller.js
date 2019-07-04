@@ -27,6 +27,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
     var config = {};
     var gridData;
     var gridRfId = 1;
+    var setflag = true;
     var deleteIndicator;
 
     // Check on IE to toggle useKeyboard
@@ -79,16 +80,17 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
     $scope.showPageSize = false;
     $scope.pageSize = 50;
     $scope.hidePrev = false;
-    $scope.pagination = [
-        { 
-            display: 1, 
-            skip: 0, 
-            take: $scope.wdNumbPag + parseInt(1),
-            select: true
-        }
-    ];
+    // $scope.pagination = [
+    //     { 
+    //         display: 1, 
+    //         skip: 0, 
+    //         take: $scope.wdNumbPag + parseInt(1),
+    //         select: true
+    //     }
+    // ];
     $scope.pageLimit = [];
     var paginate = false;
+    var sortOk = false
     $scope.messOnlyTitle = false;
     var clickTimer, lastRowCLickedId;
 
@@ -133,6 +135,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
     $rootScope.$on("setConfirmHashChanged", function(event, data) {
         $rootScope.confirmChangeHash = data.fnc;
     })
+
     $rootScope.$on("showMessageWhenFileChanged", function(event, data) {
         $scope.titlePopupFileChangedOptions = data.title;
         $scope.fileChange = {};
@@ -305,6 +308,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 checkoutRecords(data.data);
                 break;
             case "editProfile":
+                var copyLoad = $("#wdCopyLoad").dxLoadIndicator("instance"),
+                copyBtn = $("#wdCopyProfile").dxButton("instance"),
+                editLoad = $("#wdEditLoad").dxLoadIndicator("instance"),
+                editBtn = $("#wdEditProfile").dxButton("instance");
                 wdService.lockFile().then(function (lock) {
                     if(!lock.error){
                         var getTopObj = {
@@ -322,9 +329,17 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         }
                         $scope.$parent.checked = true;
                         $rootScope.checkDetailForm = true;
+                        copyLoad.option("visible", false);
+                        copyBtn.option("icon", "ms-Icon ms-Icon--Copy");
+                        editLoad.option("visible", false);
+                        editBtn.option("icon", "ms-Icon ms-Icon--Edit");
                     } else {
                         var setDialogData = {title: "Lock", desc: grid.getSelectedRowsData().pop().Description, doc: grid.getSelectedRowsData().pop().DocId, action: "PageLock, wdInfo", fileAction: true}
                         $scope.setPopupDailog(true, lock.res.data.fileStatus.errorStatus.wd_Error_RCTX, setDialogData);
+                        copyLoad.option("visible", false);
+                        copyBtn.option("icon", "ms-Icon ms-Icon--Copy");
+                        editLoad.option("visible", false);
+                        editBtn.option("icon", "ms-Icon ms-Icon--Edit");
                     }
                 })
                 break;
@@ -346,7 +361,9 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
              
                 break;
             case "view":
-                var selectedData = getSelected.pop();
+                var selectedData = getSelected.pop(),
+                viewLoad = $("#wdViewLoad").dxLoadIndicator("instance"),
+                viewBtn = $("#wdViewFile").dxButton("instance");
                 if (selectedData.GT == "WDL") {
                     $scope.$parent.wdView = false;
                     var decodeWdl = decodeURIComponent(selectedData.FilePath + '\\' + selectedData.DocId);
@@ -377,7 +394,8 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $("#gridContainer").dxDataGrid("instance")._windowResizeCallBack();
                     }
                 }
-               
+                viewLoad.option("visible", false);
+                viewBtn.option("icon", "ms-Icon ms-Icon--EntryView");
                 break;
             case "reFresh":
                 $scope.tableLoader = true;
@@ -546,7 +564,6 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                             $scope.fontStyle[i]['bUNDERLINE'] = 'unset';
                         }
                         var screenHeight = screen.height;
-                        //$scope.fontStyle[i]['uHEIGHT'] = 10*(-$scope.fontStyle[i]['uHEIGHT']*72)/screenHeight;
                         $scope.fontStyle[i]['uHEIGHT'] = '1.1em';
                     }
                 }
@@ -914,7 +931,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
 
                 parameters.take = loadOptions.take || 51;
             }
-            else {
+            else if (paginate && !sortOk) {
                 var wdSearchfilter = "",
                 verb = "SERVE";
 
@@ -923,6 +940,13 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     wdSearchfilter = '+wd_List_Filter=' + $scope.filterValue;     
                 }
                 urlParam = '+html=/api/filelist/filterList.json+wd_List_ID=' + $localStorage.wdListID + wdSearchfilter;
+            } else {
+                sortOk = false;
+                verb = "SORTFILES";
+                if ($scope.filterFlag) {
+                    wdSearchfilter = '+wd_List_Filter=' + $scope.filterValue;     
+                }
+                urlParam = "+html=/api/filelist/fileList.json+wd_List_ID=" + $localStorage.wdListID + wdSearchfilter;
             }
 
             if (loadOptions.skip) {
@@ -959,10 +983,8 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     return str.join("&");
                 },
                 timeout: TIMEOUT.FINDFILES
-                // data: {szJSON: encodeURIComponent(columnStr + ',')}
             }
             return $http(req)
-            // return $http.post($localStorage.host + 'cgi-bin/wdwebcgi.exe?' + verb + '+wd_SID=' + $localStorage.userData.session + urlParam + '+skip=' + parameters.skip + '+take=' + parameters.take + '+Wd_File_Sort_Key1=' + $scope.columnID + '+wd_File_Sort_Dir1=' + $scope.sortType + wdListId + '+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now(), {data: {test: 'test'}}, {headers:{'Content-Type': 'application/x-www-form-urlencoded'}})
                 .then(function (response) {
                     var wdFilterValue = $("#wdFilterBox").dxTextBox("instance").option("value");
                     $scope.wdTotalList = response.data.root.items.length;
@@ -1371,27 +1393,24 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
         }
     });
     $scope.dataGridOptions = {
-        useKeyboard: false, //isIE ? false : true,
+        //useKeyboard: false, isIE ? false : true,
         dataSource: {
             store: orders
         },
         bindingOptions: {
             rowAlternationEnabled: true,
             'pager.infoText': 'selectedText',
-            'pager.showPageSizeSelector': 'showPageSize',
-            'paging.pageSize': 'pageSize',
-            'pager.allowedPageSizes': 'pageLimit'
+            // 'pager.showPageSizeSelector': 'showPageSize',
+            // 'paging.pageSize': 'pageSize',
+            // 'pager.allowedPageSizes': 'pageLimit'
         },
         allowColumnReordering: true,
-        columnChooser: {
-            // enabled: true,
-            // mode: "select"
-        },
         scrolling: {
             showScrollbar: 'always',
             useNative: true,
             // rowRenderingMode: 'virtual',
             renderingThreshold: 10000,
+            // mode: 'infinite'
         },
         renderAsync: true,
         columnFixing: {
@@ -1404,10 +1423,8 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
         //     showPane: true
         // },
         columnAutoWidth: true,
-
         selection: {
             mode: "single",
-            //allowSelectAll: true,
             selectAllMode: "page"
         },
         remoteOperations: {
@@ -1415,17 +1432,11 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
             paging: true
         },
         pager: {
-            allowedPageSizes: [50, 100, 150, 200, 250],
+        //     allowedPageSizes: [20, 50, 100, 150, 200, 250],
             showInfo: true,
-            visible: true,
-            showNavigationButtons: false,
+        //     visible: true,
+        //     showNavigationButtons: false,
         },
-        // summary: {
-        //     totalItems:[{
-        //     displayFormat: "kfasjflkjflk",
-        //     showInColumn: "Size",
-        //     }]
-        // },
         showColumnLines: false,
         showRowLines: true,
         rowAlternationEnabled: false,
@@ -1464,6 +1475,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 dataField: "Description",
                 cellTemplate: "cellTemplate",
                 showInColumnChooser: false,
+                sortOrder: 'desc',
                 calculateCellValue: function (data) {
                     //calc date Modified
                     if (data.DateUpdated != "") {
@@ -1545,7 +1557,6 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 dataField: "DateUpdated",
                 filterOperations: [],
                 selectedFilterOperation: 'contains',
-                sortOrder: 'desc',
                 calculateCellValue: function (data) {
                     if (data.DateUpdated == "" || !data.DateUpdated || data.DateUpdated.indexOf('NaN') > -1) {
                         return null;
@@ -1566,11 +1577,6 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 width: $scope.widthModified,
                 visible: initialColumnChooser.indexOf('Modified') > -1,
                 cellTemplate: function (element, info) {
-                    // if($scope.fontStyle[10]=== undefined){
-                    //     var cssColumn = 'style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size:11pt; font-style:normal; text-decoration:unset; color:rgb(78, 78, 78); padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px; font-family:Calibri; font-weight:400"';
-                    // }else{
-                    //     var cssColumn = 'style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; '+"font-size:"+$scope.fontStyle[10]['uPOINTSIZE']+"pt; font-style:"+$scope.fontStyle[10]['bITALIC']+"; text-decoration:"+$scope.fontStyle[10]['bUNDERLINE']+"; color:"+$scope.fontStyle[10]['crTEXT']+"; padding-left:"+$scope.fontStyle[10]['RC.LEFT']+"px; padding-right:"+$scope.fontStyle[10]['RC.RIGHT']+"px; padding-top:"+$scope.fontStyle[10]['RC.TOP'] + "px; padding-bottom:"+$scope.fontStyle[10]['RC.BOTTOM']+"px; font-family:"+$scope.fontStyle[10]['szFACENAME']+"; font-weight:"+$scope.fontStyle[10]['uWEIGHT']+';"';
-                    // }
                     var cssColumn = 'style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"';
                     element.append("<div class='topPadding'><div " + cssColumn + " class='lineOne'>" + info.text + "</div></div>");
                 },
@@ -2040,10 +2046,11 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
             this._columns = value;
         },
         onContentReady: function (e) {
-            var setflag = true;
-            var wdFilterValue = $("#wdFilterBox").dxTextBox("instance").option("value");
+        
+            var wdFilterValue = $("#wdFilterBox").dxTextBox("instance").option("value"),
+            actBar = $("#actionToolbar").dxToolbar("instance");
             if (setflag) {
-                
+
                 setflag = false;
                 $rootScope.setTitleHeaderWidth();
                 var columnChooserView = e.component.getView("columnChooserView");
@@ -2068,7 +2075,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     $scope.catResponse = "";
                     var rows = gridData.getVisibleRows();
                     if (rows !== undefined && rows.length !== 0) {
-                        
+
                         fileListUI.getCategoryList(rows[0].data.FilePath).then(function (res) {
                             $scope.catResponse = res.data.root;
                             $scope.showCatType = {};
@@ -2198,6 +2205,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 }
 
                 if (!$localStorage.ColumnsChooser) {
+                    //dataGridInstance.beginUpdate();
                     $scope.canvas = angular.element('#myCanvas');
                     $scope.ctx = $scope.canvas[0].getContext("2d");
                     if ($scope.fontStyle[10] === undefined) {
@@ -2225,9 +2233,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     }
 
                     $scope.html_temp_docid = $rootScope.temp_docid;
-                    dataGridInstance.columnOption("Doc ID", "width", 25 + $scope.ctx_docid.measureText($scope.html_temp_docid).width);
                     $scope.widthDocID = 25 + $scope.ctx_docid.measureText($scope.html_temp_docid).width;
-
+                    if($scope.lastcolumn!="Doc ID" && $scope.columnarr_visivle.indexOf("Doc ID") > -1){
+                        dataGridInstance.columnOption("Doc ID", "width", 25 + $scope.ctx_docid.measureText($scope.html_temp_docid).width);
+                    }
                     $scope.canvas_version = angular.element('#myCanvas_version');
                     $scope.ctx_version = $scope.canvas_version[0].getContext("2d");
                     if ($scope.fontStyle[10] === undefined) {
@@ -2236,8 +2245,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_version.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_version = $rootScope.temp_version;
-                    dataGridInstance.columnOption("Ver#", "width", 25 + $scope.ctx_version.measureText($scope.html_temp_version).width);
                     $scope.widthVer = 25 + $scope.ctx_version.measureText($scope.html_temp_version).width;
+                    if($scope.lastcolumn!="Ver#" && $scope.columnarr_visivle.indexOf("Ver#") > -1){
+                        dataGridInstance.columnOption("Ver#", "width", 25 + $scope.ctx_version.measureText($scope.html_temp_version).width);
+                    }
 
                     $scope.canvas_modified = angular.element('#myCanvas_modified');
                     $scope.ctx_modified = $scope.canvas_modified[0].getContext("2d");
@@ -2247,9 +2258,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_modified.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_modified = angular.element(document).find("#myCanvas_modified")[0].innerHTML;
-                    dataGridInstance.columnOption("Modified", "width", 25 + $scope.ctx_modified.measureText($scope.html_temp_modified).width);
                     $scope.widthModified = 25 + $scope.ctx_modified.measureText($scope.html_temp_modified).width;
-
+                    if($scope.lastcolumn!="Modified" && $scope.columnarr_visivle.indexOf("Modified") > -1){
+                        dataGridInstance.columnOption("Modified", "width", 25 + $scope.ctx_modified.measureText($scope.html_temp_modified).width);
+                    }
                     $scope.canvas_categories = angular.element('#myCanvas_categories');
                     $scope.ctx_categories = $scope.canvas_categories[0].getContext("2d");
                     if ($scope.fontStyle[10] === undefined) {
@@ -2258,14 +2270,15 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_categories.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_categories = $rootScope.temp_categories;
-                    if($scope.maxWidthCategories >= 90 + $scope.ctx_categories.measureText($scope.html_temp_categories).width){
-                        dataGridInstance.columnOption("Categories", "width", 90 + $scope.ctx_categories.measureText($scope.html_temp_categories).width);
-                    }else{
-                        dataGridInstance.columnOption("Categories", "width", $scope.maxWidthCategories);
-                    }
-                    //dataGridInstance.columnOption("Categories", "width", 90 + $scope.ctx_categories.measureText($scope.html_temp_categories).width);
                     $scope.widthCategories = 90 + $scope.ctx_categories.measureText($scope.html_temp_categories).width;
-
+                    if($scope.lastcolumn!="Categories" && $scope.columnarr_visivle.indexOf("Categories") > -1){
+                        if($scope.maxWidthCategories >= 90 + $scope.ctx_categories.measureText($scope.html_temp_categories).width){
+                            dataGridInstance.columnOption("Categories", "width", 90 + $scope.ctx_categories.measureText($scope.html_temp_categories).width);
+                        }else{
+                            dataGridInstance.columnOption("Categories", "width", $scope.maxWidthCategories);
+                        }
+                        //dataGridInstance.columnOption("Categories", "width", 90 + $scope.ctx_categories.measureText($scope.html_temp_categories).width);
+                    }
                     $scope.canvas_size = angular.element('#myCanvas_size');
                     $scope.ctx_size = $scope.canvas_size[0].getContext("2d");
                     if ($scope.fontStyle[10] === undefined) {
@@ -2274,9 +2287,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_size.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_size = $rootScope.temp_size;
-                    dataGridInstance.columnOption("Size", "width", 50 + $scope.ctx_size.measureText($scope.html_temp_size).width);
                     $scope.widthSize = 50 + $scope.ctx_size.measureText($scope.html_temp_size).width;
-
+                    if($scope.lastcolumn!="Size" && $scope.columnarr_visivle.indexOf("Size") > -1){
+                        dataGridInstance.columnOption("Size", "width", 50 + $scope.ctx_size.measureText($scope.html_temp_size).width);
+                    }
                     $scope.canvas_comment = angular.element('#myCanvas_comment');
                     $scope.ctx_comment = $scope.canvas_comment[0].getContext("2d");
                     if ($scope.fontStyle[10] === undefined) {
@@ -2285,7 +2299,9 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_comment.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_comment = $rootScope.temp_comment;
-                    dataGridInstance.columnOption("Comments", "width", 25 + $scope.ctx_comment.measureText($scope.html_temp_comment).width);
+                    if($scope.lastcolumn!="Comments" && $scope.columnarr_visivle.indexOf("Comments") > -1){
+                        dataGridInstance.columnOption("Comments", "width", 25 + $scope.ctx_comment.measureText($scope.html_temp_comment).width);
+                    }
 
 
                     $scope.ctx_descomment = $scope.canvas_comment[0].getContext("2d");
@@ -2345,7 +2361,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     if (width_des < 50 + $scope.ctx_propLabel.measureText(str_propLabel).width + $scope.ctx_propValue.measureText(str_propValue).width) {
                         width_des = 50 + $scope.ctx_propLabel.measureText(str_propLabel).width + $scope.ctx_propValue.measureText(str_propValue).width;
                     }
-                    dataGridInstance.columnOption("Description", "width", width_des);
+                    if($scope.lastcolumn!="Description"){
+                        dataGridInstance.columnOption("Description", "width", width_des);
+                    }
+
 
                     $scope.canvas_cabinet = angular.element('#myCanvas_cabinet');
                     $scope.ctx_cabinet = $scope.canvas_cabinet[0].getContext("2d");
@@ -2355,7 +2374,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_cabinet.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_cabinet = $rootScope.temp_cabinet;
-                    dataGridInstance.columnOption("Cabinet", "width", 25 + $scope.ctx_cabinet.measureText($scope.html_temp_cabinet).width);
+                    if($scope.lastcolumn!="Cabinet" && $scope.columnarr_visivle.indexOf("Cabinet") > -1){
+                        console.log("Cabinet");
+                        dataGridInstance.columnOption("Cabinet", "width", 25 + $scope.ctx_cabinet.measureText($scope.html_temp_cabinet).width);
+                    }
                     $scope.widthCabinet = 25 + $scope.ctx_cabinet.measureText($scope.html_temp_cabinet).width;
 
                     $scope.canvas_location = angular.element('#myCanvas_location');
@@ -2366,7 +2388,9 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_location.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_location = $rootScope.temp_location;
-                    dataGridInstance.columnOption("Location", "width", 25 + $scope.ctx_location.measureText($scope.html_temp_location).width);
+                    if($scope.lastcolumn!="Location" && $scope.columnarr_visivle.indexOf("Location") > -1){
+                        dataGridInstance.columnOption("Location", "width", 25 + $scope.ctx_location.measureText($scope.html_temp_location).width);
+                    }
                     $scope.widthLocation = 25 + $scope.ctx_location.measureText($scope.html_temp_location).width;
 
                     $scope.canvas_created = angular.element('#myCanvas_created');
@@ -2377,8 +2401,13 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         $scope.ctx_created.font = $scope.fontStyle[10]['uWEIGHT']+" "+$scope.fontStyle[10]['uPOINTSIZE'] + "pt " + $scope.fontStyle[10]['szFACENAME'];
                     }
                     $scope.html_temp_created = angular.element(document).find("#myCanvas_created")[0].innerHTML;
-                    dataGridInstance.columnOption("Created", "width", 25 + $scope.ctx_created.measureText($scope.html_temp_created).width);
-                    dataGridInstance.columnOption("Accessed", "width", 25 + $scope.ctx_created.measureText($scope.html_temp_created).width);
+                    if($scope.lastcolumn!="Created" && $scope.columnarr_visivle.indexOf("Created") > -1){
+                        dataGridInstance.columnOption("Created", "width", 25 + $scope.ctx_created.measureText($scope.html_temp_created).width);
+                    }
+                    if($scope.lastcolumn!="Accessed" && $scope.columnarr_visivle.indexOf("Accessed") > -1){
+                        console.log('Creasted');
+                        dataGridInstance.columnOption("Accessed", "width", 25 + $scope.ctx_created.measureText($scope.html_temp_created).width);
+                    }
                     $scope.widthCreated = 25 + $scope.ctx_created.measureText($scope.html_temp_created).width;
                     $scope.widthAccessed = 25 + $scope.ctx_created.measureText($scope.html_temp_created).width;
 
@@ -2424,6 +2453,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                             break;
                     }
                     dataGridInstance.columnOption($scope.lastcolumn, "width", "70%");
+                    //dataGridInstance.endUpdate();
                 }
 
                 $scope.deleteType = "toggle";
@@ -2464,18 +2494,10 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     $("#gridContainer").css('max-width', parseInt(parseInt($(window).width()) - parseInt(leftwidth)) + 'px');
                 }, -1);
 
-                // if($scope.$parent.wdView) {
-                //     loadPreview($scope.gridData.component, $scope.gridData.component.getSelectedRowsData().pop(), $scope.gridData);
-                // }
-
+       
                 if ($scope.listCount > $scope.pageSize) {
                     $scope.showPageSize = true;
                 }
-
-                // if (userAgent.indexOf('Frowser') <= 0 || gridData.getSelectedRowsData()[0] !== undefined)  {
-                //     var dg = gridData.getSelectedRowsData()[0];
-                //     $scope.setOpenDwnBtn(dg)
-                // }
 
                 $("#gridContainer").mouseover(function (e) {
                     $rootScope.checkOverGrid = true;
@@ -2483,14 +2505,25 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 $("#gridContainer").mouseout(function (e) {
                     $rootScope.checkOverGrid = false;
                 });
-                
+
                 $timeout(function () {
                     element.classList.add("loaded");
                     $scope.removeLoader(false);
                     $scope.tableLoader = false;
                 }, -1000);
 
-                $scope.showNextPg = calculateNextPg()
+                $scope.showNextPg = calculateNextPg();
+                
+                if (gridData.totalCount() == 0) {
+                    actBar.option("visible", false);
+                    $(".actionContainer").hide();
+                    $("#gridContainer").css("margin-top", 5);
+                } else {
+                    actBar.option("visible", true);
+                    $(".actionContainer").show();
+                    $("#gridContainer").css("margin-top", "");
+                }
+
                 function calculateNextPg() {
                     if ($scope.wdListTake > $scope.wdTotalList) {
                         return false;
@@ -2502,7 +2535,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
 
             if (wdFilterValue == '' && $scope.filterValue == '' && e.component.getDataSource().items()[0] !== undefined) {
                 $scope.selectedFile = e.component.getDataSource().items()[0].LN;
-            } 
+            }
             else if(wdFilterValue == '' && $scope.filterValue == '' &&  e.component.getDataSource().items()[0] == undefined) {
                 $scope.selectedFile = "";
             }
@@ -2510,28 +2543,18 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 $scope.selectedFile = 1;
             }
 
-            if ($scope.listCount >= 250 ){
-                $scope.pageLimit = [50, 100, 150, 200, 250];   
-            } else if( $scope.listCount >= 200 ) {
-                $scope.pageLimit = [50, 100, 150, 200];
-            }else if( $scope.listCount >= 150 ) {
-                $scope.pageLimit = [50, 100, 150];
-            }else if( $scope.listCount >= 100 ) {
-                $scope.pageLimit = [50, 100];
-            } else {
-                $scope.pageLimit = [50];
-            }
 
-    
 
             $scope.chkRights();
             $rootScope.getRights = $localStorage.userRight;
             $scope.selectedText = "File: " + $scope.selectedFile + "/" + $scope.listCount;
-        },
-        onRowPrepared: function (e) {
-            if (e.rowType == "data") {
-                e.rowElement.attr({ id: "ln" + e.data.LN })
-            }
+
+            var element = document.getElementById("overlay");
+            $timeout(function () {
+                element.classList.add("loaded");
+                $scope.removeLoader(false);
+                $scope.tableLoader = false;
+            }, -1000);
         },
         onToolbarPreparing: function (e) {
             e.toolbarOptions.items.unshift({
@@ -2572,6 +2595,18 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                         elementAttr: { "id": "btnOpenWorldox", "title-direction": "left" },
                     }
                 })
+            }
+        },
+        customizeColumns: function (columns) {
+            //$scope.lastcolumn = 'Column';
+            var dataGridInstance = $("#gridContainer").dxDataGrid("instance");
+            for (var i = 0; i < dataGridInstance.columnCount(); i++) {
+                var column = dataGridInstance.columnOption(i);
+                if ($localStorage.ColumnsIndex) {
+                    columns[i].visibleIndex = $localStorage.ColumnsIndex[i];
+                } else {
+                    columns[i].visibleIndex = i;
+                }  
             }
         },
         onRowClick: function (info) {
@@ -2680,10 +2715,11 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
             var count = e.component.getSelectedRowKeys().length;
             $scope.selectedRow = count;
             $scope.selectedFiles = e.component.getSelectedRowsData();
-
-            if (e.rowType === "header" && e.column.dataType !== undefined) {
+            
+            // if (e.rowType === "header" && e.column.dataType !== undefined) {
+                if (e.rowType === "header") {
                 var sortType;
-
+                sortOk = true;
                 $scope.sortFlag = true;
                 switch (e.column.caption) {
                     case 'Description':
@@ -2830,7 +2866,7 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     default:
                         $scope.sortType = 1;
                 }
-
+                
                 e.component.refresh();
             }
 
@@ -2847,7 +2883,6 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                 UP_KEY = 38,
                 RIGHT_KEY = 39,
                 LEFT_KEY = 37;
-
 
             if (selKey.length) {
                 var currentKey = selKey[0];
@@ -2878,78 +2913,26 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
                     }
                 }
                 if ($scope.$parent.wdView && (e.event.keyCode === UP_KEY || e.event.keyCode === DOWN_KEY)) {
-                    // wdService.isFileHasChanged().then(function (hasChanged) {
-                    //     if(hasChanged){
-                    //         $rootScope.$broadcast('showMessageWhenFileChanged');
-                    //     }else{
-                            loadPreview(e.component, e.component.getSelectedRowsData().pop(), e);
-                    //     }
-                    // })
+                    loadPreview(e.component, e.component.getSelectedRowsData().pop(), e);
                 }
             };
 
         },
-        customizeColumns: function (columns) {
-            //$scope.lastcolumn = 'Column';
-            var dataGridInstance = $("#gridContainer").dxDataGrid("instance");
-            for (var i = 0; i < dataGridInstance.columnCount(); i++) {
-                var column = dataGridInstance.columnOption(i);
-                if ($localStorage.ColumnsIndex) {
-                    columns[i].visibleIndex = $localStorage.ColumnsIndex[i];
-                } else {
-                    columns[i].visibleIndex = i;
-                }
-
-               
-            }
-         
-        },
-        // onColumnsChanging: function (e) {
-        //     var grid = $("#gridContainer").dxDataGrid("instance");
-        //     clientInformation
-        //     if ($scope.maxWidthDesc < grid.columnOption('Description', 'width')) {
-        //         grid.columnOption('Description', 'width', $scope.maxWidthDesc);
-        //         grid.columnOption('Doc ID', 'width', $scope.widthDocID);
-        //         grid.columnOption('Ver#', 'width', $scope.widthVer);
-        //         grid.columnOption('Modified', 'width', $scope.widthModified);
-        //         grid.columnOption('Categories', 'width', $scope.widthCategories);
-        //         grid.columnOption('Created', 'width', $scope.widthCreated);
-        //         grid.columnOption('Accessed', 'width', $scope.widthAccessed);
-        //         grid.columnOption('Size', 'width', $scope.widthSize);
-        //         grid.columnOption('Cabinet', 'width', $scope.widthCabinet);
-        //         grid.columnOption('Location', 'width', $scope.widthLocation);
-        //     } else {
-        //         $scope.widthDocID = grid.columnOption('Doc ID', 'width');
-        //         $scope.widthVer = grid.columnOption('Ver#', 'width');
-        //         $scope.widthModified = grid.columnOption('Modified', 'width');
-        //         $scope.widthCategories = grid.columnOption('Categories', 'width');
-        //         $scope.widthCreated = grid.columnOption('Created', 'width');
-        //         $scope.widthAccessed = grid.columnOption('Accessed', 'width');
-        //         $scope.widthSize = grid.columnOption('Size', 'width');
-        //         $scope.widthCabinet = grid.columnOption('Cabinet', 'width');
-        //         $scope.widthLocation = grid.columnOption('Location', 'width');
-        //     }
-        //     if ($localStorage.MarkFavView) {
-        //         $scope.saveFavView();
-        //     }
-        // },
         onSelectionChanged: function (e) {
             var selected = e.selectedRowsData[0];
             if (selected !== undefined) {
                 if (selected.CHKOUT_TO_NAME !== undefined) {
                     $("#wdEditProfile").dxButton("instance").option("disabled", true);
-                    // $("#wdCopyProfile").dxButton("instance").option("disabled", true);
                     return false;
                 }
                 $("#wdEditProfile").dxButton("instance").option("disabled", false);
-                // $("#wdCopyProfile").dxButton("instance").option("disabled", false);
             }
         },
         editing: {
             texts: {
                 confirmDeleteMessage: ''
             }
-        },
+        }
     };
 
     $scope.displayComments = function () {
@@ -4257,7 +4240,9 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
 
 
     $scope.checkOutput = function (item) {
-        var xn = true;
+        var xn = true,
+        chkLoad = $("#wdChkOutLoad").dxLoadIndicator("instance"),
+        chkBtn = $("#wdChkOut").dxButton("instance");
         wdService.checkout(item).then(function (res) {
             var fileResource = res.data.fileStatus;
             if (fileResource.errorStatus.ErrorCount != "") {
@@ -4278,6 +4263,8 @@ function dataGridController($scope, $http, $localStorage, $location, $q, $window
             $scope.$parent.wdFileData = { title: "Check-Out", desc: item.Description, doc: item.DocId, action: "PageCheckedOut, wdInfo", fileAction: true }
             $scope.dwnload(item, true);
         });
+        chkLoad.option("visible", false);
+        chkBtn.option("icon", "ms-Icon ms-Icon--PageCheckedOut");
         return xn;
     }
 

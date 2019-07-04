@@ -67,7 +67,16 @@
             updateWdl: updateWdl,
             downloadName: downloadName,
             getPgCabinets: getPgCabinets,
-            setWdlDesc: setWdlDesc
+            setWdlDesc: setWdlDesc,
+            aedTables: aedTables
+        }
+
+        function aedTables(x, y, z) {
+            var request = {
+                method: 'GET',
+                url: $localStorage.host + '/cgi-bin/wdwebcgi.exe?AEDTABLE+wd_SID=' + $localStorage.userData.session + '+HTMLOnOK=/api/fileActions/fileStatus.json+HTMLOnFail=/api/fileActions/fileStatus.json+wd_FILE_PROFILEGROUP_VALUE=' + x + '+wd_FIELD_NUMBER_VALUE=' + y +z
+            }
+            return $http(request);
         }
 
         function getPgCabinets () {
@@ -81,7 +90,7 @@
         function updateWdl(x, y){
             var request = {
                 method: 'GET',
-                url: $localStorage.host + '/cgi-bin/wdwebcgi.exe?FILEWDL+wd_SID=' + $localStorage.userData.session + '+wd_List_ID=' + x + '+wd_File_PathFile_Value=' + y + '+HTMLOnOK=/api/errorLog/error.json+HTMLOnFail=/api/errorLog/error.json+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now(),
+                url: $localStorage.host + '/cgi-bin/wdwebcgi.exe?FILEWDL+wd_SID=' + $localStorage.userData.session + '+wd_List_ID=' + x + '+wd_File_PathFile_Value=' + encodeURIComponent(y) + '+HTMLOnOK=/api/errorLog/error.json+HTMLOnFail=/api/errorLog/error.json+wduser=' + $localStorage.userData.username.split("@")[0] + "+wdIdUn=" + Date.now(),
             }
             return $http(request);
         }
@@ -103,8 +112,9 @@
         }
 
         function isFileHasChanged(){
+            var infoData = $("#gridContainer").dxDataGrid("instance").getSelectedRowsData().pop();
             return $q(function(resolve, reject) {
-                var infoData = $("#gridContainer").dxDataGrid("instance").getSelectedRowsData().pop();
+                console.log(infoData);
                 return $http.get($localStorage.host + 'cgi-bin/wdwebcgi.exe?SERVE+html=api/filelist/rereadRecord.json+wd_List_ID=' + infoData.LID + '+wd_List_RecNum=' + infoData.RN + '+wd_SID='+$localStorage.userData.session + '+skip=' + infoData.LN + '+take=1+wdUdUn=' +  Date.now())
                     .then(function (response) {
                         if(response.data.root.items == "" || infoData.HASH === response.data.root.items[0].HASH){

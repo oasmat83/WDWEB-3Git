@@ -102,6 +102,7 @@
 							if($scope.rctx == "LOGOFF_QUES") {
 								$scope.showClose = false;
 							}
+							
 							loginService.getVars($scope.host, $scope.rctx, 'us').then(function(res) {
 								var dialogData = res.data.root.Dialog;
 								if (dialogData == "") {
@@ -140,7 +141,21 @@
 								$scope.wdShowBtn = true;
 								$scope.btnTxt = $scope.dialogTxt.line9;
 							});
+							
 						},
+						// onShown: function(e) {
+						// 	console.log(e);
+						// 	if ($scope.wdShowCancel) {
+						// 		$timeout(function() {
+						// 			$scope.wdCancelButton.focus();
+						// 		}, -1000)
+								
+						// 		return false;
+						// 	}
+						// 	$timeout(function() {
+						// 		$scope.wdOksyButton.focus();
+						// 	}, -1000)
+						// },
 						onHiding: function(e) {
 							$scope.radioSelection = false;
 							delete $rootScope.uploadLocation;
@@ -198,7 +213,18 @@
 						onClick: function(e) {
 							$scope.setOkayFunc();
 						},
-						type: "success"
+						type: "success",
+						elementAttr: {
+							id: "okayBtn"
+						},
+						onInitialized: function(e) {
+							if (!$scope.wdShowCancel) {
+								$timeout(function() {
+									e.component.focus();
+								}, -1000)
+								
+							}
+						}
 					}
 
 					$scope.wdCancelBtn = {
@@ -208,7 +234,15 @@
 						onClick: function(e) {
 							$scope.setCancelFunc();
 						},
-						type: "success"
+						type: "success",
+						elementAttr: {
+							id: "cancelBtn"
+						},
+						onInitialized: function(e) {
+							$timeout(function() {
+								e.component.focus();
+							}, -1000);
+						}
 					}
 
 					$scope.setCancelFunc = function() {
@@ -232,14 +266,25 @@
 							case "WDRC_ZERO_PROJECT_CLEAN":
 							case "READ_ONLY":
 							case "ATTACH_TYPE":
-							case "WDRC_LOGON_USER_PASSWORD_INVALID":
-							case "PASSWORD_FIELD_EMPTY":
-							case "EMAIL_FIELD_EMPTY":
-							case "WDRC_LOGON_USER_NAME_INVALID":
 							case "UPLOAD_SUCCESS":
 								$scope.visible = false;
 								break;
+							case "WDRC_LOGON_USER_NAME_INVALID":
+							case "WDRC_LOGON_USER_PASSWORD_INVALID":
+							case "PASSWORD_FIELD_EMPTY":
+							case "EMAIL_FIELD_EMPTY":
+								$scope.setLoginFocus();
+								$scope.visible = false;
+								break;
 						}
+					}
+
+					$scope.setLoginFocus = function() {
+						if ($scope.rctx == "WDRC_LOGON_USER_NAME_INVALID" || $scope.setLoginFocus == "EMAIL_FIELD_EMPTY") {
+								$("#user input").focus()
+							return false;
+						}
+						$("#password input").focus()
 					}
 
 					$scope.setOkayFunc = function() {
@@ -281,6 +326,9 @@
 							case "Upload Successful":
 								$location.path('/home').search($rootScope.uploadLocation);
 								$timeout(function() { delete $rootScope.uploadLocation; }, 1000);
+							break;
+							case "Login Error": 
+								console.log($scope.rctx);
 							break;
 						}
 					};
@@ -384,6 +432,7 @@
 					$scope.updateWdl = function(x) {
 						var grid = $("#gridContainer").dxDataGrid("instance"),
 						selected = grid.getSelectedRowsData();
+						
 						wdService.updateWdl(x, selected[0].FilePathReal).then(function(res) {
 							$scope.setWdlDesc(x);
 						}, function(err) {
@@ -451,22 +500,118 @@
 
 				}
 			}
+		}]).directive('ftDialog', ['$localStorage', function($localStorage){
+			return {
+				scope: {
+					visible: '=',
+					rctx: '=',
+					data: '=',
+					host: '='
+				},
+				templateUrl: './WDWEB/shared/popup/ftpopup.html',
+				link: function(scope, element, attr) {},
+				controller: function($scope, loginService, wdService) {
+					$scope.showPreloader = true;
+					$scope.ftLoader =  {
+						width: 40,
+						height: 40,
+						bindingOptions: {
+							visible: 'showPreloader'
+						}
+					};
+
+					$scope.sendTo = function() {
+						var xn = "";
+						for(var i = 1; i <= 7; i++) {
+							if ($scope.data.data[0]['f' + i + 'n'] !== undefined && i !== $scope.data.selected) {
+								xn = xn + '+wd_FILE_FIELD' + i + '_VALUE=' + encodeURIComponent($scope.data.data[0]['f' + i + 'n']) + '+wd_FILE_FIELD' + i + 'DESC_VALUE=' + encodeURIComponent($scope.data.data[0]['f' + i + 'd']);
+							}
+						}
+						xn = xn + '+wd_FILE_FIELD' + $scope.data.selected + '_VALUE=' + encodeURIComponent($scope.wdFtCo) + '+wd_FILE_FIELD' + $scope.data.selected + 'DESC_VALUE=' + encodeURIComponent($scope.wdFtDes);
+				
+						wdService.aedTables($scope.data.cabinet, $scope.data.selected, xn).then(function(res) {
+							console.log(res);
+						}, function(error) {
+							var data = { fileAction: false };
+							$scope.visible = false;
+							$rootScope.$broadcast("errorAction", {visible: true, rctx: "FAILED_SERVER", data: data});
+						});
+					}
+
+					$scope.wdFTCode = {
+						placeholder: "Code",
+						elementAttr: {
+							class: "wdMarginField"
+						},
+						bindingOptions: {
+							value: "wdFtCo"
+						},
+						onValueChanged: function(e) {
+							$scope.wdFtCo = e.value;
+						}
+					};
+
+					$scope.wdFTDesc = {
+						placeholder: "Description",
+						elementAttr: {
+							class: "wdMarginField"
+						},
+						bindingOptions: {
+							value: "wdFtDes"
+						},
+						onValueChanged: function(e) {
+							$scope.wdFtDes = e.value;
+						}
+					};
+
+					$scope.wdFTaed = {
+						bindingOptions: {
+							text: "data.type"	
+						},
+						width: "100%",
+						type: "success",
+						elementAttr: {
+							class: "wdMarginField"
+						},
+						useSubmitBehavior: true
+					}
+
+
+					$scope.popupFtFileChangedOptions = {
+						width: 'auto',
+						height: 'auto',
+						// minWidth: 500,
+						contentTemplate: "popupAED",
+						showTitle: true,
+						dragEnabled: false,
+						maxWidth: '90vw',
+						bindingOptions: {
+							visible: "visible",
+							title: "ftdialogTitle",
+						},
+						onShowing: function() {
+							$scope.showPreloader = true;
+							loginService.getVars($scope.host, $scope.rctx, 'us').then(function(res) {
+								$scope.showPreloader = false;
+								if ($scope.data.type == 'add') {
+									$scope.wdFtCo = "";
+									$scope.wdFtDes = "";
+									$scope.ftdialogTitle = "New " + $scope.data.fieldNme;
+								} else if ($scope.data.type == 'delete') {
+									$scope.ftdialogTitle = "Delete " + $scope.data.fieldNme;
+								} else {
+									$scope.ftdialogTitle = "Edit " + $scope.data.fieldNme;
+									$scope.wdFtCo = $scope.data.data[0]["f" + $scope.data.selected + "n"];
+									$scope.wdFtDes = $scope.data.data[0]["f" + $scope.data.selected + "d"];
+								}
+							}, function(error) {
+								var data = { fileAction: false };
+								$scope.visible = false;
+								$rootScope.$broadcast("errorAction", {visible: true, rctx: "FAILED_SERVER", data: data});
+							})
+						}
+					}
+				}
+			}
 		}]);
-		// .directive('wdHotkey', ['$localStorage', function($localStorage){
-		// 	return {
-		// 		scope: {
-					
-		// 		},
-		// 		templateUrl: './WDWEB/shared/popup/hotkey.html',
-		// 		link: function(scope, element, attr) {},
-		// 		controller: function($scope, hotkeys) {
-		// 			hotkeys.bindTo($scope).add({
-		// 				combo: 'ctrl+d',
-		// 				callback: function () {
-		// 					console.log("Open Dialog")
-		// 				}
-		// 			});
-		// 		}
-		// 	}
-		// }]);
   })();

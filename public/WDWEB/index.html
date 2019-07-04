@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<!-- Eddie here is your comment -->
+
 <html id="app" class="phx-app">
     <head>
         <meta charset="utf-8">
@@ -31,8 +31,8 @@
         <link rel="stylesheet" data-ng-href="./WDWEB/css/theme-blue/fabric.css" media="all"/>
         <link rel="stylesheet" data-ng-href="./WDWEB/css/theme-blue/app.css" media="all" /> 
         <link rel="stylesheet" data-ng-href="./WDWEB/css/dx.spa.css" media="all" /> 
-        <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.common.css" />
-        <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.light.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/19.1.4/css/dx.common.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/19.1.4/css/dx.light.css" />
         <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css">
         <link rel="stylesheet" data-ng-href="./WDWEB/css/angular-tooltips.min.css" media="all" />
         <link rel="stylesheet" data-ng-href="./WDWEB/css/angular-ui-tree.min.css" media="all" />
@@ -61,7 +61,7 @@
             }
 
             .preloader {
-                position:relative;
+                position: relative;
             }
             .spinContainer {
                 position:absolute;
@@ -69,7 +69,8 @@
                 left: calc(50vw - (/* width */115px / 2));
             }
             .wdLogospinner {
-                animation: spinner .7s infinite linear;
+                animation: spinner .9s infinite linear;
+                -ms-animation: spinner .9s infinite linear;
                 border: 3px solid rgba(34,78,110, 1.0);	
                 border-radius: 50%;
                 border-top-color: rgba(34,78,110, 0.4);
@@ -79,7 +80,6 @@
                 z-index: 1000;
                 font-size: 16px!important;
                 box-sizing: content-box
-                /* box-sizing: initial!important; */
             }
             .wdIconLogo {
                 position: absolute;
@@ -101,6 +101,10 @@
                 to {
                     transform: rotateZ(360deg);
                 }
+            }
+            @-ms-keyframes spinner{
+                0% {transform:rotateZ(0deg);}
+                100% {transform:rotateZ(360deg);}
             }
         </style>
         <title ng-bind="$root.pageTitle"></title>
@@ -145,7 +149,9 @@
     <script src="./WDWEB/scripts/dist/ngStorage.min.js"></script>
     <script src="./WDWEB/scripts/dist/ocLazyLoad.js"></script>
     <script src="./WDWEB/scripts/dist/angular-sanitize.min.js"></script>
+    <!-- <script src="./WDWEB/scripts/dist/dx19.1.4.all.js"></script> -->
     <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/18.2.4/js/dx.all.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/18.2.4/js/dx.all.js"></script> -->
     <script src="./WDWEB/scripts/dist/angular-panels.min.js"></script>
     <script src="./WDWEB/scripts/dist/angular-tooltips.min.js"></script>
     <script src="./WDWEB/scripts/dist/angular-ui-tree.min.js"></script>
@@ -157,58 +163,58 @@
     <script src="./WDWEB/js/clamp.min.js"></script>
 
     <script src="./WDWEB/scripts/loader.js"></script>
-    <script src="./WDWEB/app.init.js?ver=2.4"></script>
-    <script src="./WDWEB/app.route.js?ver=2.4"></script>
-    <!-- <script src="./workers/wdxWorkers.js?ver=2.4"></script> -->
-    <script src="./WDWEB/components/landing/landingCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/dataGrid/dataGrid.controller.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/custom/customCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/components/home/home.factory.js?ver=2.4"></script>
-    <script src="./WDWEB/components/login/login.service.js?ver=2.4"></script>
-    <script src="./WDWEB/components/upload/uploadCtrler.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/cabinet/cabinetCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/favmatter/favmatterCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/category/categoryCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/workspaces/workSpaceCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/delete/delete.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/delete/delete.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/directAccess/directAccessCtrl.js?ver=2.4"></script>
-    <!-- <script src="./WDWEB/shared/email/email.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/email/email.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/email/email.controller.js?ver=2.4"></script> -->
-    <script src="./WDWEB/shared/fileMenu/fileMenu.controller.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/filterList/filterList.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/leftNav/leftNav.controller.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/leftNav/leftNav.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/leftNav/leftNav.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/logout/logout.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/logout/logout.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/navElements/navElements.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/navElmSettings/navElmSetting.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/panelTitle/panelTitle.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/panelTitle/panelTitle.controller.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/panelTitle/panelTitle.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/profile/profile.controller.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/profile/profile.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/profile/profile.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/preview/preview.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/preview/preview.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/provider/provider.service.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/versions/version.controller.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/versions/version.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/project/projectCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/search/search.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/template/templateCtrl.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/topNav/topNav.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/topNav/topNav.controller.js?ver=2.4"></script>
-    <script src="./WDWEB/scripts/directives/phx-app.js?ver=2.4"></script>
-    <script src="./WDWEB/scripts/directives/angular-pageslide-directive.min.js?ver=2.4"></script>
-    <script src="./WDWEB/scripts/services/homeService.js?ver=2.4"></script>
-    <script src="./WDWEB/scripts/services/wdServices.js?ver=2.4"></script>
-    <script src="./WDWEB/scripts/services/expressService.js?ver=2.4"></script>
-    <script src="./WDWEB/components/home/home.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/fileTitle/title.directive.js?ver=2.4"></script>
-    <script src="./WDWEB/shared/clamp/clamp.directive.js?ver=2.4"></script>
+    <script src="./WDWEB/app.init.js?ver=2.6"></script>
+    <script src="./WDWEB/app.route.js?ver=2.6"></script>
+    <!-- <script src="./workers/wdxWorkers.js?ver=2.6"></script> -->
+    <script src="./WDWEB/components/landing/landingCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/dataGrid/dataGrid.controller.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/custom/customCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/components/home/home.factory.js?ver=2.6"></script>
+    <script src="./WDWEB/components/login/login.service.js?ver=2.6"></script>
+    <script src="./WDWEB/components/upload/uploadCtrler.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/cabinet/cabinetCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/favmatter/favmatterCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/category/categoryCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/workspaces/workSpaceCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/delete/delete.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/delete/delete.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/directAccess/directAccessCtrl.js?ver=2.6"></script>
+    <!-- <script src="./WDWEB/shared/email/email.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/email/email.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/email/email.controller.js?ver=2.6"></script> -->
+    <script src="./WDWEB/shared/fileMenu/fileMenu.controller.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/filterList/filterList.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/leftNav/leftNav.controller.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/leftNav/leftNav.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/leftNav/leftNav.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/logout/logout.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/logout/logout.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/navElements/navElements.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/navElmSettings/navElmSetting.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/panelTitle/panelTitle.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/panelTitle/panelTitle.controller.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/panelTitle/panelTitle.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/profile/profile.controller.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/profile/profile.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/profile/profile.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/preview/preview.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/preview/preview.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/provider/provider.service.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/versions/version.controller.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/versions/version.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/project/projectCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/search/search.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/template/templateCtrl.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/topNav/topNav.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/topNav/topNav.controller.js?ver=2.6"></script>
+    <script src="./WDWEB/scripts/directives/phx-app.js?ver=2.6"></script>
+    <script src="./WDWEB/scripts/directives/angular-pageslide-directive.min.js?ver=2.6"></script>
+    <script src="./WDWEB/scripts/services/homeService.js?ver=2.6"></script>
+    <script src="./WDWEB/scripts/services/wdServices.js?ver=2.6"></script>
+    <script src="./WDWEB/scripts/services/expressService.js?ver=2.6"></script>
+    <script src="./WDWEB/components/home/home.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/fileTitle/title.directive.js?ver=2.6"></script>
+    <script src="./WDWEB/shared/clamp/clamp.directive.js?ver=2.6"></script>
     <script>
         window.addEventListener("resize", function () {
             $('#leftNavOpenAdjectStyling').html('.left-nav-vert .subMenu-wrap.is-open { ' +

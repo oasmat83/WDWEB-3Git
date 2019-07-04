@@ -401,7 +401,7 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
                 setTable.push(data);
             }
         }
-        return setTable.reverse().join(" - ");
+        return setTable.reverse().join(" </br> ");
     };
 
     $scope.wdSecurity = [
@@ -1183,7 +1183,7 @@ function ($scope, $http, $timeout, $log, $route, uxService, profileService, wdSe
     }
 
     $scope.setField = function(x) {
-        for (i = 1; i <= 7; i++) {
+        for (var i = 1; i <= 7; i++) {
             if (x["f" + i + "n"]) {
                 $("#field" + i).dxTextBox("instance").option('value', x["f" + i + "n"]);
                 $scope.descField["desc" + i] = x["f" + i + "d"];

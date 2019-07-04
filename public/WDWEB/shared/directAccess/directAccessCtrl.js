@@ -14,15 +14,6 @@ angular.module('WDWeb').controller("directAccessCtrl", ['$scope', '$rootScope', 
         };
     });
 
-    // $scope.$watch(function(scope) {
-    //     return vm.prefillData;
-    // }, function handle(newV, oldV) {
-    //     if (newV == "ft") {
-    //         $scope.directPlaceholder = "Search"
-    //         return false;
-    //     }
-    //     $scope.directPlaceholder = "Filter"
-    // });
 
     $scope.wdFilterBox = {
         // bindingOptions: {
@@ -103,6 +94,10 @@ angular.module('WDWeb').controller("directAccessCtrl", ['$scope', '$rootScope', 
 
     });
 
+    $scope.setfocus = function(e) {
+        e.component.focus();
+    }
+
     $scope.setOverDirect = function(){
         setTimeout(function(){
             $("#formDirectAccess").mouseover(function(e){
@@ -175,7 +170,7 @@ angular.module('WDWeb').controller("directAccessCtrl", ['$scope', '$rootScope', 
                     setTable.push(data);
                 }
             }
-            return setTable.reverse().join(" - ");
+            return setTable.reverse().join(" <br/> ");
         }
 
 

@@ -184,7 +184,7 @@ function landingController($scope, $http, $localStorage, $location, $q, $window,
             value: "searchBox",
             placeholder: "searchPlaceholder",
         },
-
+        showClearButton: true,
         width: "50%",
         onValueChanged: function(e) {
             $scope.searchBox = e.value.trim();

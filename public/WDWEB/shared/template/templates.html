@@ -39,18 +39,6 @@
                         <div id="contactsList" class="subMenu-wrap is-open">
                             <div class="ms-SearchBox ms-SearchBox--commandBar is-animated">
                                     <ng-include src="'./WDWEB/shared/textbox/textbox.html'"></ng-include>
-                                <!-- <input class="ms-SearchBox-field search" type="text" ng-model="temp.autoSearch" ng-change="temp.searchFt()" ng-if="temp.checkFt">
-                                <input id="filterAddSear" class="ms-SearchBox-field search" placeholder="Filter" type="text" name="qContactsNav" ng-change="temp.filterLabelTable()" ng-model="temp.autoFilter">
-                                <label class="ms-SearchBox-label">
-                                    <i class="ms-SearchBox-icon ms-Icon ms-Icon--Filter"></i>
-                                    <span class="ms-SearchBox-text"></span>
-                                </label>
-                                <div class="ms-CommandButton ms-SearchBox-filter ms-CommandButton--noLabel">
-                                    <button class="ms-CommandButton-button reIndex">
-                                        <span class="ms-CommandButton-icon"><i class="ms-Icon ms-Icon--Filter"></i></span>
-                                        <span class="ms-CommandButton-label"></span>
-                                    </button>
-                                </div> -->
                             </div>
                             <div class="leftOpenPanelLoader" ng-hide="temp.fieldTableSpin">
                                 <div class="menuPreLoader">
@@ -83,7 +71,7 @@
 
                                 <ul class="subMenu list" ng-hide="!temp.fieldTableSpin">
                                     <li>{{temp.noResults}}</li>
-                                    <li class="subMenuItem tempLink" ng-repeat="data in temp.fieldListData | filter:temp.autoFilter" ng-if="temp.prefillData == 'ft'" ng-click="temp.setSelected(data)" ng-dblclick="temp.setField(data)" title-direction="right" title='{{ temp.setFieldTableOrder(data) }}' ng-class="{ activeRow: temp.isActive(data) }">
+                                    <li class="subMenuItem tempLink" ng-repeat="data in temp.fieldListData | filter:temp.autoFilter" ng-if="temp.prefillData == 'ft'" ng-click="temp.setSelected(data)" ng-dblclick="temp.setField(data)" title-direction="right" title='{{ temp.setFieldTableOrder(data) }}' ng-class="{ activeRow: temp.isActive(data) }"  style="height: auto">
                                         <a href="#"><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='temp.setFieldTableOrder(data)'> </span></a>
                                     </li>
                                     <li ng-show="temp.fieldListData.length < temp.total && temp.prefillData == 'ft'" class="loadBtn"><div dx-button="temp.loadMore"></div></li>
@@ -109,7 +97,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field2">
                             <div class="dx-field-label">Description</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field1'}, placeholder: fieldData.name.placeholder}"></div>
+                                <div dx-text-box="{ bindingOptions:{value: 'field.field1'}, placeholder: fieldData.name.placeholder, onContentReady: getDescComponent, showClearButton: true }"></div>
                                 <!--<div dx-text-area="{bindingOptions:{value: 'field.field1'}, placeholder: fieldData.name.placeholder}"></div>-->
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
@@ -117,7 +105,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field1">
                             <div class="dx-field-label">Doc ID</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field2'}, placeholder: fieldData.docId.placeholder, width: 150}"></div>
+                                <div dx-text-box="{bindingOptions:{value: 'field.field2'}, placeholder: fieldData.docId.placeholder, width: 150, showClearButton: true}"></div>
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
                         </div>
@@ -184,7 +172,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field17">
                             <div class="dx-field-label">Text in File</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field17'}, placeholder: fieldData.text.placeholder}"></div>
+                                <div dx-text-box="{bindingOptions:{value: 'field.field17'}, placeholder: fieldData.text.placeholder, showClearButton: true}"></div>
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
                         </div>
@@ -206,7 +194,7 @@
                             <div ng-if="temp.typePgFields.field1 == 0" dx-context-menu="temp.selectCabinet(1)" id="wdMenu1"></div>
                             <div ng-if="temp.typePgFields.field1 == 1" class="dx-field-label" id="wdLabel1">{{ fieldData.field1.placeholder }}</div>
                             <div class="dx-field-value">
-                                <div ng-if="temp.typePgFields.field1 == 0" id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'field.field10', placeholder: 'fieldData.field1.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field1 == 0" id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'field.field10', placeholder: 'fieldData.field1.placeholder', onFocusOut: 'temp.getFieldsDesc'}, showClearButton: true}"></div>
                                 <div ng-if="temp.typePgFields.field1 == 1" id="fieldDesc1" dx-date-box="temp.dateBoxUl1"></div>
                             </div>
                             <div ng-if="temp.typePgFields.field1 == 0" class="wdFieldDesc">&nbsp;</div>
@@ -218,7 +206,7 @@
                             <div ng-if="temp.typePgFields.field2 == 0" dx-context-menu="temp.selectCabinet(2)" id="wdMenu2"></div>
                             <div ng-if="temp.typePgFields.field2 == 1" class="dx-field-label" id="wdLabel2">{{ fieldData.field2.placeholder }}</div>
                             <div class="dx-field-value">
-                                <div ng-if="temp.typePgFields.field2 == 0" id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'field.field11', placeholder: 'fieldData.field2.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field2 == 0" id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'field.field11', placeholder: 'fieldData.field2.placeholder', onFocusOut: 'temp.getFieldsDesc'}, showClearButton: true}"></div>
                                 <div ng-if="temp.typePgFields.field2 == 1" id="fieldDesc2" dx-date-box="temp.dateBoxUl2"></div>
                             </div>
                             <div ng-if="temp.typePgFields.field2 == 0" class="wdFieldDesc">&nbsp;</div>
@@ -229,7 +217,7 @@
                             <div ng-if="temp.typePgFields.field3 == 0" dx-context-menu="temp.selectCabinet(3)" id="wdMenu3"></div>
                             <div ng-if="temp.typePgFields.field3 == 1" class="dx-field-label" id="wdLabel3">{{ fieldData.field3.placeholder }}</div>
                             <div class="dx-field-value">
-                                <div ng-if="temp.typePgFields.field3 == 0" id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'field.field12', placeholder: 'fieldData.field3.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field3 == 0" id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'field.field12', placeholder: 'fieldData.field3.placeholder', onFocusOut: 'temp.getFieldsDesc'}, showClearButton: true}"></div>
                                 <div ng-if="temp.typePgFields.field3 == 1" id="fieldDesc3" dx-date-box="temp.dateBoxUl3"></div>
                             </div>
                             <div ng-if="temp.typePgFields.field3 == 0" class="wdFieldDesc">&nbsp;</div>
@@ -240,7 +228,7 @@
                             <div ng-if="temp.typePgFields.field4 == 0" dx-context-menu="temp.selectCabinet(4)" id="wdMenu4"></div>
                             <div ng-if="temp.typePgFields.field4 == 1" class="dx-field-label" id="wdLabel4">{{ fieldData.field4.placeholder }}</div>
                             <div class="dx-field-value">
-                                <div ng-if="temp.typePgFields.field4 == 0" id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'field.field13', placeholder: 'fieldData.field4.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field4 == 0" id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'field.field13', placeholder: 'fieldData.field4.placeholder', onFocusOut: 'temp.getFieldsDesc'}, showClearButton: true}"></div>
                                 <div ng-if="temp.typePgFields.field4 == 1" id="fieldDesc4" dx-date-box="temp.dateBoxUl4"></div>
                             </div>
                             <div ng-if="temp.typePgFields.field4 == 0" class="wdFieldDesc">&nbsp;</div>
@@ -251,7 +239,7 @@
                             <div ng-if="temp.typePgFields.field5 == 0" dx-context-menu="temp.selectCabinet(5)" id="wdMenu5"></div>
                             <div ng-if="temp.typePgFields.field5 == 1" class="dx-field-label" id="wdLabel5">{{ fieldData.field5.placeholder }}</div>
                             <div class="dx-field-value">
-                                <div ng-if="temp.typePgFields.field5 == 0" id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'field.field14', placeholder: 'fieldData.field5.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field5 == 0" id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'field.field14', placeholder: 'fieldData.field5.placeholder', onFocusOut: 'temp.getFieldsDesc'}, showClearButton: true}"></div>
                                 <div ng-if="temp.typePgFields.field5 == 1" id="fieldDesc5" dx-date-box="temp.dateBoxUl5"></div>
                             </div>
                             <div ng-if="temp.typePgFields.field5 == 0" class="wdFieldDesc">&nbsp;</div>
@@ -262,7 +250,7 @@
                             <div ng-if="temp.typePgFields.field6 == 0" dx-context-menu="temp.selectCabinet(6)" id="wdMenu6"></div>
                             <div ng-if="temp.typePgFields.field6 == 1" class="dx-field-label" id="wdLabel6">{{ fieldData.field6.placeholder }}</div>
                             <div class="dx-field-value">
-                                <div ng-if="temp.typePgFields.field6 == 0" id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'field.field15', placeholder: 'fieldData.field6.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field6 == 0" id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'field.field15', placeholder: 'fieldData.field6.placeholder', onFocusOut: 'temp.getFieldsDesc'}, showClearButton: true}"></div>
                                 <div ng-if="temp.typePgFields.field6 == 1" id="fieldDesc6" dx-date-box="temp.dateBoxUl6"></div>
                             </div>
                             <div ng-if="temp.typePgFields.field6 == 0" class="wdFieldDesc">&nbsp;</div>
@@ -273,7 +261,7 @@
                             <div ng-if="temp.typePgFields.field7 == 0" dx-context-menu="temp.selectCabinet(7)" id="wdMenu7"></div>
                             <div ng-if="temp.typePgFields.field7 == 1" class="dx-field-label" id="wdLabel7">{{ fieldData.field7.placeholder }}</div>
                             <div class="dx-field-value">
-                                <div ng-if="temp.typePgFields.field7 == 0" id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'field.field16', placeholder: 'fieldData.field7.placeholder', onFocusOut: 'temp.getFieldsDesc'}}"></div>
+                                <div ng-if="temp.typePgFields.field7 == 0" id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'field.field16', placeholder: 'fieldData.field7.placeholder', onFocusOut: 'temp.getFieldsDesc'}, showClearButton: true}"></div>
                                 <div ng-if="temp.typePgFields.field7 == 1" id="fieldDesc7" dx-date-box="temp.dateBoxUl7"></div>
                             </div>
                             <div ng-if="temp.typePgFields.field7 == 0" class="wdFieldDesc">&nbsp;</div>
@@ -298,7 +286,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field37">
                             <div class="dx-field-label">Email From</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field37'}, placeholder: fieldData.from.placeholder}"></div>
+                                <div dx-text-box="{bindingOptions:{value: 'field.field37'}, placeholder: fieldData.from.placeholder, showClearButton: true}"></div>
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
                         </div>
@@ -306,7 +294,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field38">
                             <div class="dx-field-label">Email To</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field38'}, placeholder: fieldData.to.placeholder}"></div>
+                                <div dx-text-box="{bindingOptions:{value: 'field.field38'}, placeholder: fieldData.to.placeholder, showClearButton: true}"></div>
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
                         </div>
@@ -314,7 +302,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field39">
                             <div class="dx-field-label">Email CC</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field39'}, placeholder: fieldData.cc.placeholder}"></div>
+                                <div dx-text-box="{bindingOptions:{value: 'field.field39'}, placeholder: fieldData.cc.placeholder, showClearButton: true}"></div>
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
                         </div>
@@ -322,7 +310,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field40">
                             <div class="dx-field-label">Email BCC</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field40'}, placeholder: fieldData.bcc.placeholder}"></div>
+                                <div dx-text-box="{bindingOptions:{value: 'field.field40'}, placeholder: fieldData.bcc.placeholder, showClearButton: true}"></div>
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
                         </div>
@@ -344,7 +332,7 @@
                         <div class="dx-field" ng-if="temp.showFields.field46">
                             <div class="dx-field-label">Email Addr</div>
                             <div class="dx-field-value">
-                                <div dx-text-box="{bindingOptions:{value: 'field.field46'}, placeholder: fieldData.addr.placeholder}"></div>
+                                <div dx-text-box="{bindingOptions:{value: 'field.field46'}, placeholder: fieldData.addr.placeholder, showClearButton: true}"></div>
                             </div>
                             <div class="wdFieldDesc">&nbsp;</div>
                         </div>

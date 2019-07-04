@@ -10,10 +10,10 @@
                         <div style="position: relative;" ng-hide="spinner">
                             <div id="userContainer" class="animate-switch"  ng-switch-default>
                                 <h1>{{ loginUiTxt }}</h1>
-                                <div id="user" dx-text-box="{bindingOptions:{value: 'loginData.username.value', placeholder: 'emailPlaceholder'}, label: { visible: false }, tabIndex: 1}"></div>
+                                <div id="user" dx-text-box="{bindingOptions:{value: 'loginData.username.value', placeholder: 'emailPlaceholder'}, label: { visible: false }, tabIndex: 1, showClearButton: true }"></div>
                                 <br/>
                                 <div class="pssCont">
-                                    <div id="password" dx-text-box="{bindingOptions:{value: 'loginData.password.value', placeholder: 'passPlaceholder'}, label: { visible: false }, mode: 'password', tabIndex: 2, onKeyUp: testEnter}"></div>
+                                    <div id="password" dx-text-box="{bindingOptions:{value: 'loginData.password.value', placeholder: 'passPlaceholder'}, label: { visible: false }, mode: 'password', tabIndex: 2, onKeyUp: testEnter, showClearButton: true}"></div>
                                     <div dx-button="togglePassword" class="passIcoCont"></div>
                                 </div>
                                 <br/>

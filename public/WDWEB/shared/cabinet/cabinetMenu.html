@@ -1,14 +1,12 @@
 <script type="text/ng-template" id="nodes_renderer2.html">
     <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'setSeleted': cab.setFmSelect == node}">
         <div class="itemCabinet">
-            <a ng-if="node.nodes && node.nodes.length > 0" ng-hide=" vm.hideDownIcon " data-nodrag  ng-click="cab.getChild(node, this)" id="{{ cab.setNodeId(node) }}">
-                <!-- <i class="glyphicon" ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }" ></i> -->
+                <a data-nodrag  ng-click="cab.getChild(node, this)" id="{{ cab.setNodeId(node) }}">
+            <!-- <a ng-if="node.nodes && node.nodes.length > 0" ng-hide=" vm.hideDownIcon " data-nodrag  ng-click="cab.getChild(node, this)" id="{{ cab.setNodeId(node) }}"> -->
                 <i class="ms-Icon"  ng-class="{ 'ms-Icon--CaretSolidRight': collapsed, 'ms-Icon--CaretSolidDown': !collapsed }" aria-hidden="true" id="{{cab.setIcoId(node)}}"></i>
             </a>
             <span class="cabinetTitle" ng-mousedown="cab.showFiles(node, collapsed, this)">{{node.sfn}} <span ng-if="node.name !== undefined">({{ node.name }})</span></span>
         </div>
-        <!-- <a ng-if="node.sublength" class="tooltiptext tooltip-right" ng-mousedown="cab.showFiles(node, collapsed, this)">Select</a>
-        <a ng-if="!node.sublength" class="tooltiptext tooltip-right" ng-mousedown="cab.showFilesNew(node, collapsed, this)">Select</a> -->
         <a class="tooltiptext tooltip-right" ng-mousedown="cab.showFiles(node, collapsed, this)">{{ btnText }}</a>
     </div>
     <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{'hidden': collapsed}" class="nodeChild">

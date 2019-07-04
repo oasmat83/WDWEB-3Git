@@ -15,9 +15,8 @@ angular.module('WDWeb').directive('topMenu',[ function () {
             $scope.dwnTxt; 
             var getQuery = $location.search();
             var userAgent = $window.navigator.userAgent;
-            // $scope.getRights = $localStorage.userRights;
+            var buttonIndicator;
             $scope.$on("updateToolbar", function(evt, data) {
-                console.log("jdklafj");
                 $scope.$apply()
             });
 
@@ -139,14 +138,7 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                 },
                 height: "40px",
                 onContentReady : function(e) {
-                    // var getLeftNavWidth = $("#leftNav").dxResizable("instance");
                     var getLeftNavWidth = $("#leftNav").width();
-                    // alert(getLeftNavWidth);
-                    // if (getLeftNavWidth == 0) {
-                    //     $("#actionBtnList").css("left", 200);
-                    // } else {
-                    //     $("#actionBtnList").css("left", getLeftNavWidth);
-                    // }
                     setTimeout(function(){ e.component._windowResizeCallBack(); }, 4000);
                 },
                 elementAttr: {
@@ -159,22 +151,36 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                     location: 'before',
                     widget: 'dxButton',
                     locateInMenu: 'auto',
-                    //visible: $rootScope.getRights.Download,
                     options: {
                         bindingOptions: {
                             icon: "dwnIco",
                             text: "dwnTxt",
                         },
                         elementAttr: { id: "wdOpenFile"},
+                        template: function(data, container) {
+                            $("<div class='button-indicator'></div><i class='"+ data.icon +" toolbarIco'></i><span class='dx-button-text toolbarTxt'>" + data.text + "</span>").appendTo(container);
+                            buttonIndicator = container.find(".button-indicator").dxLoadIndicator({
+                                visible: false,
+                                width: 16,
+                                height: 16,
+                                elementAttr: { id: "wdDwnLoad"},
+                            }).dxLoadIndicator("instance");
+                        },
                         onClick: function(e) {
+                            e.component.option("icon", "");
+                            buttonIndicator.option("visible", true);
                             wdService.isFileHasChanged().then(function (hasChanged) {
                                 var changedData = hasChanged.res;
                                 if (changedData.Header.ErrorCount !== "") {
                                     var data = { title: $scope.dwnTxt, fileAction: true, action: "DownloadDocument, wdInfo", desc: hasChanged.fileData.Description, doc: hasChanged.fileData.DocId };
                                     $rootScope.$broadcast("errorAction", {visible: true, rctx: changedData.Header.wd_Error_RCTX, data: data});
+                                    e.component.option("icon", $scope.dwnIco);
+                                    buttonIndicator.option("visible", false);
                                     return false
                                 } 
                                 if(hasChanged.confirm){
+                                    e.component.option("icon", $scope.dwnIco);
+                                    buttonIndicator.option("visible", false);
                                     $rootScope.$broadcast('showMessageWhenFileChanged', {title:'Download', desc:hasChanged.res.items[0].Description, docid:hasChanged.res.items[0].DocId});
                                     $rootScope.$broadcast('setConfirmHashChanged', {fnc:function(){
                                         $('#popupFileChangedOptions').dxPopup().dxPopup("instance").hide();
@@ -183,8 +189,10 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                                     }});
                                 }else{
                                     $rootScope.$broadcast("fileAction", { type: "download" });
+                                    e.component.option("icon", $scope.dwnIco);
+                                    buttonIndicator.option("visible", false);
                                 }
-                            })
+                            });
                         }
                     }
                 },
@@ -206,16 +214,31 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                         icon: 'ms-Icon ms-Icon--PageCheckedOut',
                         text: 'Check-Out',
                         elementAttr: { id: "wdChkOut"},
+                        template: function(data, container) {
+                            $("<div class='button-indicator'></div><i class='"+ data.icon +" toolbarIco'></i><span class='dx-button-text toolbarTxt'>" + data.text + "</span>").appendTo(container);
+                            buttonIndicator = container.find(".button-indicator").dxLoadIndicator({
+                                visible: false,
+                                width: 16,
+                                height: 16,
+                                elementAttr: { id: "wdChkOutLoad"},
+                            }).dxLoadIndicator("instance");
+                        },
                         onClick: function(e) {
+                            e.component.option("icon", "");
+                            buttonIndicator.option("visible", true);
                             wdService.isFileHasChanged().then(function (hasChanged) {
                                 var changedData = hasChanged.res;
                                 if (changedData.Header.ErrorCount !== "") {
                                     var data = { title: 'Check-Out', fileAction: true, action: "DownloadDocument, wdInfo", desc: hasChanged.fileData.Description, doc: hasChanged.fileData.DocId };
                                     $rootScope.$broadcast("errorAction", {visible: true, rctx: changedData.Header.wd_Error_RCTX, data: data});
+                                    e.component.option("icon", "ms-Icon ms-Icon--PageCheckedOut");
+                                    buttonIndicator.option("visible", false);
                                     return false
                                 } 
 
                                 if(hasChanged.confirm){
+                                    e.component.option("icon", "ms-Icon ms-Icon--PageCheckedOut");
+                                    buttonIndicator.option("visible", false);
                                     $rootScope.$broadcast('showMessageWhenFileChanged', {title:'Check-Out', desc:hasChanged.res.items[0].Description, docid:hasChanged.res.items[0].DocId});
                                     $rootScope.$broadcast('setConfirmHashChanged', {fnc:function(){
                                         $rootScope.$broadcast("fileAction", { type: "checkOut", data: e });
@@ -239,16 +262,31 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                         icon: 'ms-Icon ms-Icon--Edit',
                         text: 'Edit Metadata',
                         elementAttr: { id: "wdEditProfile"},
+                        template: function(data, container) {
+                            $("<div class='button-indicator'></div><i class='"+ data.icon +" toolbarIco'></i><span class='dx-button-text toolbarTxt'>" + data.text + "</span>").appendTo(container);
+                            buttonIndicator = container.find(".button-indicator").dxLoadIndicator({
+                                visible: false,
+                                width: 16,
+                                height: 16,
+                                elementAttr: { id: "wdEditLoad"},
+                            }).dxLoadIndicator("instance");
+                        },
                         onClick: function(vm) {
+                            vm.component.option("icon", "");
+                            buttonIndicator.option("visible", true);
                             wdService.isFileHasChanged().then(function (hasChanged) {
                                 var changedData = hasChanged.res;
                                 if (changedData.Header.ErrorCount !== "") {
                                     var data = { title: 'Edit Metadata', fileAction: true, action: "DownloadDocument, wdInfo", desc: hasChanged.fileData.Description, doc: hasChanged.fileData.DocId };
                                     $rootScope.$broadcast("errorAction", {visible: true, rctx: changedData.Header.wd_Error_RCTX, data: data});
+                                    vm.component.option("icon", "ms-Icon ms-Icon--Edit");
+                                    buttonIndicator.option("visible", false);
                                     return false
                                 } 
 
                                 if(hasChanged.confirm){
+                                    vm.component.option("icon", "ms-Icon ms-Icon--Edit");
+                                    buttonIndicator.option("visible", false);
                                     $rootScope.$broadcast('showMessageWhenFileChanged', {title:'Edit Metadata', desc:hasChanged.res.items[0].Description, docid:hasChanged.res.items[0].DocId});
                                     $rootScope.$broadcast('setConfirmHashChanged', {fnc:function(){
                                         $rootScope.$broadcast("fileAction", { type: "editProfile", data: vm, meta: hasChanged.res, profile: "Edit"});
@@ -271,15 +309,30 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                         icon: 'ms-Icon ms-Icon--Copy',
                         text: 'Copy',
                         elementAttr: { id: "wdCopyProfile"},
+                        template: function(data, container) {
+                            $("<div class='button-indicator'></div><i class='"+ data.icon +" toolbarIco'></i><span class='dx-button-text toolbarTxt'>" + data.text + "</span>").appendTo(container);
+                            buttonIndicator = container.find(".button-indicator").dxLoadIndicator({
+                                visible: false,
+                                width: 16,
+                                height: 16,
+                                elementAttr: { id: "wdCopyLoad"},
+                            }).dxLoadIndicator("instance");
+                        },
                         onClick: function(vm) {
+                            vm.component.option("icon", "");
+                            buttonIndicator.option("visible", true);
                             wdService.isFileHasChanged().then(function (hasChanged) {
                                 var changedData = hasChanged.res;
                                 if (changedData.Header.ErrorCount !== "") {
                                     var data = { title: "Copy", fileAction: true, action: "DownloadDocument, wdInfo", desc: hasChanged.fileData.Description, doc: hasChanged.fileData.DocId };
                                     $rootScope.$broadcast("errorAction", {visible: true, rctx: changedData.Header.wd_Error_RCTX, data: data});
+                                    vm.component.option("icon", "ms-Icon ms-Icon--Copy");
+                                    buttonIndicator.option("visible", false);
                                     return false
                                 } 
                                 if(hasChanged.confirm){
+                                    vm.component.option("icon", "ms-Icon ms-Icon--Copy");
+                                    buttonIndicator.option("visible", false);
                                     $rootScope.$broadcast('showMessageWhenFileChanged', {title:'Copy', desc:hasChanged.res.items[0].Description, docid:hasChanged.res.items[0].DocId});
                                     $rootScope.$broadcast('setConfirmHashChanged', {fnc:function(){
                                         $rootScope.$broadcast("fileAction", { type: "editProfile", data: vm, meta: hasChanged.res, profile: "Copy"});
@@ -326,15 +379,30 @@ angular.module('WDWeb').directive('topMenu',[ function () {
                         icon: 'ms-Icon ms-Icon--EntryView',
                         text: 'View',
                         elementAttr: { id: "wdViewFile"},
+                        template: function(data, container) {
+                            $("<div class='button-indicator'></div><i class='"+ data.icon +" toolbarIco'></i><span class='dx-button-text toolbarTxt'>" + data.text + "</span>").appendTo(container);
+                            buttonIndicator = container.find(".button-indicator").dxLoadIndicator({
+                                visible: false,
+                                width: 16,
+                                height: 16,
+                                elementAttr: { id: "wdViewLoad"},
+                            }).dxLoadIndicator("instance");
+                        },
                         onClick: function(e) {
+                            e.component.option("icon", "");
+                            buttonIndicator.option("visible", true);
                             wdService.isFileHasChanged().then(function (hasChanged) {
                                 var changedData = hasChanged.res;
                                 if (changedData.Header.ErrorCount !== "") {
                                     var data = { title: "View", fileAction: true, action: "DownloadDocument, wdInfo", desc: hasChanged.fileData.Description, doc: hasChanged.fileData.DocId };
                                     $rootScope.$broadcast("errorAction", {visible: true, rctx: changedData.Header.wd_Error_RCTX, data: data});
+                                    e.component.option("icon", "ms-Icon ms-Icon--EntryView");
+                                    buttonIndicator.option("visible", false);
                                     return false
                                 } 
                                 if(hasChanged.confirm){
+                                    e.component.option("icon", "ms-Icon ms-Icon--EntryView");
+                                    buttonIndicator.option("visible", false);
                                     $rootScope.$broadcast('showMessageWhenFileChanged', {title:'View', desc:hasChanged.res.items[0].Description, docid:hasChanged.res.items[0].DocId});
                                     $rootScope.$broadcast('setConfirmHashChanged', {fnc:function(){
                                         $rootScope.$broadcast("fileAction", { type: "view", data: e });

@@ -61,13 +61,11 @@
                                 </ul>
                                 <ul class="subMenu list" ng-if="upload.prefillData == 'ft'">
                                     <li>{{upload.noResults}}</li>
-                                    <li class="subMenuItem" ng-repeat="data in upload.fieldListData | filter:upload.autoFilter" ng-click="upload.setSelected(data)" ng-dblclick="upload.setField(data)" ng-class="{ activeRow: upload.isActive(data) }">
+                                    <li class="subMenuItem" ng-repeat="data in upload.fieldListData | filter:upload.autoFilter" ng-click="upload.setSelected(data)" ng-dblclick="upload.setField(data)" ng-class="{ activeRow: upload.isActive(data) }" style="height: auto">
                                         <a href="#"><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='upload.setFieldTableOrder(data)'></span></a>
                                     </li>
-                                    <li ng-show="upload.fieldListData.length < upload.total && upload.prefillData == 'ft'" class="loadBtn"><div dx-button="upload.loadMore"></div></li>
-
+                                    <li ng-show="upload.fieldListData.length < upload.total && upload.prefillData == 'ft'" class="loadBtn"><div dx-button="upload.loadMore"></div></li> -->
                                 </ul>
-                                <!-- <div class="fieldSpinner" ng-hide="fieldTableSpin"></div> -->
                             </div>
                         </div>
                     </li>
@@ -81,7 +79,7 @@
                         <table class="wdSaveFields">
                             <tr>
                                 <td>Description</td>
-                                <td colspan="2"><div class="wd-input-description" dx-text-area="{bindingOptions:{value: 'uploadData.Description', disabled: 'uploadData.disabled'}, placeholder: 'Description', onEnterKey: enterDesc}" dx-validator="checkDesc"></div></td>
+                                <td colspan="2"><div id="uploadDescField" class="wd-input-description" dx-text-area="{bindingOptions:{value: 'uploadData.Description', disabled: 'uploadData.disabled'}, placeholder: 'Description', onEnterKey: enterDesc, onContentReady: setFocus, showClearButton: true}" dx-validator="checkDesc"></div></td>
                             </tr>
                             <tr>
                                 <td>Cabinets</td>
@@ -90,49 +88,49 @@
                             <tr ng-if="upload.showPgFields.field1 != ''">
                                 <td ng-if="upload.typePgFields.field1 == 0"><a href ng-click="upload.getTables(1, upload.showPgFields.field1)" ng-class="{'selected': upload.selectedField == 1}">{{ upload.showPgFields.field1 }}</a></td>
                                 <td ng-if="upload.typePgFields.field1 == 1">{{ upload.showPgFields.field1 }}</td>
-                                <td ng-if="upload.typePgFields.field1 == 0"> <div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'fields.field1.value', placeholder: 'upload.showPgFields.field1'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12'}" dx-validator="checkField"></div></td>
+                                <td ng-if="upload.typePgFields.field1 == 0"> <div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'fields.field1.value', placeholder: 'upload.showPgFields.field1'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true}" dx-validator="checkField"></div></td>
                                 <td ng-if="upload.typePgFields.field1 == 0"> <div class="overLoadData wdFieldDesc" ng-bind-html="upload.fieldDesc.field1" ng-style="{'color': upload.wdFieldColor1}">&nbsp;</div></td>
                                 <td colspan="2" ng-if="upload.typePgFields.field1 == 1"> <div id="fieldDesc1" dx-date-box="upload.dateBoxUl1" dx-validator="checkField"></div></td>
                             </tr>
                             <tr ng-if="upload.showPgFields.field2 != ''">
                                 <td ng-if="upload.typePgFields.field2 == 0"><a href ng-click="upload.getTables(2, upload.showPgFields.field2)" ng-class="{'selected': upload.selectedField == 2}">{{ upload.showPgFields.field2 }}</a></td>
                                 <td ng-if="upload.typePgFields.field2 == 1">{{ upload.showPgFields.field2 }}</td>
-                                <td ng-if="upload.typePgFields.field2 == 0" > <div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'fields.field2.value', placeholder: 'upload.showPgFields.field2'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12'}" dx-validator="checkField"></div></td>
+                                <td ng-if="upload.typePgFields.field2 == 0" > <div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'fields.field2.value', placeholder: 'upload.showPgFields.field2'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true}" dx-validator="checkField"></div></td>
                                 <td ng-if="upload.typePgFields.field2 == 0" > <div class="overLoadData wdFieldDesc" ng-bind-html="upload.fieldDesc.field2" ng-style="{'color': upload.wdFieldColor2}">&nbsp;</div></td>
                                 <td colspan="2" ng-if="upload.typePgFields.field2 == 1"> <div id="fieldDesc2" dx-date-box="upload.dateBoxUl2" dx-validator="checkField"></div></td>
                             </tr>
                             <tr ng-if="upload.showPgFields.field3 != ''">
                                 <td ng-if="upload.typePgFields.field3 == 0"><a href ng-click="upload.getTables(3, upload.showPgFields.field3)" ng-class="{'selected': upload.selectedField == 3}">{{ upload.showPgFields.field3 }}</a></td>
                                 <td ng-if="upload.typePgFields.field3 == 1">{{ upload.showPgFields.field3 }}</td>
-                                <td ng-if="upload.typePgFields.field3 == 0"> <div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'fields.field3.value', placeholder: 'upload.showPgFields.field3'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12'}" dx-validator="checkField"></div></td>
+                                <td ng-if="upload.typePgFields.field3 == 0"> <div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'fields.field3.value', placeholder: 'upload.showPgFields.field3'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true}" dx-validator="checkField"></div></td>
                                 <td ng-if="upload.typePgFields.field3 == 0"><div class="overLoadData wdFieldDesc" ng-bind-html="upload.fieldDesc.field3" ng-style="{'color': upload.wdFieldColor3}">&nbsp;</div></td>
                                 <td colspan="2" ng-if="upload.typePgFields.field3 == 1"> <div id="fieldDesc3" dx-date-box="upload.dateBoxUl3" dx-validator="checkField"></div></td>
                             </tr>
                             <tr ng-if="upload.showPgFields.field4 != ''">
                                 <td ng-if="upload.typePgFields.field4 == 0"><a href ng-click="upload.getTables(4, upload.showPgFields.field4)" ng-class="{'selected': upload.selectedField == 4}">{{ upload.showPgFields.field4 }}</a></td>
                                 <td ng-if="upload.typePgFields.field4 == 1">{{ upload.showPgFields.field4 }}</td>
-                                <td ng-if="upload.typePgFields.field4 == 0"> <div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'fields.field4.value', placeholder: 'upload.showPgFields.field4'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12'}" dx-validator="checkField"></div></td>
+                                <td ng-if="upload.typePgFields.field4 == 0"> <div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'fields.field4.value', placeholder: 'upload.showPgFields.field4'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true}" dx-validator="checkField"></div></td>
                                 <td ng-if="upload.typePgFields.field4 == 0"><div class="overLoadData wdFieldDesc" ng-bind-html="upload.fieldDesc.field4" ng-style="{'color': upload.wdFieldColor4}">&nbsp;</div></td>
                                 <td colspan="2" ng-if="upload.typePgFields.field4 == 1"> <div id="fieldDesc4" dx-date-box="upload.dateBoxUl4" dx-validator="checkField"></div></td>
                             </tr>
                             <tr ng-if="upload.showPgFields.field5 != ''">
                                 <td ng-if="upload.typePgFields.field5 == 0"><a href ng-click="upload.getTables(5, upload.showPgFields.field5)" ng-class="{'selected': upload.selectedField == 5}">{{ upload.showPgFields.field5 }}</a></td>
                                 <td ng-if="upload.typePgFields.field5 == 1">{{ upload.showPgFields.field5 }}</td>
-                                <td ng-if="upload.typePgFields.field5 == 0"> <div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'fields.field5.value', placeholder: 'upload.showPgFields.field5'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12'}" dx-validator="checkField"></div></td>
+                                <td ng-if="upload.typePgFields.field5 == 0"> <div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'fields.field5.value', placeholder: 'upload.showPgFields.field5'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true}" dx-validator="checkField"></div></td>
                                 <td ng-if="upload.typePgFields.field5 == 0"><div class="overLoadData wdFieldDesc" ng-bind-html="upload.fieldDesc.field5" ng-style="{'color': upload.wdFieldColor5}">&nbsp;</div></td>
                                 <td colspan="2" ng-if="upload.typePgFields.field5 == 1"> <div id="fieldDesc5" dx-date-box="upload.dateBoxUl5" dx-validator="checkField"></div></td>
                             </tr>
                             <tr ng-if="upload.showPgFields.field6 != ''">
                                 <td ng-if="upload.typePgFields.field6 == 0"><a href ng-click="upload.getTables(6, upload.showPgFields.field6)" ng-class="{'selected': upload.selectedField == 6}">{{ upload.showPgFields.field6 }}</a></td>
                                 <td ng-if="upload.typePgFields.field6 == 1">{{ upload.showPgFields.field6 }}</td>
-                                <td ng-if="upload.typePgFields.field6 == 0"> <div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'fields.field6.value', placeholder: 'upload.showPgFields.field6'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12'}" dx-validator="checkField"></div></td>
+                                <td ng-if="upload.typePgFields.field6 == 0"> <div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'fields.field6.value', placeholder: 'upload.showPgFields.field6'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true}" dx-validator="checkField"></div></td>
                                 <td ng-if="upload.typePgFields.field6 == 0"><div class="overLoadData wdFieldDesc" ng-bind-html="upload.fieldDesc.field6" ng-style="{'color': upload.wdFieldColor6}">&nbsp;</div></td>
                                 <td colspan="2" ng-if="upload.typePgFields.field6 == 1"> <div id="fieldDesc6" dx-date-box="upload.dateBoxUl6" dx-validator="checkField"></div></td>
                             </tr>
                             <tr ng-if="upload.showPgFields.field7 != ''">
                                 <td ng-if="upload.typePgFields.field7 == 0"><a href ng-click="upload.getTables(7, upload.showPgFields.field7)" ng-class="{'selected': upload.selectedField == 7}">{{ upload.showPgFields.field7 }}</a></td>
                                 <td ng-if="upload.typePgFields.field7 == 1">{{ upload.showPgFields.field7 }}</td>
-                                <td ng-if="upload.typePgFields.field7 == 0"> <div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'fields.field7.value', placeholder: 'upload.showPgFields.field7'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12'}" dx-validator="checkField"></div></td>
+                                <td ng-if="upload.typePgFields.field7 == 0"> <div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'fields.field7.value', placeholder: 'upload.showPgFields.field7'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true}" dx-validator="checkField"></div></td>
                                 <td ng-if="upload.typePgFields.field7 == 0"><div class="overLoadData wdFieldDesc" ng-bind-html="upload.fieldDesc.field7" ng-style="{'color': upload.wdFieldColor7}">&nbsp;</div></td>
                                 <td colspan="2" ng-if="upload.typePgFields.field7 == 1"> <div id="fieldDesc7" dx-date-box="upload.dateBoxUl7" dx-validator="checkField"></div></td>
                             </tr>

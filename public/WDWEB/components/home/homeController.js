@@ -59,6 +59,12 @@ function homeController($scope, $timeout, $localStorage, $window, $location, $ro
         $scope.setPopupDailog(showDialog, wdRTX, wdFileData);
     });
 
+    $scope.aedFieldTable = function(x, y, z) {
+        $scope.ftDailog = x;
+        $scope.wdFtErrorRctx = y;
+        $scope.wdFTData = z;
+    }
+
     $scope.$on("openSearchPanel", function(e, data) {
         $scope.getDefaultTemplate(false);
         $scope.templates = true;

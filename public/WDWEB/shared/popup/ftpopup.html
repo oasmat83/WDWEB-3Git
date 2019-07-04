@@ -1,0 +1,18 @@
+<div>
+    <div dx-popup="popupFtFileChangedOptions">
+        <div data-options="dxTemplate: { name:'popupAED' }">
+            <form ng-submit="sendTo()">
+                <div dx-load-indicator="ftLoader"></div>
+                <div ng-if="data.type == 'add' || data.type =='edit'">
+                    <div dx-text-box="wdFTCode"></div>
+                    <div dx-text-box="wdFTDesc"></div>
+                    <div dx-button="wdFTaed"></div>
+                </div>
+                <div ng-if="data.type == 'delete'">
+                    <span class="wdMarginField">Are you sure you want to delete the selected "{{ data.fieldNme }}" code?</span>
+                    <div dx-button="wdFTaed"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

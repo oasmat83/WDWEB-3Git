@@ -47,7 +47,7 @@
                                 </ul>
                                 <ul class="subMenu list">
                                     <li>{{noResults}}</li>
-                                    <li class="subMenuItem" ng-repeat="data in fieldListData | filter:autoFilter" ng-if="prefillData == 'ft'" ng-click="setSelected(data)" ng-dblclick="setField(data)" ng-class="{ activeRow: isActive(data) }">
+                                    <li class="subMenuItem" ng-repeat="data in fieldListData | filter:autoFilter" ng-if="prefillData == 'ft'" ng-click="setSelected(data)" ng-dblclick="setField(data)" ng-class="{ activeRow: isActive(data) }" style="height: auto">
                                         <a href=""><i class="ms-Icon ms-Icon--Table" aria-hidden="true"></i> <span class="displayName" ng-bind-html='setFieldTableOrder(data)'> </span></a>
                                     </li>
                                     <li ng-show="fieldListData.length < total && prefillData == 'ft'" class="loadBtn"><div dx-button="loadMore"></div></li>
@@ -69,7 +69,7 @@
                         <table class="wdSaveFields">
                             <tr>
                                 <td>{{ descTitle }}</td>
-                                <td colspan="2"><div dx-text-area="{bindingOptions:{value: 'uploadData.Description', placeholder: 'descPlaceholder'}, height: 90, width: '100%'}"  dx-validator="checkDesc"></div></td>
+                                <td colspan="2"><div dx-text-area="{bindingOptions:{value: 'uploadData.Description', placeholder: 'descPlaceholder'}, height: 90, width: '100%', showClearButton: true}"  dx-validator="checkDesc"></div></td>
                             </tr>
                             <tr>
                                 <td>Cabinets</td>
@@ -79,49 +79,49 @@
                             <tr ng-if="showPgFields.field1 != ''">
                                 <td ng-if="typePgFields.field1 == 0"><a href ng-click="getTables(1, showPgFields.field1)" ng-class="{'selected': selectedField == 1}">{{ showPgFields.field1 }}</a></td>
                                 <td ng-if="typePgFields.field1 == 1">{{ showPgFields.field1 }}</td>
-                                <td ng-if="typePgFields.field1 == 0" style="width: 120px;"><div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'fields.field1.value', placeholder: 'showPgFields.field1'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field1 == 0" style="width: 120px;"><div id="fieldDesc1" dx-text-box="{bindingOptions:{value: 'fields.field1.value', placeholder: 'showPgFields.field1'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true }"></div></td>
                                 <td ng-if="typePgFields.field1 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor1}">{{ fieldDesc.field1 }} &nbsp;</div></td>
                                 <td colspan="2" ng-if="typePgFields.field1 == 1"> <div id="fieldDesc1" dx-date-box="dateBoxUl1" ></div></td>
                             </tr>
                             <tr ng-if="showPgFields.field2 != ''">
                                 <td ng-if="typePgFields.field2 == 0"><a href ng-click="getTables(2, showPgFields.field2)" ng-class="{'selected': selectedField == 2}">{{ showPgFields.field2 }}</a></td>
                                 <td ng-if="typePgFields.field2 == 1">{{ showPgFields.field2 }}</td>
-                                <td ng-if="typePgFields.field2 == 0" style="width: 120px;"><div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'fields.field2.value', placeholder: 'showPgFields.field2'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field2 == 0" style="width: 120px;"><div id="fieldDesc2" dx-text-box="{bindingOptions:{value: 'fields.field2.value', placeholder: 'showPgFields.field2'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true }"></div></td>
                                 <td ng-if="typePgFields.field2 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor2}">{{ fieldDesc.field2 }} &nbsp;</div></td>
                                 <td colspan="2" ng-if="typePgFields.field2 == 1"> <div id="fieldDesc2" dx-date-box="dateBoxUl2" ></div></td>
                             </tr>
                             <tr ng-if="showPgFields.field3 != ''">
                                 <td ng-if="typePgFields.field3 == 0"><a href ng-click="getTables(3, showPgFields.field3)" ng-class="{'selected': selectedField == 3}">{{ showPgFields.field3 }}</a></td>
                                 <td ng-if="typePgFields.field3 == 1">{{ showPgFields.field3 }}</td>
-                                <td ng-if="typePgFields.field3 == 0" style="width: 120px;"><div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'fields.field3.value', placeholder: 'showPgFields.field3'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field3 == 0" style="width: 120px;"><div id="fieldDesc3" dx-text-box="{bindingOptions:{value: 'fields.field3.value', placeholder: 'showPgFields.field3'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true }"></div></td>
                                 <td ng-if="typePgFields.field3 == 0"><div  class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor3}">{{ fieldDesc.field3 }} &nbsp;</div></td>
                                 <td colspan="2" ng-if="typePgFields.field3 == 1"> <div id="fieldDesc3" dx-date-box="dateBoxUl3" ></div></td>
                             </tr>
                             <tr ng-if="showPgFields.field4 != ''">
                                 <td ng-if="typePgFields.field4 == 0"><a href ng-click="getTables(4, showPgFields.field4)" ng-class="{'selected': selectedField == 4}">{{ showPgFields.field4 }}</a></td>
                                 <td ng-if="typePgFields.field4 == 1">{{ showPgFields.field4 }}</td>
-                                <td ng-if="typePgFields.field4 == 0" style="width: 120px;"><div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'fields.field4.value', placeholder: 'showPgFields.field4'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field4 == 0" style="width: 120px;"><div id="fieldDesc4" dx-text-box="{bindingOptions:{value: 'fields.field4.value', placeholder: 'showPgFields.field4'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true }"></div></td>
                                 <td ng-if="typePgFields.field4 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor4}">{{ fieldDesc.field4 }} &nbsp;</div></td>
                                 <td colspan="2" ng-if="typePgFields.field4 == 1"> <div id="fieldDesc4" dx-date-box="dateBoxUl4" ></div></td>
                             </tr>
                             <tr ng-if="showPgFields.field5 != ''">
                                 <td ng-if="typePgFields.field5 == 0"><a href ng-click="getTables(5, showPgFields.field5)" ng-class="{'selected': selectedField == 5}">{{ showPgFields.field5 }}</a></td>
                                 <td ng-if="typePgFields.field5 == 1">{{ showPgFields.field5 }}</td>
-                                <td ng-if="typePgFields.field5 == 0" style="width: 120px;"><div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'fields.field5.value', placeholder: 'showPgFields.field5'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field5 == 0" style="width: 120px;"><div id="fieldDesc5" dx-text-box="{bindingOptions:{value: 'fields.field5.value', placeholder: 'showPgFields.field5'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true }"></div></td>
                                 <td ng-if="typePgFields.field5 == 0"><div  class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor5}">{{ fieldDesc.field5 }} &nbsp;</div></td>
                                 <td colspan="2" ng-if="typePgFields.field5 == 1"> <div id="fieldDesc5" dx-date-box="dateBoxUl5" ></div></td>
                             </tr>
                             <tr ng-if="showPgFields.field6 != ''">
                                 <td ng-if="typePgFields.field6 == 0"><a href ng-click="getTables(6, showPgFields.field6)" ng-class="{'selected': selectedField == 6}">{{ showPgFields.field6 }}</a></td>
                                 <td ng-if="typePgFields.field6 == 1">{{ showPgFields.field6 }}</td>
-                                <td ng-if="typePgFields.field6 == 0" style="width: 120px;"><div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'fields.field6.value', placeholder: 'showPgFields.field6'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field6 == 0" style="width: 120px;"><div id="fieldDesc6" dx-text-box="{bindingOptions:{value: 'fields.field6.value', placeholder: 'showPgFields.field6'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true }"></div></td>
                                 <td ng-if="typePgFields.field6 == 0"><div  class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor6}">{{ fieldDesc.field6 }} &nbsp;</div></td>
                                 <td colspan="2" ng-if="typePgFields.field6 == 1"> <div id="fieldDesc6" dx-date-box="dateBoxUl6" ></div></td>
                             </tr>
                             <tr ng-if="showPgFields.field7 != ''">
                                 <td ng-if="typePgFields.field7 == 0"><a href ng-click="getTables(7, showPgFields.field7)" ng-class="{'selected': selectedField == 7}">{{ showPgFields.field7 }}</a></td>
                                 <td ng-if="typePgFields.field7 == 1">{{ showPgFields.field7 }}</td>
-                                <td ng-if="typePgFields.field7 == 0" style="width: 120px;"><div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'fields.field7.value', placeholder: 'showPgFields.field7'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12' }"></div></td>
+                                <td ng-if="typePgFields.field7 == 0" style="width: 120px;"><div id="fieldDesc7" dx-text-box="{bindingOptions:{value: 'fields.field7.value', placeholder: 'showPgFields.field7'}, inputAttr: { autocomplete: 'on'}, onValueChanged: getTestProfile, width: '100%', maxLength: '12', showClearButton: true }"></div></td>
                                 <td ng-if="typePgFields.field7 == 0"><div class="overLoadData wdFieldDesc" ng-style="{'color': wdFieldColor7}">{{ fieldDesc.field7 }} &nbsp;</div></td>
                                 <td colspan="2" ng-if="typePgFields.field7 == 1"> <div id="fieldDesc7" dx-date-box="dateBoxUl7" ></div></td>
                             </tr>

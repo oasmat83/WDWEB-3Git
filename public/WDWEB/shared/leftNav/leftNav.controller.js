@@ -6,7 +6,7 @@ angular.module('WDWeb').controller("leftNavCtrl",
             $scope.cabinets = [];
             $scope.menuUpdate = "#bmkContainer";
             $scope.leftNavColumn = true;
-            $rootScope.date = "Rev: 156106.1912";
+            $rootScope.date = "Rev: 156218.8184";
             //$scope.date = "Rev: " + uni.split(uniLen)[0] + "." + uniLen;
             $scope.textValue = "";
 
@@ -701,23 +701,7 @@ angular.module('WDWeb').controller("leftNavCtrl",
                 var check_focus_input = $scope.checkFocusInput();
                 if (((e.ctrlKey || e.metaKey) && e.keyCode === 70) || (e.which !== 0 && check_focus_input)) {
                     if ($rootScope.checkOverleftNav && $scope.selectedTab !== undefined) {
-                        switch ($scope.selectedTab) {
-                            case "favorites":
-                                $("#leftNavFilterFF input").focus();
-                                break;
-                            case "bookmark":
-                                $("#leftNavFilterBM input").focus();
-                                break;
-                            case "matters":
-                                $("#leftNavFilterFM input").focus();
-                                break;
-                            case "cabinets":
-                                $("#leftNavFilterPG input").focus();
-                                break;
-                            case "workspaces":
-                                $("#leftNavFilterWS input").focus();
-                                break;
-                        }
+                        setFocus()
                     }
                     else if ($rootScope.checkOverFavMat) {
                         $("#wdFilterFavMatter input").focus();
@@ -811,12 +795,42 @@ angular.module('WDWeb').controller("leftNavCtrl",
                 dragEnabled: false,
                 closeOnOutsideClick: false,
                 title: "Filter",
+                onShown: function(e) {
+                    $('#navCancelBtn').dxButton('instance').focus();
+                },
+                onHidden: function(e) {
+                    setFocus()
+                },
             };
+
             $scope.wdCancelBtnFilter = {
                 text: "Cancel",
                 onClick: function(e) {
                     $('#popupNotFoundFilter').dxPopup().dxPopup("instance").hide();
                 },
-                type: "success"
+                type: "success",
+                elementAttr: {
+                    id: "navCancelBtn"
+                }
+            }
+
+            function setFocus() {
+                switch ($scope.selectedTab) {
+                    case "favorites":
+                        $("#leftNavFilterFF input").focus();
+                        break;
+                    case "bookmark":
+                        $("#leftNavFilterBM input").focus();
+                        break;
+                    case "matters":
+                        $("#leftNavFilterFM input").focus();
+                        break;
+                    case "cabinets":
+                        $("#leftNavFilterPG input").focus();
+                        break;
+                    case "workspaces":
+                        $("#leftNavFilterWS input").focus();
+                        break;
+                }
             }
         }]);

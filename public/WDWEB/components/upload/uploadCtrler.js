@@ -14,6 +14,7 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
     $scope.listOfTags = [];
     $scope.tagValues = [];
     vm.fieldListData = [];
+    $scope.fieldListData = [];
     $scope.openCats = false;
     $scope.showUploadLoader = true;
     $scope.textValue = "";
@@ -25,6 +26,7 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
             $("#leftUploader").dxScrollView("instance").option("height", (window.innerHeight - 225));
         };
     });
+    
 
     $scope.wdFilterBox = {
         placeholder: "Filter",
@@ -74,6 +76,8 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
         vm.favMatters = [];
         vm.prefillData ='';
         vm.uploadTitle = "QuickProfile";
+        $scope.showBtn = { 'delete': false, 'add': false, 'edit': false };
+        // vm.showEdtTemplateBtn = { 'delete': $localStorage.userRights.TableDel, 'add': $localStorage.userRights.TableAdd, 'edit': $localStorage.userRights.TableEdit };
         $timeout(function() {
             wdService.getQuickProfile().then(function(res) {
                 vm.quickProfile = res.data.root.QuickProfiles;
@@ -139,22 +143,6 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
 
     });
 
-    // $scope.pgCabinetId = {
-    //     bindingOptions: {
-    //         value: "uploadData.Cabinets",
-    //         dataSource: "getcabinetList"
-    //     },
-    //     displayExpr: "Name",
-    //     onValueChanged: function(e) {
-    //         vm.selectedCabinet(e);
-    //     },
-    //     itemTemplate: function(data) {
-    //         return "<div class='custom-item'>" + data.Name + "</div>";
-    //     },
-    //     elementAttr: {
-    //         id: "uploadPGID"
-    //     }
-    // }
 
     $scope.setOverUpload = function(){
         $("#pxpUploadForm").mouseover(function(e){
@@ -301,25 +289,6 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
             setTimeout(function(){
                 $scope.dateValueChanged();
             }, -1)
-            // var getFields = e.value.split('|');
-            // for(var i = 1;  i <= 7; i++) {
-            //     if(getFields[i] != "") {
-            //         vm.showPgFields["field" + i] = getFields[i];
-            //     } else {
-            //         vm.showPgFields["field" + i] = "";
-            //     }
-            // }
-            
-
-            // if (vm.prefillData == "ft") {
-            //     var getfirstfield = e.value.split('|');
-            //     for(var i = 1;  i <= 7; i++) {
-            //         if (getfirstfield[i] !== ""){
-            //             vm.getTables(i, getfirstfield[i]);
-            //             break;
-            //         }
-            //     };
-            // };
         }
         vm.dateBoxUl1 = {
             dateFormat: {
@@ -496,7 +465,7 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
                 setTable.push(data);
             }
         }
-        return setTable.reverse().join(" - ");
+        return setTable.reverse().join(" <br/> ");
     }
 
     vm.closeList = function() {
@@ -538,6 +507,7 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
             vm.checkFt = true;
             vm.prefillData = 'ft';
             vm.fieldListData = [];
+            $scope.fieldListData = [];
             $scope.listTable(false, false);
         }, 1000);
     }
@@ -552,10 +522,99 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
         }
     }
 
+    $scope.fieldTableGrid = {
+        dataField: "tablelist",
+        bindingOptions: {
+            dataSource: "fieldListData"
+        },
+        selection: {
+            mode: "single"
+        },
+        showBorders: false,
+        showColumnHeaders: false,
+        hoverStateEnabled: true,
+        onRowDblClick: function(e) {
+            vm.setField(e.data);
+        },
+        columns: [
+            { 
+                dataField: "",
+                cellTemplate: "fieldTable",
+            }
+        ],
+        loadPanel: {
+            enabled: false
+        },
+        scrolling: {
+            mode: 'infinite'
+        },
+        showColumnLines: false,
+        showRowLines: false,
+        onToolbarPreparing: function(e) {
+            $scope.toolbarshow = e;
+            e.toolbarOptions.items.unshift(
+            {
+                location: "before",
+                widget: "dxButton",
+                // locateInMenu: "auto",
+                options: {
+                    icon: "ms-Icon ms-Icon--AddTo",
+                    text: "Add",
+                    onClick: function(e) {
+                        var getFTInstance = $("#wdFieldTableList").dxDataGrid("instance"),
+                        getFTSelected = getFTInstance.getSelectedRowsData();
+                        data = { type: "add", data: getFTSelected, fieldNme:  vm.uploadTitle, selected: vm.selectedField, cabinet: $scope.uploadData.Cabinets.PGID };
+                        $scope.aedFieldTable(true, "ADD_FIELDTABLE", data);
+                    },
+                    bindingOptions:{
+                        visible: "showBtn.add"
+                    }
+                }
+            },
+            {
+                location: "before",
+                widget: "dxButton",
+                // locateInMenu: "auto",
+                options: {
+                    icon: "ms-Icon ms-Icon--Edit",
+                    text: "Edit",
+                    onClick: function() {
+                        var getFTInstance = $("#wdFieldTableList").dxDataGrid("instance"),
+                        getFTSelected = getFTInstance.getSelectedRowsData();
+                        data = { type: "edit", data: getFTSelected, fieldNme:  vm.uploadTitle, selected: vm.selectedField};
+                        $scope.aedFieldTable(true, "EDIT_FIELDTABLE", data);
+                    },
+                    bindingOptions:{
+                        visible: "showBtn.edit"
+                    }
+                }
+                
+            },{
+                location: "before",
+                widget: "dxButton",
+                // locateInMenu: "auto",
+                options: {
+                    icon: "ms-Icon ms-Icon--Delete",
+                    text: "Delete",
+                    onClick: function() {
+                        var getFTInstance = $("#wdFieldTableList").dxDataGrid("instance"),
+                        getFTSelected = getFTInstance.getSelectedRowsData();
+                        data = { type: "delete", data: getFTSelected, fieldNme:  vm.uploadTitle, selected: vm.selectedField};
+                        $scope.aedFieldTable(true, "DELETE_FIELDTABLE", data);
+                    },
+                    bindingOptions:{
+                        visible: "showBtn.delete"
+                    }
+                }
+            });
+        }
+    }
+
     vm.searchFt = function() {
         $scope.fieldTableSpin = false;
         $timeout(function() {
             vm.fieldListData = [];
+            $scope.fieldListData = [];
             $scope.listTable(false, true);
         },1000);
     }
@@ -573,7 +632,7 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
     }
 
     $scope.listTable = function(x, y) {
-        wdService.fieldTables($scope.uploadData.Cabinets.PGID, $scope.fields, vm.selectedField, vm.maxcount, vm.indexFr, y, $scope.textValue).then(function(res){
+        wdService.fieldTables($scope.uploadData.Cabinets.PGID, $scope.fields, vm.selectedField, vm.maxcount, vm.indexFr, y, $scope.textValue).then(function(res) {
             
             var wdFilter = $("#wdFilterUpload").dxTextBox("instance"),
             wdFilterValue = wdFilter.option("value");
@@ -598,7 +657,9 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
                 var merged = vm.fieldListData.concat(res.data.root.FieldTbl);
                 vm.listlength = merged.length;
                 vm.fieldListData = merged;
+                $sc.fieldListData = merged;
             } else {
+                $scope.fieldListData = res.data.root.FieldTbl;
                 vm.fieldListData = res.data.root.FieldTbl;
             }
 
@@ -620,6 +681,7 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
             $scope.fieldNumber = vm.selectedField;
             $timeout(function() {
                 $scope.fieldTableSpin = true;
+                vm.showEditTemplate();
             }, 1000);
         }, function(err){
             $scope.fieldTableSpin = true;
@@ -628,6 +690,32 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
         });
     }
 
+    vm.showEditTemplate = function() {
+        var getFTInstance = $("#wdFieldTableList").dxDataGrid("instance");
+        vm.showFTedits = false;
+        $scope.showBtn = { 'delete': false, 'add': false, 'edit': false };
+        angular.forEach($scope.uploadData.Cabinets.Fields, function(key, idx) {
+            if (key.FIELD == "Field #" + vm.selectedField) {
+                if ($localStorage.userRights.GlobalTableAddEdit || key.EDITOK == 1 || key.PRIVAT == 1) {
+                    vm.showFTedits = true;
+                    $('#wdFieldTableList .dx-toolbar').show();
+                    vm.setAEDBtn();
+                    console.log($scope.uploadData.Cabinets.Fields);
+                    return false;
+                }
+                $('#wdFieldTableList .dx-toolbar').hide();
+            }
+        });
+        getFTInstance.selectRowsByIndexes([0]);
+    }
+
+    vm.setAEDBtn = function() {
+        $scope.showBtn = {
+            'delete': $localStorage.userRights.TableDel,
+            'add': $localStorage.userRights.TableAdd,
+            'edit': $localStorage.userRights.TableEdit 
+        } 
+    }
 
     vm.tags = {
         bindingOptions: {
@@ -709,26 +797,7 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
             if (key.PGID == parseInt(x.dwPGID)) {
                 $scope.uploadData.Cabinets = key;
             }
-        })
-
-        // if (y) {
-        //     for(var i = 1;  i <= 7; i++) {
-        //         if(x.hasOwnProperty("f" + [i] + "n") == false){
-        //             var key = "f" + [i] + "n";
-        //             var object = {};
-        //             x[key] = "";
-        //         }
-        //     }
-
-        //     for(var i = 1;  i <= 7; i++) {
-        //         if(x.hasOwnProperty("f" + [i] + "c") == false){
-        //             var key = "f" + [i] + "c";
-        //             var object = {};
-        //             x[key] = "";
-        //         }
-        //     }
-
-        // }
+        });
 
         for (var i = 1; i <= 7; i++) {
             $scope.fields["field" + i].value = x["f" + i + "c"];
@@ -738,10 +807,6 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
             $scope.setDateField();
         }, -1)
 
-        
-        //$scope.uploadData.Cabinets = x.dwPGID + "|" + x.f1n  + "|" + x.f2n + "|" + x.f3n + "|" + x.f4n + "|" + x.f5n + "|" + x.f6n + "|" + x.f7n + "|";
-
-        // $scope.uploadDatadisabled = $scope.uploadData.disabled;
         
         vm.fieldDesc = {
             "field1": x.f1d,
@@ -994,7 +1059,6 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
         useNative: true    
     }
 
-
     $scope.newFileBtn = {
         uploadUrl: $localStorage.host + $localStorage.uploadLocation,
         multiple: false,
@@ -1019,7 +1083,6 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
     vm.setSelected = function(x) {
         vm.selected = x;
     }
-
 
     vm.getCategoryList = function(x) {
         var catList = fileListUI.getCategoryList(x);
@@ -1093,7 +1156,6 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
         });
     }
 
-
     $scope.categoryUpload = [];
 
     vm.categoryContextualMenu = {
@@ -1162,7 +1224,6 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
     ];
 
     vm.setField = function(x) {
-        console.log(x);
         vm.selected = x;
         for (i = 1; i <= 7; i++) {
             if (x["f" + i + "n"]) {
@@ -1206,6 +1267,13 @@ angular.module('WDWeb').controller("uploadCtrler", ['$scope', '$rootScope', '$ro
 
     $scope.checkField = {
         validationRules: [{ type: "required", "message": "Field(s) are required" }]
+    }
+
+    $scope.setFocus = function(e) {
+        $timeout(function(){
+            $("#uploadDescField").focus();
+        }, 1000)
+        
     }
 
     function checkField(event) {

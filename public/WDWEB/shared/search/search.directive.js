@@ -61,6 +61,7 @@ directive('wdxSearch',['$document', function ($document) {
                 onValueChanged: function(e) {
                     $scope.searchBox = e.value.trim();
                 },
+                showClearButton: true,
                 onKeyUp: function(e) {
                     if(e.event.keyCode == 13){
                         if (e.event.target.value == "") {

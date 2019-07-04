@@ -401,6 +401,7 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
             // var firstErrorField = result.brokenRules[0]
             return;
         }
+        $scope.$parent.templates = false;
 
         vm.sendTo()
     };
@@ -433,7 +434,7 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
                 setTable.push(data);
             }
         }
-        return setTable.reverse().join(" - ");
+        return setTable.reverse().join(" <br/> ");
     }
 
 
@@ -682,6 +683,7 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
     }
     vm.showPgFields = {};
     vm.typePgFields = {"field1": 0, "field2": 0, "field3": 0, "field4": 0, "field5": 0, "field6": 0, "field7": 0};
+    
     $scope.convertTime = function(e){
         if(e==null){
             return '';
@@ -694,6 +696,10 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
             day = day.length > 1 ? day : '0' + day;
             return year+month+day;
         }
+    }
+
+    $scope.getDescComponent = function(e) {
+        e.component.focus();
     }
 
     $scope.dateValueChanged = function(){
@@ -1036,19 +1042,6 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
 
     }
 
-    
-
-    // vm.cabinetList = {
-    //     bindingOptions: { 
-    //         value: 'fieldData.cabinet.value', 
-             
-    //     },
-    //     dataSource: 'cabinetLists', 
-    //     searchEnabled: true,
-    //     valueExpr: 'pgFields', 
-    //     displayExpr: 'pgName',
-    //     placeholder: 'fieldData.cabinet.placeholder'
-    // }
 
     vm.wdButtons = function (x, y, z, n) {
         vm.showTempleLoader = true;
@@ -1233,7 +1226,6 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
                     vm.showFields["field" + key.EID] = true;
                     if (key.EID == "9" || key.EID == "4" || key.EID == "23" || key.EID == "41") {
                         var dates = key.DEF.split('.');
-                        console.log(dates);
                         $scope.field['field' + key.EID].start = dates[0] + '.' + dates[1]; 
                         $scope.field['field' + key.EID].end = '.' + dates[2] + '.' + dates[3]; 
                     } else if (key.EID == "19") {
@@ -1255,7 +1247,6 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
     vm.setCabinet = function(x, y, z) {
         var cabinetValue = [];
         if (x == 0) {
-            console.log(y);
             var xn = vm.setPgFields(y);
             cabinetValue.push(z + "|" + xn);
             vm.setPgFieldValue(cabinetValue);
@@ -1682,8 +1673,10 @@ angular.module('WDWeb').controller("templateCtrl", ['$scope', '$rootScope', '$ro
         }
         subData.push(vm.templateName);
         $localStorage.templateName = vm.templateName;
-        // homeService.setTitle({"path": tempTitle, "flag": "template", "name": "" });
-        $location.path('/home').search({xName: $scope.field.field1, fName: $scope.field.field2, access: $scope.field.field23.start + $scope.field.field23.end, create: $scope.field.field9.start + $scope.field.field9.end, modified: $scope.field.field4.start + $scope.field.field4.end, text: $scope.field.field17, field1: $scope.field.field10, field2: $scope.field.field11, field3: $scope.field.field12, field4: $scope.field.field13, field5: $scope.field.field14, field6: $scope.field.field15, field7: $scope.field.field16, cabinet: pgIDList.toString(), typeid: "template", temp: vm.templateName, id: Date.now()})
+        // $timeout(function() {
+            $location.path('/home').search({xName: $scope.field.field1, fName: $scope.field.field2, access: $scope.field.field23.start + $scope.field.field23.end, create: $scope.field.field9.start + $scope.field.field9.end, modified: $scope.field.field4.start + $scope.field.field4.end, text: $scope.field.field17, field1: $scope.field.field10, field2: $scope.field.field11, field3: $scope.field.field12, field4: $scope.field.field13, field5: $scope.field.field14, field6: $scope.field.field15, field7: $scope.field.field16, cabinet: pgIDList.toString(), typeid: "template", temp: vm.templateName, id: Date.now()})
+ 
+        // }, 0)
     }
 
 

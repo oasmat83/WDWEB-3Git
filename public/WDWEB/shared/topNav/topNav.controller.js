@@ -37,11 +37,9 @@ angular.module('WDWeb').controller("topNavCtrl", ["$scope", "$rootScope", "wdSer
             }
 
             if ($sessionStorage.urlPara) {
-                // $location.path('/login').search($sessionStorage.urlPara);
                 window.open($localStorage.host + "/WDWEB?" + $localStorage.urlPara, "_self");
                 delete $sessionStorage.urlPara;
             } else {
-                // $window.location.href = "../WDWEB" + location.search;
                 $location.path('/login').search();
             }
             

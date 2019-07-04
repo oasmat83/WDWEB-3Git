@@ -507,6 +507,7 @@ function($scope, $rootScope, $route, $routeParams, $timeout, $log, $window, $loc
                 $scope.fields.field5.value = $scope.fileMeta.Field5;
                 $scope.fields.field6.value = $scope.fileMeta.Field6;
                 $scope.fields.field7.value = $scope.fileMeta.Field7;
+                $scope.uploadData.Description = $scope.wdCommentDesc;
 
                 for(var i = 1; i <= 7; i++) {
                     if ($scope.fileMeta["Field" + i + "Name"] == undefined) {
@@ -1342,7 +1343,7 @@ function($scope, $rootScope, $route, $routeParams, $timeout, $log, $window, $loc
                 setTable.push(data);
             }
         }
-        return setTable.reverse().join(" - ");
+        return setTable.reverse().join(" <br/> ");
     }
 
     $scope.listTable = function(x, y) {

@@ -130,7 +130,7 @@ angular.module('WDWeb').controller("cabinetCtrl", ['$scope', '$rootScope', '$rou
             }
             if (folderlist.items == "") {
                 folderlist.items = [{"dummy": "node"}];
-                angular.element('#cabId' + x.rn).css("visibility", "hidden");
+                // angular.element('#cabId' + x.rn).css("visibility", "hidden");
                 return false;
             }
             x.nodes = folderlist.items;
