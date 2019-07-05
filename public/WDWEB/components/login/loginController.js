@@ -92,7 +92,6 @@ angular.module('WDWeb').controller("loginController",
             default:
                 WDXHOST = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/";
         }
-        // WDXHOST = "https://phoenix02.wdsaas.com/";
         // WDXHOST= "http://65.206.104.80/";
         WDXHOST= "http://24.190.224.178/";
       }
